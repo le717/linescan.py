@@ -74,7 +74,23 @@ def scanlines(file, startlineno, endlineno):
 #    except Exception:
         # Quietly suppress any errors.
  #       pass
+
+if __name__ == "__main__":
+    for i in range(1, len(sys.argv)):
+        argument = sys.argv[i]
+        help_params = ["--help", "-h"]
+
+        for value in help_params:
+            # If help parameter is passed, display help
+            if argument == value:
+                print('''
+linescan.py
+===========''')
+    # If no arguments are passed, close
+    # TODO: Possibly add example runs
+    raise SystemExit
+
 ##print(sys.getdefaultencoding())
 ##scanline("NyanMe20.PiP", 1)
-scanline("NyanMe20.PiP", 1)
+##scanline("NyanMe20.PiP", 1)
 scanline_encode("NyanMe20.PiP", 16, None)
