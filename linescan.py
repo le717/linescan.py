@@ -19,7 +19,7 @@
     along with linescan.py. If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sys
+import syss
 
 def scanline(file, lineno):
     '''Reads a single line from a file'''
