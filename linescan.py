@@ -77,4 +77,4 @@ def scanlines(file, startlineno, endlineno):
  #       pass
 ##print(sys.getdefaultencoding())
 #scanline_encode("C:/temp/NyanMe20.PiP", 1, None)
-scanline("C:/temp/NyanMe20.PiP", 1)
+#scanline("C:/temp/NyanMe20.PiP", 1)
