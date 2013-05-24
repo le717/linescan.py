@@ -1,9 +1,9 @@
 language: python
 python:
+  - "3.3"
   - "3.2"
-#  - "3.3"
 install:
   # Build/test dependencies
   - pip install -r requirements.txt --use-mirrors
 script:
-  - python linescan.py
+  - python testusage.py

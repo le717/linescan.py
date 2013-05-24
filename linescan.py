@@ -21,7 +21,7 @@
 
 import sys
 
-def scanline(file, lineno):
+def scanline_no_encode(file, lineno):
     '''Reads a single line from a file.'''
     try:
         # Because Python starts line numbers at 0.
@@ -30,11 +30,12 @@ def scanline(file, lineno):
         with open(file, "rt") as f:
             line = f.readlines()[lineno]
         return line
+
+    # Quietly suppress any errors
     except Exception:
-        # Quietly suppress any errors.
         pass
 
-def scanline_encode(file, lineno, *encode):
+def scanline(file, lineno, *encode):
     '''Reads a single line from a file using a specified encoding.
     Falls back to default system encoding if None is specified.'''
     try:
@@ -42,24 +43,24 @@ def scanline_encode(file, lineno, *encode):
         lineno = lineno - 1
 
         for value in encode:
-        # If no encoding is specified, use encoding returned by
-        # sys.getdefaultencoding().
             if value == None:
+               # If no encoding is specified, use encoding returned by
+               # sys.getdefaultencoding().
                value = sys.getdefaultencoding()
-            # Encoding was specified, use it.
-            # "".join() allows input such as sys.getdefaultencoding()
-            # if you REALLY wanted to make sure it uses it.
             else:
+                # Encoding was specified, use it.
+                # "".join() allows input such as sys.getdefaultencoding()
+                # if you REALLY wanted to make sure it uses it.
              value = "".join(encode)
-            ##print(value)
 
         # Use the recommended with handle.
         with open(file, "rt", encoding=value) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
         return line
+
+    # Quietly suppress any errors
     except Exception:
-        # Quietly suppress any errors
         pass
 
 def scanlines(file, startlineno, endlineno):
@@ -88,4 +89,4 @@ if __name__ == "__main__":
 ##print(sys.getdefaultencoding())
 ##scanline("NyanMe20.PiP", 1)
 ##scanline("NyanMe20.PiP", 1)
-scanline_encode("NyanMe20.PiP", 16, None)
+##scanline("NyanMe20.PiP", 16, None)

@@ -20,6 +20,6 @@ The best way to explain how it works is by example, or by running `help(linescan
 
 ```python
 import linescan
-linescan.scanline("MyFile.txt", 3)
+linescan.scanline("MyFile.txt", 3, "utf-8")
 # Coming Soon.
 ```
