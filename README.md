@@ -16,9 +16,10 @@ Features
 Usage
 -----
 
+The best way to explain how it works is by example, or by running `help(linescan)`.
+
 ```python
-linescan.py --help
-linescan.py
-===========
+import linescan
+linescan.scanline("MyFile.txt", 3)
 # Coming Soon.
 ```

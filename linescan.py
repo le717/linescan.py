@@ -22,42 +22,49 @@
 import sys
 
 def scanline(file, lineno):
-    '''Reads a single line from a file'''
+    '''Reads a single line from a file.'''
     try:
         # Because Python starts line numbers at 0.
         lineno = lineno - 1
         # Use the recommended with handle.
         with open(file, "rt") as f:
             line = f.readlines()[lineno]
-        #print(line)
         return line
     except Exception:
         # Quietly suppress any errors.
         pass
 
 def scanline_encode(file, lineno, *encode):
-    '''Reads a single line from a file using specified encoding'''
-    # Because Python starts line numbers at 0.
-    lineno = lineno - 1
+    '''Reads a single line from a file using a specified encoding.
+    Falls back to default system encoding if None is specified.'''
+    try:
+        # Because Python starts line numbers at 0.
+        lineno = lineno - 1
 
-    for value in encode:
-    # If no encoding is specified, use encoding returned by
-    # sys.getdefaultencoding()
-        if value == None:
-            value = sys.getdefaultencoding()
-        else:
-            value = "".join(encode)
-        print(value)
+        for value in encode:
+        # If no encoding is specified, use encoding returned by
+        # sys.getdefaultencoding().
+            if value == None:
+               value = sys.getdefaultencoding()
+            # Encoding was specified, use it.
+            # "".join() allows input such as sys.getdefaultencoding()
+            # if you REALLY wanted to make sure it uses it.
+            else:
+             value = "".join(encode)
+            ##print(value)
 
-    # Use the recommended with handle.
-    with open(file, "rt", encoding=value) as f:
-        # Read specified line number.
-        line = f.readlines()[lineno]
-        print(line)
-    # return line
+        # Use the recommended with handle.
+        with open(file, "rt", encoding=value) as f:
+            # Read specified line number.
+            line = f.readlines()[lineno]
+        return line
+    except Exception:
+        # Quietly suppress any errors
+        pass
+
 
 def scanlines(file, startlineno, endlineno):
-    '''Reads multiple lines from a file'''
+    '''Reads multiple lines from a file.'''
     # How many lines do we need to read?
     number_of_lines = len(endlineno - startlineno)
     # Because Python starts line numbers at 0.
@@ -76,17 +83,6 @@ def scanlines(file, startlineno, endlineno):
  #       pass
 
 if __name__ == "__main__":
-    for i in range(1, len(sys.argv)):
-        argument = sys.argv[i]
-        help_params = ["--help", "-h"]
-
-        for value in help_params:
-            # If help parameter is passed, display help
-            if argument == value:
-                print('''
-linescan.py
-===========''')
-    # If no arguments are passed, close
     # TODO: Possibly add example runs
     raise SystemExit
 
