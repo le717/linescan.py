@@ -44,11 +44,11 @@ def scanline_encode(file, lineno, *encode):
     # If no encoding is specified, use encoding returned by
     # sys.getdefaultencoding()
         if value == None:
-            value == sys.getdefaultencoding()
-            print(value)
+            value = sys.getdefaultencoding()
         else:
-            value == encode
-            print(value)
+            value = "".join(encode)
+        print(value)
+
     # Use the recommended with handle.
     with open(file, "rt", encoding=value) as f:
         # Read specified line number.
@@ -75,4 +75,6 @@ def scanlines(file, startlineno, endlineno):
         # Quietly suppress any errors.
  #       pass
 ##print(sys.getdefaultencoding())
-scanline_encode("NyanMe20.PiP", 1, None)
+##scanline("NyanMe20.PiP", 1)
+scanline("NyanMe20.PiP", 1)
+scanline_encode("NyanMe20.PiP", 16, "mbcs")
