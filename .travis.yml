@@ -5,4 +5,4 @@ install:
   # Build/test dependencies
   - pip install -r requirements.txt --use-mirrors
 script:
-  - make linescan.py
+  - python linescan.py
