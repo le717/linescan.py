@@ -77,4 +77,4 @@ def scanlines(file, startlineno, endlineno):
 ##print(sys.getdefaultencoding())
 ##scanline("NyanMe20.PiP", 1)
 scanline("NyanMe20.PiP", 1)
-scanline_encode("NyanMe20.PiP", 16, "mbcs")
+scanline_encode("NyanMe20.PiP", 16, None)
