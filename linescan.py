@@ -62,7 +62,6 @@ def scanline_encode(file, lineno, *encode):
         # Quietly suppress any errors
         pass
 
-
 def scanlines(file, startlineno, endlineno):
     '''Reads multiple lines from a file.'''
     # How many lines do we need to read?
