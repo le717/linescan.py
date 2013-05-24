@@ -39,22 +39,21 @@ def scanline_encode(file, lineno, *encode):
     '''Reads a single line from a file using specified encoding'''
     # Because Python starts line numbers at 0.
     lineno = lineno - 1
-    for arg in encode:
+
+    for value in encode:
     # If no encoding is specified, use encoding returned by
     # sys.getdefaultencoding()
-        if arg == None:
-            arg == "".join(sys.getdefaultencoding())
-            print(arg)
-        # If encoding does not equal system encoding
-        # MAY BE REMOVED
-        elif arg != sys.getdefaultencoding():
-            arg == "".join(encode)
-            print(arg)
+        if value == None:
+            value == sys.getdefaultencoding()
+            print(value)
+        else:
+            value == encode
+            print(value)
     # Use the recommended with handle.
-        with open(file, "rt", encoding=arg) as f:
-            # Read specified line number.
-            line = f.readlines()[lineno]
-            print(line)
+    with open(file, "rt", encoding=value) as f:
+        # Read specified line number.
+        line = f.readlines()[lineno]
+        print(line)
     # return line
 
 def scanlines(file, startlineno, endlineno):
@@ -76,5 +75,4 @@ def scanlines(file, startlineno, endlineno):
         # Quietly suppress any errors.
  #       pass
 ##print(sys.getdefaultencoding())
-#scanline_encode("C:/temp/NyanMe20.PiP", 1, None)
-#scanline("C:/temp/NyanMe20.PiP", 1)
+scanline_encode("NyanMe20.PiP", 1, None)
