@@ -19,7 +19,7 @@
     along with linescan.py. If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sys
+import locale
 
 def scanline_no_encode(file, lineno):
     '''Reads a single line from a file.'''
@@ -29,6 +29,7 @@ def scanline_no_encode(file, lineno):
         # Use the recommended with handle.
         with open(file, "rt") as f:
             line = f.readlines()[lineno]
+        # Send back the line
         return line
 
     # Quietly suppress any errors
@@ -45,18 +46,20 @@ def scanline(file, lineno, *encode):
         for value in encode:
             if value == None:
                # If no encoding is specified, use encoding returned by
-               # sys.getdefaultencoding().
-               value = sys.getdefaultencoding()
+               # locale.getpreferredencoding(False)
+               value = locale.getpreferredencoding(False)
             else:
                 # Encoding was specified, use it.
                 # "".join() allows input such as sys.getdefaultencoding()
                 # if you REALLY wanted to make sure it uses it.
              value = "".join(encode)
-
+            # Debug to display encoding
+            print(value)
         # Use the recommended with handle.
         with open(file, "rt", encoding=value) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
+        # Send back the line
         return line
 
     # Quietly suppress any errors
@@ -66,16 +69,21 @@ def scanline(file, lineno, *encode):
 def scanlines(file, startlineno, endlineno):
     '''Reads multiple lines from a file.'''
     # How many lines do we need to read?
-    number_of_lines = len(endlineno - startlineno)
+##    number_of_lines = endlineno % startlineno
+##    print(number_of_lines)
     # Because Python starts line numbers at 0.
     # Get starting line number.
     startlineno = startlineno - 1
     # Get ending line number.
     endlineno = endlineno - 1
     with open(file, "rt") as f:
-        # Scan all lines, store in a list.
-        lines =  f.readlines()[:]
-        pass
+        # Scan the lines, store in a list.
+        lines =  f.readlines()[startlineno:endlineno]
+        # Remove the list from the lines
+        lines = "".join(lines)
+    # Send back the lines
+    return lines
+
  #   try:
 #        pass
 #    except Exception:

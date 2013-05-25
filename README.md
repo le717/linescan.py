@@ -9,8 +9,8 @@ Features
 --------
 
 * Uses real line numbers (No need to start counting at 0)
-* Allows specification of file encoding, with fall back to `sys.getdefaultencoding()`
-* Does not fail, rather, it quietly supresses any errors
+* Allows specification of file encoding, with fall back to `locale.getpreferredencoding(False)`
+* Does not fail, rather, it quietly suppresses any errors
 
 
 Usage
