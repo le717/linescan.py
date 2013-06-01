@@ -34,7 +34,7 @@ def scanline_no_encode(file, lineno):
 
     # Quietly suppress any errors
     except Exception:
-        pass
+        return False
 
 def scanline(file, lineno, *encode):
     '''Reads a single line from a file using a specified encoding.
@@ -64,7 +64,7 @@ def scanline(file, lineno, *encode):
 
     # Quietly suppress any errors
     except Exception:
-        pass
+        return False
 
 def scanlines_no_encode(file, startlineno, endlineno):
     '''Reads multiple lines from a file.'''
