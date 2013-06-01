@@ -9,5 +9,5 @@ import linescan
 if __name__ == "__main__":
     line = linescan.scanline("NyanMe20.PiP", 14, None)
     print(line)
-    lines = linescan.scanlines("NyanMe20.PiP", 9, 14)
+    lines = linescan.scanlines("NyanMe20.PiP", 9, 14, "cp1252")
     print(lines)

@@ -66,21 +66,47 @@ def scanline(file, lineno, *encode):
     except Exception:
         pass
 
-def scanlines(file, startlineno, endlineno):
+def scanlines_no_encode(file, startlineno, endlineno):
     '''Reads multiple lines from a file.'''
-    # How many lines do we need to read?
-##    number_of_lines = endlineno % startlineno
-##    print(number_of_lines)
     # Because Python starts line numbers at 0.
     # Get starting line number.
     startlineno = startlineno - 1
     # Get ending line number.
     endlineno = endlineno - 1
+
     with open(file, "rt") as f:
         # Scan the lines, store in a list.
         lines =  f.readlines()[startlineno:endlineno]
         # Remove the list from the lines
         lines = "".join(lines)
+    # Send back the lines
+    return lines
+
+def scanlines(file, startlineno, endlineno, *encode):
+    '''Reads multiple lines from a file.'''
+    # Because Python starts line numbers at 0.
+    # Get starting line number.
+    startlineno = startlineno - 1
+    # Get ending line number.
+    endlineno = endlineno - 1
+
+    for value in encode:
+        if value == None:
+            # If no encoding is specified, use encoding returned by
+            # locale.getpreferredencoding(False)
+            value = locale.getpreferredencoding(False)
+        else:
+            # Encoding was specified, use it.
+            # "".join() allows input such as sys.getdefaultencoding()
+            # if you REALLY wanted to make sure it uses it.
+            value = "".join(encode)
+        # Debug to display encoding
+        print(value)
+        with open(file, "rt", encoding=value) as f:
+            # Scan the lines, store in a list.
+            lines =  f.readlines()[startlineno:endlineno]
+            # Remove the list from the lines
+            lines = "".join(lines)
     # Send back the lines
     return lines
 
