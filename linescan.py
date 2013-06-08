@@ -22,14 +22,13 @@
 import locale
 import sys
 
-sys.stdout.write("\n\nYou are running Python " + sys.version[0:5] + "\n\n")
-
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info < (3,0):
     from io import open
 # Block running on Python 2.5 or lower
 if sys.version_info < (2,5):
-    sys.stdout.write("You must have Python 2.6 or newer to use linescan.py\n")
+    sys.stdout.write('''\n\nYou are running Python {0}.
+You must have Python 2.6 or newer to use linescan.py'''.format(sys.version[0:5]))
     raise SystemExit
 
 def scanline(file, lineno, encode=None):
