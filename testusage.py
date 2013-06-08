@@ -1,4 +1,4 @@
-# /usr/bin/python3
+#! /usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -21,7 +21,7 @@ HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA
 *finds different YT video*
 "BOO!"
 "AAAAAAAHHHHHHHHH!!!!!!!!!!"
-"Ha ha, I scared you! You owe me a soda! Heheh"
+"Ha ha, I scared you! You owe me a soda! Heheh"\n
 '''
 
 if __name__ == "__main__":
@@ -34,9 +34,9 @@ if __name__ == "__main__":
 
     # The command to scan the test file
     elif command == "scanme":
-        line = linescan.scanline("Thisisafile.txt", 3, None)
+        line = linescan.scanline("Thisisafile.txt", 5)
         print(line)
         lines = linescan.scanlines("Thisisafile.txt", 5, 8, "cp1252")
         print(lines)
-        thisshouldbefalse = linescan.scanline("Thisisafile.txt", 16, None)
+        thisshouldbefalse = linescan.scanline("Thisisafile.txt", 55, None)
         print(thisshouldbefalse)

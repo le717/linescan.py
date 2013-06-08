@@ -16,8 +16,6 @@ Features
 Usage
 -----
 
-The best way to explain how it works is by example, or by running `help(linescan)`.
-
 ```python
 import linescan
 linescan.scanline("MyFile.txt", 3, "utf-8")
@@ -25,4 +23,4 @@ linescan.scanline("MyFile.txt", 3, "utf-8")
 ```
 
 
-***linescan.py, created 2012-2013 Triangle717, and released under the [GNU General Public License Version 3](http://www.gnu.org/licenses/gpl.html).**
+***linescan.py, created 2013 Triangle717, and released under the [GNU General Public License Version 3](http://www.gnu.org/licenses/gpl.html).**

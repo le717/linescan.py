@@ -36,35 +36,36 @@ def scanline_no_encode(file, lineno):
     except Exception:
         return False
 
-def scanline(file, lineno, *encode):
+def scanline(file, lineno, encode=None):
     '''Reads a single line from a file using a specified encoding.
     Falls back to default system encoding if None is specified.'''
+
     try:
         # Because Python starts line numbers at 0.
         lineno = lineno - 1
 
-        for value in encode:
-            if value == None:
-               # If no encoding is specified, use encoding returned by
-               # locale.getpreferredencoding(False)
-               value = locale.getpreferredencoding(False)
-            else:
-                # Encoding was specified, use it.
-                # "".join() allows input such as sys.getdefaultencoding()
-                # if you REALLY wanted to make sure it uses it.
-             value = "".join(encode)
-            # Debug to display encoding
-            print(value)
+        if encode == None:
+            # If no encoding is specified, use encoding returned by
+            # locale.getpreferredencoding(False)
+            encode = locale.getpreferredencoding(False)
+
+        # If an encoding is supplied, it will be used
+        # (implied else clause here)
+
+        # Debug to display encoding
+        print(encode)
+
         # Use the recommended with handle.
-        with open(file, "rt", encoding=value) as f:
+        with open(file, "rt", encoding=encode) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
-        # Send back the line
+            # Send back the line
         return line
 
-    # Quietly suppress any errors
     except Exception:
+        # Return False if there is any error.
         return False
+
 
 def scanlines_no_encode(file, startlineno, endlineno):
     '''Reads multiple lines from a file.'''
@@ -82,45 +83,40 @@ def scanlines_no_encode(file, startlineno, endlineno):
     # Send back the lines
     return lines
 
-def scanlines(file, startlineno, endlineno, *encode):
+def scanlines(file, startlineno, endlineno, encode=None):
     '''Reads multiple lines from a file.'''
+
     # Because Python starts line numbers at 0.
     # Get starting line number.
     startlineno = startlineno - 1
     # Get ending line number.
     endlineno = endlineno - 1
 
-    for value in encode:
-        if value == None:
-            # If no encoding is specified, use encoding returned by
-            # locale.getpreferredencoding(False)
-            value = locale.getpreferredencoding(False)
-        else:
-            # Encoding was specified, use it.
-            # "".join() allows input such as sys.getdefaultencoding()
-            # if you REALLY wanted to make sure it uses it.
-            value = "".join(encode)
-        # Debug to display encoding
-        print(value)
-        with open(file, "rt", encoding=value) as f:
-            # Scan the lines, store in a list.
-            lines =  f.readlines()[startlineno:endlineno]
-            # Remove the list from the lines
-            lines = "".join(lines)
+    if encode == None:
+        # If no encoding is specified, use encoding returned by
+        # locale.getpreferredencoding(False)
+        encode = locale.getpreferredencoding(False)
+
+    # If an encoding is supplied, it will be used
+    # (implied else clause here)
+
+    # Debug to display encoding
+    print(encode)
+
+    with open(file, "rt", encoding=encode) as f:
+        # Scan the lines, store in a list.
+        lines =  f.readlines()[startlineno:endlineno]
+        # Remove the list from the lines
+        lines = "".join(lines)
     # Send back the lines
     return lines
 
  #   try:
-#        pass
+#        do whatever
 #    except Exception:
         # Quietly suppress any errors.
- #       pass
+ #       return False
 
 if __name__ == "__main__":
     # TODO: Possibly add example runs
     raise SystemExit
-
-##print(sys.getdefaultencoding())
-##scanline("NyanMe20.PiP", 1)
-##scanline("NyanMe20.PiP", 1)
-##scanline("NyanMe20.PiP", 16, None)
