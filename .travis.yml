@@ -6,9 +6,9 @@ python:
   # - "2.6"
   # - "pypy"
   - "2.5"
-#install:
+install:
   # Build/test dependencies
-#  - pip install -r requirements.txt --use-mirrors
+  - pip install -r requirements.txt --use-mirrors
 before_script:
   - python testusage.py write
 script:
