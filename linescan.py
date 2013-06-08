@@ -26,7 +26,7 @@ import sys
 if sys.version_info < (3,0):
     from io import open
 # Block running on Python 2.5 or lower
-if sys.version_info < (2,5):
+if sys.version_info <= (2,5):
     sys.stdout.write('''\n\nYou are running Python {0}.
 You must have Python 2.6 or newer to use linescan.py'''.format(sys.version[0:5]))
     raise SystemExit
