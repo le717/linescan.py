@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 """
     linescan.py - Effortlessly read single lines from a text file
@@ -20,21 +20,17 @@
 """
 
 import locale
+import sys
 
-def scanline_no_encode(file, lineno):
-    '''Reads a single line from a file.'''
-    try:
-        # Because Python starts line numbers at 0.
-        lineno = lineno - 1
-        # Use the recommended with handle.
-        with open(file, "rt") as f:
-            line = f.readlines()[lineno]
-        # Send back the line
-        return line
+sys.stdout.write("\n\nYou are running Python " + sys.version[0:5] + "\n\n")
 
-    # Quietly suppress any errors
-    except Exception:
-        return False
+# Get open() function if this is not Python 3.0 or higher
+if sys.version_info < (3,0):
+    from io import open
+# Block running on Python 2.5 or lower
+if sys.version_info < (2,5):
+    sys.stdout.write("You must have Python 2.6 or newer to use linescan.py\n")
+    raise SystemExit
 
 def scanline(file, lineno, encode=None):
     '''Reads a single line from a file using a specified encoding.
@@ -53,12 +49,13 @@ def scanline(file, lineno, encode=None):
         # (implied else clause here)
 
         # Debug to display encoding
-        print(encode)
+        sys.stdout.write(encode + "\n")
 
         # Use the recommended with handle.
         with open(file, "rt", encoding=encode) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
+            line = line.rstrip()
             # Send back the line
         return line
 
@@ -66,31 +63,12 @@ def scanline(file, lineno, encode=None):
         # Return False if there is any error.
         return False
 
-
-def scanlines_no_encode(file, startlineno, endlineno):
-    '''Reads multiple lines from a file.'''
-    # Because Python starts line numbers at 0.
-    # Get starting line number.
-    startlineno = startlineno - 1
-    # Get ending line number.
-    endlineno = endlineno - 1
-
-    with open(file, "rt") as f:
-        # Scan the lines, store in a list.
-        lines =  f.readlines()[startlineno:endlineno]
-        # Remove the list from the lines
-        lines = "".join(lines)
-    # Send back the lines
-    return lines
-
 def scanlines(file, startlineno, endlineno, encode=None):
     '''Reads multiple lines from a file.'''
 
     # Because Python starts line numbers at 0.
     # Get starting line number.
     startlineno = startlineno - 1
-    # Get ending line number.
-    endlineno = endlineno - 1
 
     if encode == None:
         # If no encoding is specified, use encoding returned by
@@ -101,13 +79,15 @@ def scanlines(file, startlineno, endlineno, encode=None):
     # (implied else clause here)
 
     # Debug to display encoding
-    print(encode)
+    sys.stdout.write(encode + "\n")
 
     with open(file, "rt", encoding=encode) as f:
         # Scan the lines, store in a list.
         lines =  f.readlines()[startlineno:endlineno]
         # Remove the list from the lines
         lines = "".join(lines)
+        # Remove trailing new line
+        lines = lines.rstrip()
     # Send back the lines
     return lines
 

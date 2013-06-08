@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 
 """
@@ -34,9 +34,9 @@ if __name__ == "__main__":
 
     # The command to scan the test file
     elif command == "scanme":
-        line = linescan.scanline("Thisisafile.txt", 5)
+        line = linescan.scanline("Thisisafile.txt", 5, "utf-8")
         print(line)
-        lines = linescan.scanlines("Thisisafile.txt", 5, 8, "cp1252")
+        lines = linescan.scanlines("Thisisafile.txt", 8, 12, "cp1252")
         print(lines)
-        thisshouldbefalse = linescan.scanline("Thisisafile.txt", 55, None)
+        thisshouldbefalse = linescan.scanline("Thisisafile.txt", 55, "mbcs")
         print(thisshouldbefalse)
