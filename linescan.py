@@ -29,7 +29,7 @@ if sys.version_info < (3,0):
 if sys.version_info <= (2,5):
     sys.stdout.write('''\n\nYou are running Python {0}.
 You must have Python 2.6 or newer to use linescan.py'''.format(sys.version[0:5]))
-    raise SystemExit
+    exit()
 
 def scanline(file, lineno, encode=None):
     '''Reads a single line from a file using a specified encoding.
