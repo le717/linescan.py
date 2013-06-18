@@ -25,11 +25,6 @@ import sys
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info < (3,0):
     from io import open
-# Block running on Python 2.5 or lower
-if sys.version_info <= (2,5):
-    sys.stdout.write('''\n\nYou are running Python {0}.
-You must have Python 2.6 or newer to use linescan.py'''.format(sys.version[0:5]))
-    exit()
 
 def scanline(file, lineno, encode=None):
     '''Reads a single line from a file using a specified encoding.
