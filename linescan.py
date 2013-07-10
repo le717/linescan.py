@@ -23,8 +23,9 @@ import locale
 import sys
 
 # Get open() function if this is not Python 3.0 or higher
-if sys.version_info < (3,0):
+if sys.version_info < (3, 0):
     from io import open
+
 
 def scanline(file, lineno, encode=None):
     '''Reads a single line from a file using a specified encoding.
@@ -34,7 +35,7 @@ def scanline(file, lineno, encode=None):
         # Because Python starts line numbers at 0.
         lineno = lineno - 1
 
-        if encode == None:
+        if encode is None:
             # If no encoding is specified, use encoding returned by
             # locale.getpreferredencoding(False)
             encode = locale.getpreferredencoding(False)
@@ -57,6 +58,7 @@ def scanline(file, lineno, encode=None):
         # Return False if there is any error.
         return False
 
+
 def scanlines(file, startlineno, endlineno, encode=None):
     '''Reads multiple lines from a file.'''
 
@@ -64,7 +66,7 @@ def scanlines(file, startlineno, endlineno, encode=None):
     # Get starting line number.
     startlineno = startlineno - 1
 
-    if encode == None:
+    if encode is None:
         # If no encoding is specified, use encoding returned by
         # locale.getpreferredencoding(False)
         encode = locale.getpreferredencoding(False)
@@ -77,7 +79,7 @@ def scanlines(file, startlineno, endlineno, encode=None):
 
     with open(file, "rt", encoding=encode) as f:
         # Scan the lines, store in a list.
-        lines =  f.readlines()[startlineno:endlineno]
+        lines = f.readlines()[startlineno:endlineno]
         # Remove the list from the lines
         lines = "".join(lines)
         # Remove trailing new line
