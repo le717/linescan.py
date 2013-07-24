@@ -3,7 +3,7 @@
 """
     linescan.py - Effortlessly read lines from a text file using any encoding
     Created 2013 Triangle717
-    <http://triangle717.wordpress.com/>
+    <http://Triangle717.WordPress.com/>
 
     linescan.py is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,17 +41,15 @@ def scanline(file, lineno, encode=None):
             encode = locale.getpreferredencoding(False)
 
         # If an encoding is supplied, it will be used
-        # (implied else clause here)
-
-        # Debug to display encoding
-        sys.stdout.write(encode + "\n")
+        # (implied else block here)
 
         # Use the recommended with handle.
         with open(file, "rt", encoding=encode) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
             line = line.strip()
-            # Send back the line
+            
+        # Send back the line
         return line
 
     except Exception:
@@ -73,11 +71,9 @@ def scanlines(file, startlineno, endlineno, encode=None):
             encode = locale.getpreferredencoding(False)
 
         # If an encoding is supplied, it will be used
-        # (implied else clause here)
+        # (implied else block here)
 
-        # Debug to display encoding
-        sys.stdout.write(encode + "\n")
-
+        # Use the recommended with handle.
         with open(file, "rt", encoding=encode) as f:
             # Scan the lines, store in a list.
             lines = f.readlines()[startlineno:endlineno]
@@ -85,6 +81,7 @@ def scanlines(file, startlineno, endlineno, encode=None):
             lines = "".join(lines)
             # Remove trailing new line
             lines = lines.strip()
+            
         # Send back the lines
         return lines
 
