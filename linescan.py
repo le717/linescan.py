@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 """
-    linescan.py - Effortlessly read single lines from a text file
+    linescan.py - Effortlessly read lines from a text file using any encoding
     Created 2013 Triangle717
     <http://triangle717.wordpress.com/>
 
@@ -62,36 +62,35 @@ def scanline(file, lineno, encode=None):
 def scanlines(file, startlineno, endlineno, encode=None):
     '''Reads multiple lines from a file.'''
 
-    # Because Python starts line numbers at 0.
-    # Get starting line number.
-    startlineno = startlineno - 1
+    try:
+        # Because Python starts line numbers at 0.
+        # Get starting line number.
+        startlineno = startlineno - 1
 
-    if encode is None:
-        # If no encoding is specified, use encoding returned by
-        # locale.getpreferredencoding(False)
-        encode = locale.getpreferredencoding(False)
+        if encode is None:
+            # If no encoding is specified, use encoding returned by
+            # locale.getpreferredencoding(False)
+            encode = locale.getpreferredencoding(False)
 
-    # If an encoding is supplied, it will be used
-    # (implied else clause here)
+        # If an encoding is supplied, it will be used
+        # (implied else clause here)
 
-    # Debug to display encoding
-    sys.stdout.write(encode + "\n")
+        # Debug to display encoding
+        sys.stdout.write(encode + "\n")
 
-    with open(file, "rt", encoding=encode) as f:
-        # Scan the lines, store in a list.
-        lines = f.readlines()[startlineno:endlineno]
-        # Remove the list from the lines
-        lines = "".join(lines)
-        # Remove trailing new line
-        lines = lines.strip()
-    # Send back the lines
-    return lines
+        with open(file, "rt", encoding=encode) as f:
+            # Scan the lines, store in a list.
+            lines = f.readlines()[startlineno:endlineno]
+            # Remove the list from the lines
+            lines = "".join(lines)
+            # Remove trailing new line
+            lines = lines.strip()
+        # Send back the lines
+        return lines
 
- #   try:
-#        do whatever
-#    except Exception:
-        # Quietly suppress any errors.
- #       return False
+    except Exception:
+       # Return False if there is any error.
+        return False
 
 if __name__ == "__main__":
     # TODO: Possibly add example runs

@@ -11,4 +11,4 @@ install:
 before_script:
   - python testusage.py write
 script:
-  - python testusage.py scanme
+  - python testusage.py
