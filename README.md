@@ -27,4 +27,4 @@ linescan.scanlines("MyFile.txt", 3, 6)
 ```
 
 
-***linescan.py, created 2013 Triangle717, and released under the [GNU General Public License Version 3](http://www.gnu.org/licenses/gpl.html).**
+_**linescan.py_, created 2013 Triangle717, and released under the [GNU General Public License Version 3](http://www.gnu.org/licenses/gpl.html).**
