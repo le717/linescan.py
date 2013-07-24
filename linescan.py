@@ -50,7 +50,7 @@ def scanline(file, lineno, encode=None):
         with open(file, "rt", encoding=encode) as f:
             # Read specified line number.
             line = f.readlines()[lineno]
-            line = line.rstrip()
+            line = line.strip()
             # Send back the line
         return line
 
@@ -83,7 +83,7 @@ def scanlines(file, startlineno, endlineno, encode=None):
         # Remove the list from the lines
         lines = "".join(lines)
         # Remove trailing new line
-        lines = lines.rstrip()
+        lines = lines.strip()
     # Send back the lines
     return lines
 
