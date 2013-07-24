@@ -19,7 +19,10 @@ Usage
 
 ```python
 import linescan
+# A single line using UTF-8 encoding
 linescan.scanline("MyFile.txt", 3, "utf-8")
+# Multiple lines, using the system encoding
+linescan.scanlines("MyFile.txt", 3, 6)
 # Coming Soon.
 ```
 
