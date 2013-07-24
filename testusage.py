@@ -59,4 +59,4 @@ if __name__ == "__main__":
         lines = linescan.scanlines("Thisisafile.txt", 8, 12, "cp1252")
         sys.stdout.write(lines)
         thisshouldbefalse = linescan.scanline("Thisisafile.txt", 55, "mbcs")
-        sys.stdout.write(thisshouldbefalse)
+        sys.stdout.write(str(thisshouldbefalse))
