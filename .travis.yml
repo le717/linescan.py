@@ -9,6 +9,6 @@ install:
   # Build/test dependencies
   - pip install -r requirements.txt --use-mirrors
 before_script:
-  - python testusage.py write
+  - python tests.py write
 script:
-  - python testusage.py
+  - python tests.py

@@ -5,7 +5,7 @@
 
     linescan.py - Effortlessly read lines from a text file using any encoding
     Created 2013 Triangle717
-    <http://triangle717.wordpress.com/>
+    <http://Triangle717.WordPress.com/>
 
     linescan.py is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
     along with linescan.py. If not, see <http://www.gnu.org/licenses/>.
 """
 
+from __future__ import print_function
 import sys
 import linescan
 
@@ -52,11 +53,11 @@ if __name__ == "__main__":
                 f.write(text)
             sys.stdout.write("Thisisafile.txt has been written.")
 
-    # Then scan it
+    # The command to scan the test file
     except IndexError:
         line = linescan.scanline("Thisisafile.txt", 5, "utf-8")
-        sys.stdout.write(line)
+        print(line)
         lines = linescan.scanlines("Thisisafile.txt", 8, 12, "cp1252")
-        sys.stdout.write(lines)
+        print(lines)
         thisshouldbefalse = linescan.scanline("Thisisafile.txt", 55, "mbcs")
-        sys.stdout.write(str(thisshouldbefalse))
+        print(thisshouldbefalse)

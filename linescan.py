@@ -19,8 +19,8 @@
     along with linescan.py. If not, see <http://www.gnu.org/licenses/>.
 """
 
-import locale
 import sys
+import locale
 
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info < (3, 0):
@@ -28,27 +28,25 @@ if sys.version_info < (3, 0):
 
 
 def scanline(file, lineno, encode=None):
-    '''Reads a single line from a file using a specified encoding.
-    Falls back to default system encoding if None is specified.'''
-
+    """Reads a single line from a file using a specified encoding.
+    Falls back to default system encoding if None is specified."""
     try:
-        # Because Python starts line numbers at 0.
+        # Since line numbers start at 0,
+        # get the starting line number.
         lineno = lineno - 1
 
         if encode is None:
-            # If no encoding is specified, use encoding returned by
-            # locale.getpreferredencoding(False)
+            # If no encoding is specified, use the default encoding;
+            # Otherwise, use speficied encoding
             encode = locale.getpreferredencoding(False)
 
-        # If an encoding is supplied, it will be used
-        # (implied else block here)
-
-        # Use the recommended with handle.
+        # Using the recommended with handle, read the specified line number,
         with open(file, "rt", encoding=encode) as f:
-            # Read specified line number.
             line = f.readlines()[lineno]
-            line = line.strip()
-            
+
+        # and remove the trailing new line.
+        line = line.strip()
+
         # Send back the line
         return line
 
@@ -58,30 +56,26 @@ def scanline(file, lineno, encode=None):
 
 
 def scanlines(file, startlineno, endlineno, encode=None):
-    '''Reads multiple lines from a file.'''
-
+    """Reads multiple lines from a file."""
     try:
-        # Because Python starts line numbers at 0.
-        # Get starting line number.
+        # Since line numbers start at 0,
+        # get the starting line number.
         startlineno = startlineno - 1
 
         if encode is None:
-            # If no encoding is specified, use encoding returned by
-            # locale.getpreferredencoding(False)
+            # If no encoding is specified, use the default encoding;
+            # Otherwise, use speficied encoding
             encode = locale.getpreferredencoding(False)
 
-        # If an encoding is supplied, it will be used
-        # (implied else block here)
-
-        # Use the recommended with handle.
+        # Using the recommended with handle, read the specified lines.
         with open(file, "rt", encoding=encode) as f:
-            # Scan the lines, store in a list.
             lines = f.readlines()[startlineno:endlineno]
-            # Remove the list from the lines
-            lines = "".join(lines)
-            # Remove trailing new line
-            lines = lines.strip()
-            
+
+        # Next, we break the lines from the list,
+        lines = "".join(lines)
+        # and remove the trailing new line.
+        lines = lines.strip()
+
         # Send back the lines
         return lines
 
@@ -91,4 +85,4 @@ def scanlines(file, startlineno, endlineno, encode=None):
 
 if __name__ == "__main__":
     # TODO: Possibly add example runs
-    raise SystemExit
+    sys.exit(0)
