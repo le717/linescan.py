@@ -26,6 +26,8 @@ import locale
 if sys.version_info < (3, 0):
     from io import open
 
+#TODO: Store and retrieve scans so they are not lost upon a new scam
+
 
 def scanline(file, lineno, encode=None):
     """Reads a single line from a file using a specified encoding.
@@ -84,5 +86,4 @@ def scanlines(file, startlineno, endlineno, encode=None):
         return False
 
 if __name__ == "__main__":
-    # TODO: Possibly add example runs
     sys.exit(0)
