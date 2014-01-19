@@ -17,9 +17,18 @@ import linescan
 testFile = os.path.join("test", "testfile.txt")
 
 if __name__ == "__main__":
-    line = linescan.scan(testFile, 5, "utf_8")
+    # Scan a single line
+    line = linescan.scan(testFile, 5, encode="utf_8")
     print(line)
-    lines = linescan.scanlines(testFile, 8, 12, "cp1252")
+
+    # Scan the same line as above, returns the previous reading
+    lineRepeat = linescan.scan(testFile, 5, encode="utf_8")
+    print(lineRepeat)
+
+    # Scan multiple lines
+    lines = linescan.scan(testFile, 8, 12, encode="cp1252")
     print(lines)
-    thisshouldbefalse = linescan.scan(testFile, 55)
-    print(thisshouldbefalse)
+
+    # Perform an invalid reading
+    thisIsFalse = linescan.scan(testFile, 55)
+    print(thisIsFalse)
