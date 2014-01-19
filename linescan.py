@@ -57,11 +57,12 @@ def scan(myFile, startLine, endLine=None, encode=None):
         if encode is None:
             encode = locale.getpreferredencoding(False)
 
-        if endLine is None:
-            theScan = _scanline(myFile, startLine, endLine, encode)
-        else:
+        #if endLine is None:
+        theScan = _scanline(myFile, startLine, endLine, encode)
+        #else:
             #theScan = _scanlines(myFile, startLine, endLine)
-            print("DEBUG: _scanlines()")
+            #theScan = "DEBUG: Hello!\n\n"
+            #print("DEBUG: _scanlines()")
 
         myScans[filePointer] = theScan
         return theScan
@@ -79,8 +80,10 @@ def _scanline(myFile, startLine, endLine, encode):
             if endLine is None:
                 # Read only one line
                 lines = f.readlines()[startLine]
+
             # Read multiple lines
             else:
+                print("DEBUG: multiple lines")
                 lines = f.readlines()[startLine:endLine]
 
         if endLine is not None:
@@ -92,7 +95,7 @@ def _scanline(myFile, startLine, endLine, encode):
         return lines
 
     # Return False if there is any error.
-    except Exception:
+    except Exception as e:
         return False
 
 
@@ -128,27 +131,3 @@ if __name__ != "__main__":
     # considering this is targeted toward beginner programmers.
     if len(myScans) >= 10:
         clearscans()
-
-if __name__ == "__main__":
-    print('''
-linescan.py - Effortlessly read lines from a text file using any encoding
-Created 2013-2014 Triangle717
-<http://Triangle717.WordPress.com/>
-
-Licensed under The MIT License
-<http://opensource.org/licenses/MIT/>
-
-Example linescan.py usage:
-
-from __future__ import print_function
-import linescan
-
-# Read a single line using UTF-8 encoding
-myline = linescan.scanline("MyFile.txt", 5, "utf-8")
-print(mylines)
-
-# Read multiple lines using system default encoding
-mytwolines = linescan.scanline("MyFile.txt", 2, 5)
-print(mytwolines)
-''')
-    sys.exit(0)
