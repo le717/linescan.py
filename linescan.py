@@ -18,7 +18,7 @@ if sys.version_info < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-__all__ = ["clearscans", "scan"]
+__all__ = ["scan", "clearscans"]
 
 # Store the user's scans for later retrieval
 myScans = {}
@@ -39,6 +39,11 @@ def scan(myFile, startLine, endLine=None, encode=None):
     encode (optional): Specify an file encoding to use.
     Defaults to default system encoding.
     """
+    # 10 stored scans should be more than enough here,
+    # considering this is targeted toward beginner programmers.
+    print("DEBUG:", len(myScans), "\n")
+    if len(myScans) >= 10:
+        clearscans()
 
     # Construct the comma-separated pointer for this file,
     filePointer = "{0},{1}".format(myFile, startLine)
@@ -46,27 +51,26 @@ def scan(myFile, startLine, endLine=None, encode=None):
     # Append the ending line if the user specifies one
     if endLine is not None:
         filePointer = "{0},{1}".format(filePointer, endLine)
-    #print("DEBUG:", filePointer)
+    print("DEBUG:", filePointer, "\n")
 
-    # If the pointer has been been used, return the stored value
+    # If the pointer has been been used already , return the stored value
     if filePointer in myScans:
+        print("DEBUG: Existing pointer found\n")
         return myScans[filePointer]
 
     # The pointer could not be found, proceed to read the file
     else:
-        #print("DEBUG: Pointer not found")
+        print("DEBUG: Pointer not found\n")
 
         # Use the system default encoding, if one is not specified.
         if encode is None:
             encode = locale.getpreferredencoding(False)
+        print("DEBUG:", encode, "\n")
 
-        #if endLine is None:
+        # Perform the actual scan
         theScan = _scanline(myFile, startLine, endLine, encode)
-        #else:
-            #theScan = _scanlines(myFile, startLine, endLine)
-            #theScan = "DEBUG: Hello!\n\n"
-            #print("DEBUG: _scanlines()")
 
+        # Store the scan in the dictionary, send it back to the user
         myScans[filePointer] = theScan
         return theScan
 
@@ -81,24 +85,23 @@ def _scanline(myFile, startLine, endLine, encode):
 
         with open(myFile, "rt", encoding=encode) as f:
             if endLine is None:
-                # Read only one line
+                # The user wants to read only one line.
                 lines = f.readlines()[startLine]
 
-            # Read multiple lines
+            # The user wants to read multiple lines.
             else:
-                print("DEBUG: multiple lines")
+                print("DEBUG: multiple lines\n")
                 lines = f.readlines()[startLine:endLine]
 
-        if endLine is not None:
-            # Break the multiple lines from the list
-            lines = "".join(lines)
+                # Break the multiple lines from the returned list.
+                lines = "".join(lines)
 
         # Remove any trailing new lines.
         lines = lines.strip()
         return lines
 
     # Return False if there is any error.
-    except Exception as e:
+    except Exception as e:  # noqa
         return False
 
 
@@ -127,10 +130,3 @@ def scanlines(myfile, startlineno, endlineno, encode=None):
     # Return False if there is any error.
     except Exception:
         return False
-
-# Upon module import, clear stored scans if need be
-if __name__ != "__main__":
-    # 10 stored scans should be more than enough here,
-    # considering this is targeted toward beginner programmers.
-    if len(myScans) >= 10:
-        clearscans()
