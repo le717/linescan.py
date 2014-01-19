@@ -5,10 +5,12 @@ python:
    - "2.7"
    - "2.6"
    - "pypy"
-# command to install dependencies
+
+# Install flake8
 install:
-  - "pip install -r requirements.txt --use-mirrors"
+  - pip install -r requirements.txt --use-mirrors
 before_script:
   - python tests.py write
 script:
+  - flake8 --max-complexity 10 linescan.py
   - python tests.py
