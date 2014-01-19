@@ -11,4 +11,5 @@ before_script:
   - python tests.py write
 script:
   - flake8 --max-complexity 10 linescan.py
+  - flake8 --max-complexity 10 tests.py
   - python tests.py
