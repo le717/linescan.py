@@ -2,21 +2,11 @@
 # -*- coding: utf-8 -*-
 """
     linescan.py - Effortlessly read lines from a text file using any encoding
-    Created 2013 Triangle717
+    Created 2013-2014 Triangle717
     <http://Triangle717.WordPress.com/>
 
-    linescan.py is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    linescan.py is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with linescan.py. If not, see <http://www.gnu.org/licenses/>.
+    Licensed under The MIT License
+    <http://opensource.org/licenses/MIT/>
 """
 
 from __future__ import print_function
@@ -28,6 +18,41 @@ if sys.version_info < (3, 0):
     from io import open
 
 #TODO: Store and retrieve scans so they are not lost upon a new scan.
+
+# Store the user's scans for later retrieval
+myScans = {}
+
+
+def clearscans():
+    """Clear stored scans"""
+    global myScans
+    myScans = {}
+
+
+def scan(file, startLine, endLine=None):
+
+    # Construct the comma-separated pointer for this file,
+    filePointer = "{0},{1}".format(file, startLine)
+
+    # Append the ending line if the user specifies one
+    if endLine is not None:
+        filePointer = "{0},{1}".format(filePointer, endLine)
+    #print("DEBUG:", filePointer)
+
+    # If the pointer has been been used, return the stored value
+    if filePointer in myScans:
+        print(myScans[filePointer])
+
+    # The pointer could not be found
+    else:
+        #print("DEBUG: Pointer not found")
+        if endLine is None:
+            theScan = _scanline(file, startLine)
+        else:
+            #theScan = _scanlines(file, startLine, endLine)
+            print("DEBUG: _scanlines()")
+
+        myScans[filePointer] = theScan
 
 
 def scanline(myfile, lineno, encode=None):
@@ -81,6 +106,13 @@ def scanlines(myfile, startlineno, endlineno, encode=None):
     # Return False if there is any error.
     except Exception:
         return False
+
+# Upon module import, clear stored scans if need be
+if __name__ != "__main__":
+    # 10 stored scans should be more than enough here,
+    # considering this is targeted toward beginner programmers.
+    if len(myScans) >= 10:
+        clearscans()
 
 if __name__ == "__main__":
     print('''
