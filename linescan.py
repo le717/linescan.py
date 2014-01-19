@@ -103,30 +103,3 @@ def _scanline(myFile, startLine, endLine, encode):
     # Return False if there is any error.
     except Exception as e:  # noqa
         return False
-
-
-def scanlines(myfile, startlineno, endlineno, encode=None):
-    """Reads multiple lines from a file."""
-    try:
-        # Since line numbers start at 0,
-        # get the starting line number.
-        startlineno -= 1
-
-        if encode is None:
-            # If no encoding is specified, use the default encoding;
-            # Otherwise, use specified encoding
-            encode = locale.getpreferredencoding(False)
-
-        # Using the recommended with handle, read the specified lines.
-        with open(myfile, "rt", encoding=encode) as f:
-            lines = f.readlines()[startlineno:endlineno]
-
-        # Next, we break the lines from the list,
-        lines = "".join(lines)
-        # and remove the trailing new line.
-        lines = lines.strip()
-        return lines
-
-    # Return False if there is any error.
-    except Exception:
-        return False
