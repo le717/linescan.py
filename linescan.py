@@ -17,6 +17,9 @@ import locale
 if sys.version_info < (3, 0):
     from io import open
 
+# Restrict what can be imported using `from linescan import *`
+__all__ = ["clearscans", "scan"]
+
 # Store the user's scans for later retrieval
 myScans = {}
 
