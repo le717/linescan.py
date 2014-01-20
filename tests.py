@@ -16,7 +16,7 @@ import os
 
 import linescan
 
-testFile = os.path.join("test", "testfile.txt")
+testFile = os.path.join("examples", "testfile.txt")
 
 if __name__ == "__main__":
     # Scan a single line
