@@ -51,16 +51,15 @@ def clearscans():
 
 def scan(filename, lineno, endLine=None, encoding=None):
     """
-    myFile: the file to read.
-    startLine: The line you wish to read.
-    endLine (optional): The last line to want to read.
+    myFile: String of file to read.
+    startLine: Integer of line you wish to read.
+    endLine (optional): Integer of last line to want to read.
     Specify when reading multiple lines.
-    encode (optional): Specify an file encoding to use.
+    encoding (optional): Specify a string file encoding to use.
     Defaults to default system encoding.
     """
     # 10 stored scans should be more than enough here,
     # considering this is targeted toward beginner programmers.
-    print("DEBUG:", len(myScans), "\n")
     if len(myScans) >= 10:
         clearscans()
 
@@ -70,21 +69,17 @@ def scan(filename, lineno, endLine=None, encoding=None):
     # Append the ending line if the user specifies one
     if endLine is not None:
         filePointer = "{0},{1}".format(filePointer, endLine)
-    print("DEBUG:", filePointer, "\n")
 
     # If the pointer has been been used already, return the stored value
     if filePointer in myScans:
-        print("DEBUG: Existing pointer found\n")
         return myScans[filePointer]
 
     # The pointer could not be found, proceed to read the file
     else:
-        print("DEBUG: Pointer not found\n")
 
         # Use the system default encoding if one is not specified.
         if encoding is None:
             encoding = locale.getpreferredencoding(False)
-        print("DEBUG:", encoding, "\n")
 
         # Perform the actual scan
         theScan = _scanner(filename, lineno, endLine, encoding)
@@ -98,7 +93,7 @@ def scan(filename, lineno, endLine=None, encoding=None):
 
 
 def _scanner(filename, startLine, endLine, encode):
-    """#TODO: Write docstring"""
+    """Perform the actual scan for both single and multiple lines"""
     try:
         # Since line numbers start at 0,
         # get the starting line number.
@@ -113,7 +108,6 @@ def _scanner(filename, startLine, endLine, encode):
 
             # The user wants to read multiple lines.
             else:
-                print("DEBUG: multiple lines\n")
                 lines = f.readlines()[startLine:endLine]
 
                 # Break the multiple lines from the returned list.
