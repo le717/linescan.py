@@ -36,6 +36,10 @@ def showerrors(errorValue=False):
     True: Raise exception.
     """
     global showErrors
+    # Ensure only boolean values are given.
+    # If they are not, assume default behavior.
+    if type(errorValue) != bool:
+        showErrors = False
     showErrors = errorValue
 
 
@@ -45,7 +49,7 @@ def clearscans():
     myScans = {}
 
 
-def scan(myFile, startLine, endLine=None, encoding=None):
+def scan(filename, lineno, endLine=None, encoding=None):
     """
     myFile: the file to read.
     startLine: The line you wish to read.
@@ -61,7 +65,7 @@ def scan(myFile, startLine, endLine=None, encoding=None):
         clearscans()
 
     # Construct the comma-separated pointer for this file
-    filePointer = "{0},{1}".format(myFile, startLine)
+    filePointer = "{0},{1}".format(filename, lineno)
 
     # Append the ending line if the user specifies one
     if endLine is not None:
@@ -83,7 +87,7 @@ def scan(myFile, startLine, endLine=None, encoding=None):
         print("DEBUG:", encoding, "\n")
 
         # Perform the actual scan
-        theScan = _scanner(myFile, startLine, endLine, encoding)
+        theScan = _scanner(filename, lineno, endLine, encoding)
 
         # Store the scan only if it is valid.
         if theScan:
@@ -93,16 +97,18 @@ def scan(myFile, startLine, endLine=None, encoding=None):
         return theScan
 
 
-def _scanner(myFile, startLine, endLine, encode):
-    """#TODO"""
+def _scanner(filename, startLine, endLine, encode):
+    """#TODO: Write docstring"""
     try:
         # Since line numbers start at 0,
         # get the starting line number.
         startLine -= 1
 
-        with open(myFile, "rt", encoding=encode) as f:
+        # Open the file for reading using specified encoding
+        with open(filename, "rt", encoding=encode) as f:
+
+            # The user wants to read only one line.
             if endLine is None:
-                # The user wants to read only one line.
                 lines = f.readlines()[startLine]
 
             # The user wants to read multiple lines.
