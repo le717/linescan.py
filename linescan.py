@@ -1,7 +1,9 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 """
-    linescan.py - Effortlessly read lines from a text file using any encoding
+    linescan.py
+    Effortlessly read a text file using counting numbers.
+
     Created 2013-2014 Triangle717
     <http://Triangle717.WordPress.com/>
 
@@ -18,10 +20,23 @@ if sys.version_info < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-__all__ = ["scan", "clearscans"]
+__all__ = ["scan", "showerrors", "clearscans"]
 
 # Store the user's scans for later retrieval
 myScans = {}
+
+# Do not raise an exception by default
+showErrors = False
+
+
+def showerrors(errorValue=False):
+    """
+    Set value to raise exception upon error.
+    False (default): Do not raise exception.
+    True: Raise exception.
+    """
+    global showErrors
+    showErrors = errorValue
 
 
 def clearscans():
@@ -30,7 +45,7 @@ def clearscans():
     myScans = {}
 
 
-def scan(myFile, startLine, endLine=None, encode=None):
+def scan(myFile, startLine, endLine=None, encoding=None):
     """
     myFile: the file to read.
     startLine: The line you wish to read.
@@ -45,7 +60,7 @@ def scan(myFile, startLine, endLine=None, encode=None):
     if len(myScans) >= 10:
         clearscans()
 
-    # Construct the comma-separated pointer for this file,
+    # Construct the comma-separated pointer for this file
     filePointer = "{0},{1}".format(myFile, startLine)
 
     # Append the ending line if the user specifies one
@@ -53,7 +68,7 @@ def scan(myFile, startLine, endLine=None, encode=None):
         filePointer = "{0},{1}".format(filePointer, endLine)
     print("DEBUG:", filePointer, "\n")
 
-    # If the pointer has been been used already , return the stored value
+    # If the pointer has been been used already, return the stored value
     if filePointer in myScans:
         print("DEBUG: Existing pointer found\n")
         return myScans[filePointer]
@@ -62,22 +77,24 @@ def scan(myFile, startLine, endLine=None, encode=None):
     else:
         print("DEBUG: Pointer not found\n")
 
-        # Use the system default encoding, if one is not specified.
-        if encode is None:
-            encode = locale.getpreferredencoding(False)
-        print("DEBUG:", encode, "\n")
+        # Use the system default encoding if one is not specified.
+        if encoding is None:
+            encoding = locale.getpreferredencoding(False)
+        print("DEBUG:", encoding, "\n")
 
         # Perform the actual scan
-        theScan = _scanline(myFile, startLine, endLine, encode)
+        theScan = _scanner(myFile, startLine, endLine, encoding)
 
-        # Store the scan in the dictionary, send it back to the user
-        myScans[filePointer] = theScan
+        # Store the scan only if it is valid.
+        if theScan:
+            myScans[filePointer] = theScan
+
+        # Send scan result back to the user
         return theScan
 
 
-def _scanline(myFile, startLine, endLine, encode):
-    """Reads a single line from a file using a specified encoding.
-    Falls back to default system encoding if None is specified."""
+def _scanner(myFile, startLine, endLine, encode):
+    """#TODO"""
     try:
         # Since line numbers start at 0,
         # get the starting line number.
@@ -96,10 +113,16 @@ def _scanline(myFile, startLine, endLine, encode):
                 # Break the multiple lines from the returned list.
                 lines = "".join(lines)
 
-        # Remove any trailing new lines.
+        # Remove any trailing new lines and return the text.
         lines = lines.strip()
         return lines
 
-    # Return False if there is any error.
-    except Exception as e:  # noqa
+    except Exception as exc:
+
+        # Raise an exception rather than returning False
+        # if the user enabled that option.
+        if showErrors:
+            raise exc
+
+        # Exceptions are not to be raised.
         return False
