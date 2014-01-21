@@ -24,7 +24,7 @@ def main():
     try:
         # Attempt to read a nonexistant file
         linescan.scan("fake.txt", 55)
-    except (OSError, FileNotFoundError):
+    except (OSError, FileNotFoundError):  # noqa
         print("Error reading fake.txt")
 
     # Attempt to read the nonexistant file again,

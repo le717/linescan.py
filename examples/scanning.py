@@ -14,6 +14,7 @@
 from __future__ import print_function
 from __init__ import (linescan, testFile)
 
+
 def main():
 
     # Scan a single line
