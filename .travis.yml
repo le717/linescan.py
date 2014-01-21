@@ -12,4 +12,5 @@ before_script:
 script:
   - flake8 --max-complexity 10 linescan.py
   - flake8 --max-complexity 10 tests.py
+  - flake8 --max-complexity 10 examples/exceptions.py
   - python tests.py

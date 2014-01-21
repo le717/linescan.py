@@ -11,7 +11,6 @@
     <http://opensource.org/licenses/MIT/>
 """
 
-from __future__ import print_function
 import sys
 import locale
 

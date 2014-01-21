@@ -38,16 +38,3 @@ if __name__ == "__main__":
     # Any error can be caught by checking it's boolean value.
     if not thisIsFalse:
         print('An error occured while scanning "fake.txt"')
-
-    # Raise an exception upon error.
-    #linescan.showerrors(True)
-
-    # Attempt to read the nonexistant file again,
-    # but this time with exceptions enabled.
-    #thisIsAnException = linescan.scan("fake.txt", 55)
-
-    # Exceptions can be caught using try.. except
-    #try:
-        #thisIsFalseThree = linescan.scan("fake.txt", 55)
-    #except FileNotFoundError:
-        #print("ERROR")
