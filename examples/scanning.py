@@ -25,5 +25,12 @@ def main():
     lines = linescan.scan(testFile, 8, 12, encoding="cp1252")
     print("\nExample #2:\n{0}".format(lines))
 
+    try:
+        raw_input("\nPress Enter to Exit.")
+    except NameError:
+        input("\nPress Enter to Exit.")
+    finally:
+        raise SystemExit(0)
+
 if __name__ == "__main__":
     main()
