@@ -19,10 +19,10 @@ if sys.version_info < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-__all__ = ["scan", "showerrors", "clearscans"]
+__all__ = ["clearscans", "debug", "scan", "showerrors"]
 
 # Store the user's scans for later retrieval
-myScans = {}
+_myScans = {}
 
 # Do not raise an exception by default
 showErrors = False
@@ -35,31 +35,50 @@ def showerrors(errorValue=False):
     True: Raise exception.
     """
     global showErrors
-    # Ensure only boolean values are given.
-    # If they are not, assume default behavior.
-    if type(errorValue) != bool:
-        showErrors = False
-    showErrors = errorValue
+    # Check if parameter is True.
+    # Returned value will be the value of `showErrors`.
+    showErrors = _checkBool(errorValue)
 
 
 def clearscans():
     """Clear any stored scans"""
-    global myScans
-    myScans = {}
+    global _myScans
+    _myScans = {}
+
+
+def debug(scannum=False):
+    """Expose available debug values"""
+    # Check if parameter is True.
+    # Returned value will be the value of `scanno`.
+    scannum = _checkBool(scannum)
+
+    # The user wishes to know how many stored scans there are.
+    if scannum:
+        return _numOfScans()
+
+
+def _numOfScans():
+    """Reveal the number of stored scans"""
+    return len(_myScans)
+
+
+def _checkBool(value):
+    """Check if parameter `value` is True"""
+    return value is True
 
 
 def scan(filename, lineno, endLine=None, encoding=None):
     """
-    myFile: String of file to read.
-    startLine: Integer of line you wish to read.
-    endLine (optional): Integer of last line to want to read.
-    Specify when reading multiple lines.
-    encoding (optional): Specify a string file encoding to use.
+    myFile (String): The desired file to scan.
+    startLine (Integer): The line you wish to scan.
+    endLine (Optional, Integer): The last line to want to scan.
+    Specify when scanning multiple lines.
+    encoding (Optional, String): Specify a file encoding to use.
     Defaults to default system encoding.
     """
     # 10 stored scans should be more than enough here,
     # considering this is targeted toward beginner programmers.
-    if len(myScans) >= 10:
+    if len(_myScans) >= 10:
         clearscans()
 
     # Construct the comma-separated pointer for this file
@@ -70,12 +89,11 @@ def scan(filename, lineno, endLine=None, encoding=None):
         filePointer = "{0},{1}".format(filePointer, endLine)
 
     # If the pointer has been been used already, return the stored value
-    if filePointer in myScans:
-        return myScans[filePointer]
+    if filePointer in _myScans:
+        return _myScans[filePointer]
 
     # The pointer could not be found, proceed to read the file
     else:
-
         # Use the system default encoding if one is not specified.
         if encoding is None:
             encoding = locale.getpreferredencoding(False)
@@ -85,14 +103,14 @@ def scan(filename, lineno, endLine=None, encoding=None):
 
         # Store the scan only if it is valid.
         if theScan:
-            myScans[filePointer] = theScan
+            _myScans[filePointer] = theScan
 
         # Send scan result back to the user
         return theScan
 
 
 def _scanner(filename, startLine, endLine, encode):
-    """Perform the actual scan for both single and multiple lines"""
+    """Perform the actual scan"""
     try:
         # Since line numbers start at 0,
         # get the starting line number.
