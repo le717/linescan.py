@@ -17,37 +17,14 @@ Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache
 ```python
 import linescan
 
-# Deliberately clear all previous stored readings
-linescan.clearscans()
-
-# Raise an Exception upon any errors
-linescan.showerrors(True)
+linescan.scan("MyFile.txt")
 
 # To be written.
 ```
 
 ## API Documentation ##
 
-#### linescan.scan(_filename_, _lineno_, _endLine=None_, _encoding=None_) ####
-
-> Scan line _lineno_ from a file named _filename_. Specifing  _endLine_ (both implicitly or explicitly)
-will scan from _lineno_ to _endLine_. __encoding__ is any [valid encoding](http://docs.python.org/3/library/codecs.html#standard-encodings).
-Defaults to the value of `locale.getpreferredencoding(False)` if parameter is `None`.
-
-
-#### linescan.clearscans() ####
-
-* Default: Run automaticlly after `10` (ten) stored scans
-
-> Clear all previously stored readings. Run this if the scans are no longer needed or the maximum number is not reached.
-
-
-#### linescan.showerrors(_errorValue_) ####
-
-* Default: False
-
-> Option to raise an `Exception` upon any error. Setting _errorValue_ to `True` will raise exceptions,
-while setting _errorValue_ to `False` or leaving empty will restore default behavior (`return False`)
+API Documentation is available on the [Wiki](https://github.com/le717/linescan.py/wiki/).
 
 ## License ##
 
