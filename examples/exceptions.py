@@ -10,8 +10,8 @@
     Licensed under The MIT License
     <http://opensource.org/licenses/MIT/>
 """
-# -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from __init__ import linescan
 
 
@@ -20,11 +20,11 @@ def main():
     # Raise an exception upon error.
     linescan.showerrors(True)
 
-    # Exceptions can be caught using try... except blocks.s
+    # Exceptions can be caught using try... except blocks.
     try:
         # Attempt to read a nonexistant file
         linescan.scan("fake.txt", 55)
-    except FileNotFoundError:
+    except (OSError, FileNotFoundError):
         print("Error reading fake.txt")
 
     # Attempt to read the nonexistant file again,
