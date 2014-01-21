@@ -12,13 +12,10 @@
 """
 
 from __future__ import print_function
-import os
+from __init__ import (linescan, testFile)
 
-import linescan
+def main():
 
-testFile = os.path.join("examples", "testfile.txt")
-
-if __name__ == "__main__":
     # Scan a single line
     line = linescan.scan(testFile, 5, encoding="utf_8")
     print(line)
@@ -38,3 +35,6 @@ if __name__ == "__main__":
     # Any error can be caught by checking it's boolean value.
     if not thisIsFalse:
         print('An error occured while scanning "fake.txt"')
+
+if __name__ == "__main__":
+    main()
