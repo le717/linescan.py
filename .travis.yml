@@ -7,9 +7,12 @@ python:
 # Install Flake8
 install:
   - pip install -r requirements.txt --use-mirrors
+-before_script:
+  - python examples/__init__.py
 script:
   # Test scripts against Flake8
   - flake8 --max-complexity 10 .
   # Run the examples
   - python examples/scanning.py
+  - python examples/stored.py
   - python examples/exceptions.py
