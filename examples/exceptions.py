@@ -17,18 +17,33 @@ from __init__ import linescan
 
 def main():
 
-    # Raise an exception upon error.
+    # Attempt to read a nonexistant file,
+    # retaining the default error setting.
+    if not linescan.scan("fake.txt", 55):
+        print("""Example #1: Error reading fake.txt
+Returned error value is `False`.
+""")
+
+    # Enable option to raise an exception upon any error.
     linescan.showerrors(True)
 
-    # Exceptions can be caught using try... except blocks.
+    # Attempt to read the nonexistant file again,
+    # but this time catch the Exception
+    # using an try...except block.
     try:
-        # Attempt to read a nonexistant file
         linescan.scan("fake.txt", 55)
     except (OSError, FileNotFoundError):  # noqa
-        print("Error reading fake.txt")
+        print("""Example #2: Error reading fake.txt
+Returned error value is as an `OSError` or `FileNotFoundError`.
+The exception was caught with a try...except block.
+""")
 
-    # Attempt to read the nonexistant file again,
-    # but this time without catching the error
+    # Finally, read the nonexistant a third time,
+    # but this time without catching the Exception.
+    print("""Example #3: Error reading fake.txt
+Returned error value is as an `OSError or FileNotFoundError`.
+The exception was not caught with a try...except block.
+""")
     linescan.scan("fake.txt", 55)
 
 if __name__ == "__main__":

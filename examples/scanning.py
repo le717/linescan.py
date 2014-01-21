@@ -19,23 +19,11 @@ def main():
 
     # Scan a single line
     line = linescan.scan(testFile, 5, encoding="utf_8")
-    print(line)
-
-    # Scan the same line as above, returns the previous reading.
-    lineRepeat = linescan.scan(testFile, 5, encoding="utf_8")
-    print(lineRepeat)
+    print("\nExample #1:\n{0}".format(line))
 
     # Scan multiple lines.
     lines = linescan.scan(testFile, 8, 12, encoding="cp1252")
-    print(lines)
-
-    # Attempt to read a nonexistant file.
-    thisIsFalse = linescan.scan("fake.txt", 55)
-    print(thisIsFalse)
-
-    # Any error can be caught by checking it's boolean value.
-    if not thisIsFalse:
-        print('An error occured while scanning "fake.txt"')
+    print("\nExample #2:\n{0}".format(lines))
 
 if __name__ == "__main__":
     main()
