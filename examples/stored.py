@@ -72,8 +72,8 @@ def main():
           linescan.debug(scannum=True), threeLinesRepeat))
 
     # As your can see, the number of stored scans did not change.
-    # Rather, the previous scan was retrieved. This helps increase speed
-    # by not requiring the file to be re-scanned for the exact same information!
+    # Rather, the previous scan was retrieved. This helps increase speed by
+    # not requiring the file to be re-scanned for the exact same information!
 
     try:
         raw_input("\nPress Enter to Exit.")
