@@ -7,7 +7,7 @@ Effortlessly read a text file using counting numbers.
 Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache.html) module but designed exclusively for external text files, `linescan.py` is a no-fail module designed to aid beginner programmers who need to read data from text files but have trouble setting up [`open()`](http://docs.python.org/3/library/functions.html#open) or translating real numbers to counting numbers.
 
 * Uses counting numbers to denote line numbers, removing the need to start counting from zero
-* Stores up to ten previous scans for later retrieval, stored scans can be deliberately cleared using `linescan.clearscans()`
+* Stores up to ten previous scans for later retrieval, with the number of stored scans can be be increased deliberately cleared
 * Allows specification of file encoding using `encoding` parameter
 * Returns `False` upon encountering any errors, `Exceptions` can be raised by runnings `linescan.showerrors(True)`
 * Supports Python 2.7 and 3.3
