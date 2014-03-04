@@ -27,6 +27,9 @@ _myScans = {}
 # Do not raise an exception by default
 showErrors = False
 
+# Default number of scans to store
+_storedScans = 10
+
 
 def showerrors(errorValue=False):
     """
@@ -46,11 +49,18 @@ def clearscans():
     _myScans = {}
 
 
-def debug(scannum=False):
+def debug(scannum=False, storednum=False):
     """Expose available debug values"""
-    # Check if parameter is True.
-    # Returned value will be the value of `scanno`.
+    # Check if parameters are True, meaning they are activated
     scannum = _checkBool(scannum)
+
+    # Check if storednum is an integer, signifying the
+    # number of stored scans is to be changed from the default (10)
+    global _storedScans
+    if type(storednum) == int:
+        _storedScans = storednum
+    else:
+        _storedScans = 10
 
     # The user wishes to know how many stored scans there are.
     if scannum:
@@ -78,7 +88,7 @@ def scan(filename, lineno, endLine=None, encoding=None):
     """
     # 10 stored scans should be more than enough here,
     # considering this is targeted toward beginner programmers.
-    if len(_myScans) >= 10:
+    if len(_myScans) >= _storedScans:
         clearscans()
 
     # Construct the comma-separated pointer for this file
@@ -135,7 +145,6 @@ def _scanner(filename, startLine, endLine, encode):
         return lines
 
     except Exception as exc:
-
         # Raise an exception rather than returning False
         # if the user enabled that option.
         if showErrors:
