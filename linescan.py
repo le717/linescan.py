@@ -86,9 +86,16 @@ def rescan(filename):
     # If the pointer has been been used already, return the stored value
     for key in _myScans.keys():
         if filename in key:
-            #print(_myScans[oldFile])
-            print(key)
-            #del _myScans[key]
+            # An ending line number was not specified
+            if len(key.split(",")) == 3:
+                fileName, startLine, encode = key.split(",")
+                endLine = None
+            # An ending line number (or "end" string) was specified
+            else:
+                fileName, startLine, endLine, encode = key.split(",")
+
+            newScan = _scanner(fileName, int(startLine), endLine, encode.strip("encode="))
+            _myScans[key] = newScan
 
 
 def _createPointer(filename, encoding, lineno, endline=None):
@@ -99,9 +106,8 @@ def _createPointer(filename, encoding, lineno, endline=None):
     if endline is not None:
         filePointer = "{0},{1}".format(filePointer, endline)
 
-    if encoding is not None:
-        filePointer = "{0},encode={1}".format(filePointer, encoding)
-
+    # An encoding is always specified even if the user did not provide one
+    filePointer = "{0},encode={1}".format(filePointer, encoding)
     return filePointer
 
 
@@ -139,8 +145,6 @@ def scan(filename, lineno, endline=None, encoding=None):
         # Store the scan only if it is valid.
         if theScan:
             _myScans[filePointer] = theScan
-
-        # Send scan result back to the user
         return theScan
 
 
