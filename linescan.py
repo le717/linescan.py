@@ -30,8 +30,11 @@ showErrors = False
 # Default number of scans to store
 _storedScans = 10
 
+# Automatically clear stored scans
+_autoClearScans = True
 
-def showerrors(errorValue=False):
+
+def showerrors(errorvalue=False):
     """
     Set value to raise exception upon error.
     False (default): Do not raise exception.
@@ -40,7 +43,7 @@ def showerrors(errorValue=False):
     global showErrors
     # Check if parameter is True.
     # Returned value will be the value of `showErrors`.
-    showErrors = _checkBool(errorValue)
+    showErrors = _checkBool(errorvalue)
 
 
 def clearscans():
@@ -49,10 +52,12 @@ def clearscans():
     _myScans = {}
 
 
-def debug(scannum=False, storednum=False):
+def debug(scannum=False, storednum=False, autoclear=True):
     """Expose available debug values"""
     # Check if parameters are True, meaning they are activated
     scannum = _checkBool(scannum)
+    global _autoClearScans
+    _autoClearScans = _checkBool(autoclear)
 
     # Check if storednum is an integer, signifying the
     # number of stored scans is to be changed from the default (10)
@@ -77,7 +82,7 @@ def _checkBool(value):
     return value is True
 
 
-def scan(filename, lineno, endLine=None, encoding=None):
+def scan(filename, lineno, endline=None, encoding=None):
     """
     myFile (String): The desired file to scan.
     startLine (Integer): The line you wish to scan.
@@ -86,17 +91,17 @@ def scan(filename, lineno, endLine=None, encoding=None):
     encoding (Optional, String): Specify a file encoding to use.
     Defaults to default system encoding.
     """
-    # 10 stored scans should be more than enough here,
-    # considering this is targeted toward beginner programmers.
-    if len(_myScans) >= _storedScans:
-        clearscans()
+    # Automatically clear the stored scans unless it is disabled
+    if _autoClearScans:
+        if _numOfScans() >= _storedScans:
+            clearscans()
 
     # Construct the comma-separated pointer for this file
     filePointer = "{0},{1}".format(filename, lineno)
 
     # Append the ending line if the user specifies one
-    if endLine is not None:
-        filePointer = "{0},{1}".format(filePointer, endLine)
+    if endline is not None:
+        filePointer = "{0},{1}".format(filePointer, endline)
 
     # If the pointer has been been used already, return the stored value
     if filePointer in _myScans:
@@ -109,7 +114,7 @@ def scan(filename, lineno, endLine=None, encoding=None):
             encoding = locale.getpreferredencoding(False)
 
         # Perform the actual scan
-        theScan = _scanner(filename, lineno, endLine, encoding)
+        theScan = _scanner(filename, lineno, endline, encoding)
 
         # Store the scan only if it is valid.
         if theScan:
