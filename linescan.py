@@ -124,26 +124,30 @@ def scan(filename, lineno, endline=None, encoding=None):
         return theScan
 
 
-def _scanner(filename, startLine, endLine, encode):
+def _scanner(fileName, startLine, endLine, encode):
     """Perform the actual scan"""
     try:
         # Since line numbers start at 0,
         # get the starting line number.
         startLine -= 1
 
-        # Open the file for reading using specified encoding
-        with open(filename, "rt", encoding=encode) as f:
+        # Open the file for scanning using specified encoding
+        with open(fileName, "rt", encoding=encode) as f:
 
-            # The user wants to read only one line.
+            # The user wants to scan only one line.
             if endLine is None:
                 lines = f.readlines()[startLine]
 
-            # The user wants to read multiple lines.
+            # The user wants to scan until the end of the file.
+            elif endLine == "end":
+                lines = f.readlines()[startLine:]
+
+            # The user wants to scan multiple specified lines.
             else:
                 lines = f.readlines()[startLine:endLine]
 
-                # Break the multiple lines from the returned list.
-                lines = "".join(lines)
+        # Break the multiple lines from the returned list.
+        lines = "".join(lines)
 
         # Remove any trailing new lines and return the text.
         lines = lines.strip()
@@ -155,5 +159,5 @@ def _scanner(filename, startLine, endLine, encode):
         if showErrors:
             raise exc
 
-        # Exceptions are not to be raised.
+        # Otherwise, exceptions are not to be raised.
         return False
