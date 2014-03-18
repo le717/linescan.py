@@ -83,30 +83,49 @@ def debug(scannum=False, storednum=False, autoclear=True):
         return _numOfScans()
 
 
-def rescan(filename):
+def rescan(filename=None):
     """Rescan filename to update stored scans with file changes"""
-    for key in _myScans.keys():
+    #FIXME: Something about multiline scans is broken
+    for pointer in _myScans.keys():
+        # A file was not specified, rescan all stored scans
+        if filename is None:
+            filenames = list(_myScans.keys())
+            break
 
-        # Ensure the pointer has been already used
-        if filename in key:
+        # A file was specified and the pointer has been already be stored
+        else:
+            if filename in pointer:
+                filenames = [pointer]
+                break
 
-            # An ending line number was not specified
-            if len(key.split(",")) == 3:
-                fileName, startLine, encode = key.split(",")
+            # The file specified has not been scanned before
+            if filename not in pointer:
+                # Raise an exception if they are enabled
+                if showErrors:
+                    raise FileNotFoundError("{0} has not been previously scanned".format(filename))
+                else:
+                    return False
 
-                # Only one line needs to be updated
-                endLine = None
+    # We have file(s) to rescan
+    for key in filenames:
+        # An ending line number was not specified
+        if len(key.split(",")) == 3:
+            fileName, startLine, encode = key.split(",")
 
-            # An ending line number (or "end" string) was specified
-            else:
-                fileName, startLine, endLine, encode = key.split(",")
+            # Only one line needs to be rescanned
+            endLine = None
 
-            # Now that we have the proper information, preform the rescan
-            newScan = _scanner(fileName, int(startLine), endLine,
-                               re.sub(r"encode=", "", encode))
+        # An ending line number (or "end" string) was specified
+        else:
+            fileName, startLine, endLine, encode = key.split(",")
+        encode = re.sub(r"encode=", "", encode)
 
-            # Update the stored scan with the new information
-            _myScans[key] = newScan
+        # Now that we have the proper data, preform the rescan
+        newScan = _scanner(fileName, int(startLine), endLine,
+                           re.sub(r"encode=", "", encode))
+
+        # Update the stored scan with the new scan
+        _myScans[key] = newScan
 
 
 def _createPointer(filename, encoding, lineno, endline=None):
@@ -158,7 +177,8 @@ def _scanner(fileName, startLine, endLine, encode):
             raise exc
 
         # Otherwise, exceptions are not to be raised.
-        return False
+        else:
+            return False
 
 
 def scan(filename, lineno, endline=None, encoding=None):
