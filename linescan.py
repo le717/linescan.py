@@ -20,7 +20,7 @@ if sys.version_info < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-__all__ = ["clearscans", "debug", "scan", "showerrors"]
+__all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
 
 # Store the user's scans for later retrieval
 _myScans = {}
@@ -85,6 +85,7 @@ def debug(scannum=False, storednum=False, autoclear=True):
 
 def rescan(filename=None):
     """Rescan filename to update stored scans with file changes"""
+    filenames = []
     for pointer in _myScans.keys():
         # A file was not specified, rescan all stored scans
         if filename is None:
@@ -104,8 +105,8 @@ def rescan(filename=None):
         if showErrors:
             # Raise FileNotFoundError exception on Python 3.3+
             if sys.version_info >= (3, 3):
-                raise FileNotFoundError("{0} has not been previously scanned".format(
-                                        filename))
+                raise FileNotFoundError("{0} has not been previously scanned"  # noqa
+                                        .format(filename))
 
             # Raise the old IOError on Python 3.2 and lower
             elif sys.version_info <= (3, 2):
@@ -132,7 +133,7 @@ def rescan(filename=None):
         # Trim encoding string for use,
         # convert `endLine` to an integer under proper conditions
         encode = re.sub(r"encode=", "", encode)
-        if (endLine is not None or endLine != "end"):
+        if (endLine is not None and endLine != "end"):
             endLine = int(endLine)
 
         # Now that we have the proper data, preform the rescan
