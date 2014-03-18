@@ -70,7 +70,7 @@ def debug(scannum=False, storednum=False, autoclear=True):
     global _autoClearScans
     _autoClearScans = _checkBool(autoclear)
 
-    # Check if storednum is an integer, signifying the
+    # Check if `storednum` is an integer, signifying the
     # number of stored scans is to be changed from the default (10)
     global _storedScans
     if type(storednum) == int:
@@ -85,7 +85,6 @@ def debug(scannum=False, storednum=False, autoclear=True):
 
 def rescan(filename=None):
     """Rescan filename to update stored scans with file changes"""
-    #FIXME: Something about multiline scans is broken
     for pointer in _myScans.keys():
         # A file was not specified, rescan all stored scans
         if filename is None:
@@ -98,24 +97,24 @@ def rescan(filename=None):
                 filenames = [pointer]
                 break
 
-            # The file specified has not been scanned before
-            if filename not in pointer:
+    # The file specified has not been scanned before
+    if not filenames:
 
-                # Raise an exception if they are enabled
-                if showErrors:
-                    # Raise FileNotFoundError exception on Python 3.3+
-                    if sys.version_info >= (3, 3):
-                        raise FileNotFoundError("{0} has not been previously scanned".format(
-                                                filename))
+        # Raise an exception if they are enabled
+        if showErrors:
+            # Raise FileNotFoundError exception on Python 3.3+
+            if sys.version_info >= (3, 3):
+                raise FileNotFoundError("{0} has not been previously scanned".format(
+                                        filename))
 
-                    # Raise the old IOError on Python 3.2 and lower
-                    else:
-                        raise IOError("{0} has not been previously scanned".format(
-                                      filename))
+            # Raise the old IOError on Python 3.2 and lower
+            elif sys.version_info <= (3, 2):
+                raise IOError("{0} has not been previously scanned".format(
+                              filename))
 
-                # Exceptions are not to be raised
-                else:
-                    return False
+        # Exceptions are not to be raised
+        else:
+            return False
 
     # We have file(s) to rescan
     for key in filenames:
@@ -129,7 +128,12 @@ def rescan(filename=None):
         # An ending line number (or "end" string) was specified
         else:
             fileName, startLine, endLine, encode = key.split(",")
+
+        # Trim encoding string for use,
+        # convert `endLine` to an integer under proper conditions
         encode = re.sub(r"encode=", "", encode)
+        if (endLine is not None or endLine != "end"):
+            endLine = int(endLine)
 
         # Now that we have the proper data, preform the rescan
         newScan = _scanner(fileName, int(startLine), endLine,
@@ -197,7 +201,7 @@ def scan(filename, lineno, endline=None, encoding=None):
     filename (String): The desired file to scan.
     lineno (Integer): The line you wish to scan.
     endline (Optional, Integer, String): The last line to want to scan.
-    Specify when scanning multiple lines. Specifing 'end' will scan
+    Specify when scanning multiple lines. Specifying 'end' will scan
     the file from lineno to the end of the file.
     encoding (Optional, String): Specify a file encoding to use.
     Defaults to default system encoding.
