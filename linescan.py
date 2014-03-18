@@ -100,9 +100,20 @@ def rescan(filename=None):
 
             # The file specified has not been scanned before
             if filename not in pointer:
+
                 # Raise an exception if they are enabled
                 if showErrors:
-                    raise FileNotFoundError("{0} has not been previously scanned".format(filename))
+                    # Raise FileNotFoundError exception on Python 3.3+
+                    if sys.version_info >= (3, 3):
+                        raise FileNotFoundError("{0} has not been previously scanned".format(
+                                                filename))
+
+                    # Raise the old IOError on Python 3.2 and lower
+                    else:
+                        raise IOError("{0} has not been previously scanned".format(
+                                      filename))
+
+                # Exceptions are not to be raised
                 else:
                     return False
 
