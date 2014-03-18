@@ -122,43 +122,6 @@ def _createPointer(filename, encoding, lineno, endline=None):
     return filePointer
 
 
-def scan(filename, lineno, endline=None, encoding=None):
-    """
-    filename (String): The desired file to scan.
-    lineno (Integer): The line you wish to scan.
-    endline (Optional, Integer, String): The last line to want to scan.
-    Specify when scanning multiple lines. Specifing 'end' will scan
-    the file from lineno to the end of the file.
-    encoding (Optional, String): Specify a file encoding to use.
-    Defaults to default system encoding.
-    """
-    # Automatically clear the stored scans unless it is disabled
-    if _autoClearScans:
-        if _numOfScans() >= _storedScans:
-            clearscans()
-
-    # Use the system default encoding if one is not specified.
-    if encoding is None:
-        encoding = locale.getpreferredencoding(False)
-
-    # Create a file pointer
-    filePointer = _createPointer(filename, encoding, lineno, endline)
-
-    # If the pointer has been used already, return the stored value
-    if filePointer in _myScans:
-        return _myScans[filePointer]
-
-    # The pointer could not be found, proceed to scan the file
-    else:
-        # Perform the actual scan
-        theScan = _scanner(filename, lineno, endline, encoding)
-
-        # Store the scan only if it is valid.
-        if theScan:
-            _myScans[filePointer] = theScan
-        return theScan
-
-
 def _scanner(fileName, startLine, endLine, encode):
     """Perform the actual scan"""
     try:
@@ -196,3 +159,40 @@ def _scanner(fileName, startLine, endLine, encode):
 
         # Otherwise, exceptions are not to be raised.
         return False
+
+
+def scan(filename, lineno, endline=None, encoding=None):
+    """
+    filename (String): The desired file to scan.
+    lineno (Integer): The line you wish to scan.
+    endline (Optional, Integer, String): The last line to want to scan.
+    Specify when scanning multiple lines. Specifing 'end' will scan
+    the file from lineno to the end of the file.
+    encoding (Optional, String): Specify a file encoding to use.
+    Defaults to default system encoding.
+    """
+    # Automatically clear the stored scans unless it is disabled
+    if _autoClearScans:
+        if _numOfScans() >= _storedScans:
+            clearscans()
+
+    # Use the system default encoding if one is not specified.
+    if encoding is None:
+        encoding = locale.getpreferredencoding(False)
+
+    # Create a file pointer
+    filePointer = _createPointer(filename, encoding, lineno, endline)
+
+    # If the pointer has been used already, return the stored value
+    if filePointer in _myScans:
+        return _myScans[filePointer]
+
+    # The pointer could not be found, proceed to scan the file
+    else:
+        # Perform the actual scan
+        theScan = _scanner(filename, lineno, endline, encoding)
+
+        # Store the scan only if it is valid.
+        if theScan:
+            _myScans[filePointer] = theScan
+        return theScan
