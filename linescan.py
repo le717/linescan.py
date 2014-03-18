@@ -13,6 +13,7 @@
 
 import sys
 import locale
+import re
 
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info < (3, 0):
@@ -83,18 +84,28 @@ def debug(scannum=False, storednum=False, autoclear=True):
 
 
 def rescan(filename):
-    # If the pointer has been been used already, return the stored value
+    """Rescan filename to update stored scans with file changes"""
     for key in _myScans.keys():
+
+        # Ensure the pointer has been already used
         if filename in key:
+
             # An ending line number was not specified
             if len(key.split(",")) == 3:
                 fileName, startLine, encode = key.split(",")
+
+                # Only one line needs to be updated
                 endLine = None
+
             # An ending line number (or "end" string) was specified
             else:
                 fileName, startLine, endLine, encode = key.split(",")
 
-            newScan = _scanner(fileName, int(startLine), endLine, encode.strip("encode="))
+            # Now that we have the proper information, preform the rescan
+            newScan = _scanner(fileName, int(startLine), endLine,
+                               re.sub(r"encode=", "", encode))
+
+            # Update the stored scan with the new information
             _myScans[key] = newScan
 
 
@@ -114,7 +125,7 @@ def _createPointer(filename, encoding, lineno, endline=None):
 def scan(filename, lineno, endline=None, encoding=None):
     """
     filename (String): The desired file to scan.
-    startLine (Integer): The line you wish to scan.
+    lineno (Integer): The line you wish to scan.
     endline (Optional, Integer, String): The last line to want to scan.
     Specify when scanning multiple lines. Specifing 'end' will scan
     the file from lineno to the end of the file.
@@ -133,7 +144,7 @@ def scan(filename, lineno, endline=None, encoding=None):
     # Create a file pointer
     filePointer = _createPointer(filename, encoding, lineno, endline)
 
-    # If the pointer has been been used already, return the stored value
+    # If the pointer has been used already, return the stored value
     if filePointer in _myScans:
         return _myScans[filePointer]
 
