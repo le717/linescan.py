@@ -137,8 +137,7 @@ def rescan(filename=None):
             endLine = int(endLine)
 
         # Now that we have the proper data, preform the rescan
-        newScan = _scanner(fileName, int(startLine), endLine,
-                           re.sub(r"encode=", "", encode))
+        newScan = _scanner(fileName, int(startLine), endLine, encode)
 
         # Update the stored scan with the new scan
         _myScans[key] = newScan
