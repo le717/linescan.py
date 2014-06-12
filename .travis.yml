@@ -11,3 +11,8 @@ install:
 script:
   # Test scripts against Flake8
   - flake8 --max-complexity 10 .
+
+  # Run the examples
+  - python examples/scanning.py
+  - python examples/stored.py
+  - python examples/exceptions.py
