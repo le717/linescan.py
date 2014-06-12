@@ -1,4 +1,4 @@
-# linescan.py [![Build Status](https://travis-ci.org/le717/linescan.py.png?branch=master)](https://travis-ci.org/le717/linescan.py) #
+# linescan.py [![Build Status](https://travis-ci.org/le717/linescan.py.svg?branch=master)](https://travis-ci.org/le717/linescan.py) #
 
 Effortlessly read a text file using counting numbers.
 
@@ -10,8 +10,8 @@ Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache
 
 * Uses counting numbers to denote line numbers, removing the need to start counting from zero
 * Supports scanning of partial and entire files
-* Stores up to ten previous scans for later retrieval, although the number of stored scans can be change 
-* Supports Python 2.7 and 3.3
+* Stores up to ten previous scans for later retrieval, although the number of stored scans can be change
+* Supports Python 2.7 and 3.3+
 
 ## Basic Usage ##
 

@@ -3,7 +3,7 @@
 import sys
 
 parentdir = ".."
-# Not happy with editing sys.path... >:(
+# Not happy with editing sys.path... >:-(
 sys.path.insert(0, parentdir)
 import linescan
 
