@@ -3,7 +3,8 @@ from distutils.core import setup
 setup(
     name="linescan.py",
     version="1.1.0",
-    author="Triangle717 <le717.code@yahoo.com>",
+    author="Triangle717",
+    author_email="le717.code@yahoo.com",
     url="https://github.com/le717/linescan.py",
     download_url="https://github.com/le717/linescan.py/archive/v1.1.0.tar.gz",
 
@@ -29,5 +30,5 @@ exclusively for external text files, linescan.py is a no-fail module designed
 to aid beginner programmers who need to read data from text files but have
 trouble setting up `open()` or translating real numbers to counting numbers.
 
-Supports Python 2.7 and Python 3.3+.""",
+linescan.py upports Python 2.7 and Python 3.3+.""",
 )

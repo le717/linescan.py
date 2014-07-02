@@ -1,4 +1,7 @@
-__pycache__/
+__pycache__
 *.py[co]
 #*.txt
-Testing/
+Testing
+dist
+build
+MANIFEST
