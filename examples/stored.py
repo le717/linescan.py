@@ -31,11 +31,11 @@ def main():
     # First example, automatic clearing of stored scans.
     print("\n---- Example #1 ----\n")
 
-    # Now read the tenth line of the file.
+    # Now read the tenth line
     lineTen = linescan.scan(testFile, 10, encoding="utf_8")
     print("Line #{0}:\n{1}".format(linescan.debug(scannum=True), lineTen))
 
-    # Finally, let's (~~go to the year 2015~~) read the fifteenth line
+    # Finally, let's read the fifteenth line
     # and watch as the stored scans are cleared.
     lineEleven = linescan.scan(testFile, 15, encoding="utf_8")
     print("Stored scan #{0}, Line #15:\n{1}".format(
