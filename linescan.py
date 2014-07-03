@@ -37,11 +37,16 @@ class LineScan(object):
         self.endline = None
         self.encoding = None
         self.errorvalue = False
+        self.cleanscans = False
 
     # ------- Public Methods ------- #
     def clearscans(self):
         """Clear any stored scans"""
         self.__myScans = {}
+
+      def cleanscans(self, cleanscan):
+        """Set value to remove new line characters from both ends of a line."""
+        self.cleanscans = self.__showErrors = self._checkBool(cleanscan)
 
     def showerrors(self, errorvalue=False):
         """
@@ -170,11 +175,12 @@ class LineScan(object):
                     lines = f.readlines()[_startLine:self.endline]
 
             # Break the multiple lines from the returned list.
+            # TODO Shouldn't this be indented one level?
             lines = "".join(lines)
 
             # Remove any trailing new lines and return the text.
-            #TODO: Convert cleaning into possible option?
-            lines = lines.strip()
+            if self.cleanscans:
+                lines = lines.strip()
             return lines
 
         except Exception as exc:
@@ -187,39 +193,39 @@ class LineScan(object):
             else:
                 return False
 
-#def rescan(filename=None):
-    #"""Rescan filename to update stored scans with file changes."""
-    #filenames = []
-    #for pointer in _myScans.keys():
+# def rescan(filename=None):
+    # """Rescan filename to update stored scans with file changes."""
+    # filenames = []
+    # for pointer in _myScans.keys():
         ## A file was not specified, rescan all stored scans
-        #if filename is None:
-            #filenames = list(_myScans.keys())
-            #break
+        # if filename is None:
+            # filenames = list(_myScans.keys())
+            # break
 
         ## A file was specified and the pointer has been already be stored
-        #else:
-            #if filename in pointer:
-                #filenames = [pointer]
-                #break
+        # else:
+            # if filename in pointer:
+                # filenames = [pointer]
+                # break
 
     ## The file specified has not been scanned before
-    #if not filenames:
+    # if not filenames:
 
         ## Raise an exception if they are enabled
-        #if showErrors:
+        # if showErrors:
             ## Raise FileNotFoundError exception on Python 3.3+
-            #if sys.version_info[:2] >= (3, 3):
-                #raise FileNotFoundError("{0} has not been previously scanned"  # noqa
-                                        #.format(filename))
+            # if sys.version_info[:2] >= (3, 3):
+                # raise FileNotFoundError("{0} has not been previously scanned"  # noqa
+                                        # .format(filename))
 
             ## Raise the old IOError on Python 3.2 and lower
-            #elif sys.version_info[:2] <= (3, 2):
-                #raise IOError("{0} has not been previously scanned".format(
-                              #filename))
+            # elif sys.version_info[:2] <= (3, 2):
+                # raise IOError("{0} has not been previously scanned".format(
+                              # filename))
 
         ## Exceptions are not to be raised
-        #else:
-            #return False
+        # else:
+            # return False
 
     ## We have file(s) to rescan
     #for key in filenames:
