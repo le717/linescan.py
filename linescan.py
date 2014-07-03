@@ -27,6 +27,7 @@ __all__ = ("LineScan")
 class LineScan(object):
 
     def __init__(self):
+
         self.__myScans = {}
         self.__showErrors = False
         self.__storedScans = 10
@@ -41,7 +42,7 @@ class LineScan(object):
 
     # ------- Public Methods ------- #
     def clearscans(self):
-        """Clear any stored scans"""
+        """Clear any stored scans."""
         self.__myScans = {}
 
     def cleanscans(self, cleanscan):
@@ -67,7 +68,6 @@ class LineScan(object):
         encoding (Optional, String): Specify a file encoding to use.
         Defaults to default system encoding.
         """
-
         # Store the scan details for use elsewhere
         self._setDetails(filename, lineno, endline, encoding)
 
@@ -114,9 +114,38 @@ class LineScan(object):
         if scannum:
             return self._numOfScans()
 
+    def rescan(self, filename=None):
+        """Rescan filename to update stored scans with file changes."""
+        _filenames = []
+        for pointer in self.__myScans.keys():
+            # A file was not specified, rescan all stored scans
+            if filename is None:
+                _filenames = list(self.__myScans.keys())
+                break
+            # A file was specified and the pointer has been already be stored
+            else:
+                if filename in pointer:
+                    _filenames = [pointer]
+                    break
+
+        # The file specified has not been scanned before
+        if not _filenames:
+            # Raise an exception if they are enabled
+            if self.__showErrors:
+                # Raise FileNotFoundError exception on Python 3.3+
+                if sys.version_info[:2] >= (3, 3):
+                    raise FileNotFoundError(  # noqa
+                        "{0} has not been previously scanned".format(filename))
+                # Raise the old IOError on Python 3.2 and lower
+                elif sys.version_info[:2] <= (3, 2):
+                    raise IOError("{0} has not been previously scanned"
+                                  .format(filename))
+            # Exceptions are not to be raised
+            return False
+
     # ------- Private Methods ------- #
     def _setDetails(self, filename, lineno, endline, encoding):
-        """Store scan details"""
+        """Store scan details."""
         self.filename = filename
         self.lineno = lineno
         self.endline = endline
@@ -134,7 +163,7 @@ class LineScan(object):
         return len(self.__myScans)
 
     def _checkBool(self, value):
-        """Check if parameter `value` is True."""
+        """Used to check if various options should be enabled."""
         return value is True
 
     def _createPointer(self):
@@ -228,26 +257,26 @@ class LineScan(object):
             # return False
 
     ## We have file(s) to rescan
-    #for key in filenames:
+    # for key in filenames:
         ## An ending line number was not specified
-        #if len(key.split(",")) == 3:
-            #fileName, startLine, encode = key.split(",")
+        # if len(key.split(",")) == 3:
+            # fileName, startLine, encode = key.split(",")
 
             ## Only one line needs to be rescanned
-            #endLine = None
+            # endLine = None
 
         ## An ending line number (or "end" string) was specified
-        #else:
-            #fileName, startLine, endLine, encode = key.split(",")
+        # else:
+            # fileName, startLine, endLine, encode = key.split(",")
 
         ## Trim encoding string for use,
         ## convert `endLine` to an integer under proper conditions
-        #encode = re.sub(r"encode=", "", encode)
-        #if (endLine is not None and endLine != "end"):
-            #endLine = int(endLine)
+        # encode = re.sub(r"encode=", "", encode)
+        # if (endLine is not None and endLine != "end"):
+            # endLine = int(endLine)
 
         ## Now that we have the proper data, preform the rescan
-        #newScan = _scanner(fileName, int(startLine), endLine, encode)
+        # newScan = _scanner(fileName, int(startLine), endLine, encode)
 
         ## Update the stored scan with the new scan
-        #_myScans[key] = newScan
+        # _myScans[key] = newScan
