@@ -12,16 +12,15 @@ Licensed under The MIT License
 
 import sys
 import locale
-# import re
+import re
 
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info[:2] < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-# __all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
-# __all__ = ["linescan", "rescan", "scan"]
-__all__ = ("LineScan")
+__all__ = ("LineScan", "cleanscans", "clearscans",
+           "debug", "rescan", "scan", "showerrors")
 
 
 class LineScan(object):
@@ -50,8 +49,8 @@ class LineScan(object):
         self.cleanscans = self.__showErrors = self._checkBool(cleanscan)
 
     def showerrors(self, errorvalue=False):
-        """
-        Set value to raise exception upon error.
+        """Raise exceptions upon an error occuring.
+
         False (default): Do not raise exception.
         True: Raise exception.
         """
@@ -59,7 +58,8 @@ class LineScan(object):
         self.__showErrors = self._checkBool(errorvalue)
 
     def scan(self, filename, lineno, endline=None, encoding=None):
-        """
+        """Scan both single and multiple lines with option of custom encoding.
+
         filename (String): The desired file to scan.
         lineno (Integer): The line you wish to scan.
         endline (Optional, Integer, String): The last line to want to scan.
@@ -136,12 +136,40 @@ class LineScan(object):
                 if sys.version_info[:2] >= (3, 3):
                     raise FileNotFoundError(  # noqa
                         "{0} has not been previously scanned".format(filename))
+
                 # Raise the old IOError on Python 3.2 and lower
-                elif sys.version_info[:2] <= (3, 2):
+                # elif sys.version_info[:2] <= (3, 2):
+                else:
                     raise IOError("{0} has not been previously scanned"
                                   .format(filename))
             # Exceptions are not to be raised
             return False
+
+        # We have file(s) to rescan
+        for _key in _filenames:
+            _keySplit = _key.split(",")
+            # An ending line number was not specified
+            if len(_keySplit) == 3:
+                fileName, startLine, encode = _keySplit
+
+                # Only one line needs to be rescanned
+                endLine = None
+
+            # An ending line number (or "end" string) was specified
+            else:
+                fileName, startLine, endLine, encode = _keySplit
+
+            # Trim encoding string for use,
+            # convert `endLine` to an integer under proper conditions
+            encode = re.sub(r"encode=", "", encode)
+            if (endLine is not None and endLine != "end"):
+                endLine = int(endLine)
+
+            # Now that we have the proper data, preform the rescan
+            newScan = self._scanner(fileName, int(startLine), endLine, encode)
+
+            # Update the stored scan with the new scan
+            self.__myScans[_key] = newScan
 
     # ------- Private Methods ------- #
     def _setDetails(self, filename, lineno, endline, encoding):
@@ -204,7 +232,7 @@ class LineScan(object):
                     lines = f.readlines()[_startLine:self.endline]
 
             # Break the multiple lines from the returned list.
-            # TODO Shouldn't this be indented one level?
+            # TODO: Shouldn't this line be indented one level?
             lines = "".join(lines)
 
             # Remove any trailing new lines and return the text.
