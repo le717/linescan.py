@@ -47,11 +47,10 @@ The exception was not caught with a try...except block.
     linescan.scan("fake.txt", 55)
 
     try:
-        raw_input("\nPress Enter to Exit.")
+        raw_input("\nPress Enter to close.")
     except NameError:
-        input("\nPress Enter to Exit.")
-    finally:
-        raise SystemExit(0)
+        input("\nPress Enter to close.")
+    raise SystemExit(0)
 
 if __name__ == "__main__":
     main()

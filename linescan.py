@@ -13,15 +13,15 @@
 
 import sys
 import locale
-import re
+# import re
 
 # Get open() function if this is not Python 3.0 or higher
 if sys.version_info < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
-#__all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
-#__all__ = ["linescan", "rescan", "scan"]
+# __all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
+# __all__ = ["linescan", "rescan", "scan"]
 __all__ = ["LineScan"]
 
 
@@ -44,6 +44,15 @@ class LineScan(object):
         """Clear any stored scans"""
         self.__myScans = {}
 
+    def showerrors(self, errorvalue=False):
+        """
+        Set value to raise exception upon error.
+        False (default): Do not raise exception.
+        True: Raise exception.
+        """
+        # Returned value will become the setting value.
+        self.__showErrors = self._checkBool(errorvalue)
+
     def scan(self, filename, lineno, endline=None, encoding=None):
         """
         filename (String): The desired file to scan.
@@ -58,11 +67,10 @@ class LineScan(object):
         # Store the scan details for use elsewhere
         self._setDetails(filename, lineno, endline, encoding)
 
-        ## Automatically clear the stored scans unless it is disabled
-        #if _autoClearScans:
-            #TODO: Try using just greater than instead
-            #if self.__numOfScans() >= self.__storedScans:
-                #self.clearscans()
+        # Automatically clear the stored scans unless it is disabled
+        if self.__autoClearScans:
+            if self._numOfScans() >= self.__storedScans:
+                self.clearscans()
 
         # Use the system default encoding if one is not specified.
         if encoding is None:
@@ -102,7 +110,7 @@ class LineScan(object):
         self.errorvalue = False
 
     def _numOfScans(self):
-        """Reveal the number of stored scans"""
+        """Expose the number of stored scans"""
         return len(self.__myScans)
 
     def _checkBool(self, value):
@@ -163,18 +171,6 @@ class LineScan(object):
             # Otherwise, exceptions are not to be raised.
             else:
                 return False
-
-
-#def showerrors(errorvalue=False):
-    #"""
-    #Set value to raise exception upon error.
-    #False (default): Do not raise exception.
-    #True: Raise exception.
-    #"""
-    #global showErrors
-    ## Check if parameter is True.
-    ## Returned value will be the value of `showErrors`.
-    #showErrors = _checkBool(errorvalue)
 
 
 #def debug(scannum=False, storednum=False, autoclear=True):
