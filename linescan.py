@@ -44,7 +44,7 @@ class LineScan(object):
         """Clear any stored scans"""
         self.__myScans = {}
 
-      def cleanscans(self, cleanscan):
+    def cleanscans(self, cleanscan):
         """Set value to remove new line characters from both ends of a line."""
         self.cleanscans = self.__showErrors = self._checkBool(cleanscan)
 
