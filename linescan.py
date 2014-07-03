@@ -1,14 +1,13 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-"""
-    linescan.py
-    Effortlessly read a text file using counting numbers.
+"""Effortlessly read a text file using counting numbers.
 
-    Created 2013-2014 Triangle717
-    <http://Triangle717.WordPress.com/>
+Created 2013-2014 Triangle717
+<http://Triangle717.WordPress.com/>
 
-    Licensed under The MIT License
-    <http://opensource.org/licenses/MIT/>
+Licensed under The MIT License
+<http://opensource.org/licenses/MIT/>
+
 """
 
 import sys
@@ -16,13 +15,13 @@ import locale
 # import re
 
 # Get open() function if this is not Python 3.0 or higher
-if sys.version_info < (3, 0):
+if sys.version_info[:2] < (3, 0):
     from io import open
 
 # Restrict what can be imported using `from linescan import *`
 # __all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
 # __all__ = ["linescan", "rescan", "scan"]
-__all__ = ["LineScan"]
+__all__ = ("LineScan")
 
 
 class LineScan(object):
@@ -94,7 +93,7 @@ class LineScan(object):
             return theScan
 
     def debug(self, scannum=False, storednum=False, autoclear=True):
-        """Expose available debug values"""
+        """Expose available debug values."""
         # Check if parameters are activated
         scannum = self._checkBool(scannum)
         self.__autoClearScans = self._checkBool(autoclear)
@@ -119,22 +118,22 @@ class LineScan(object):
         self.encoding = encoding
 
     def _clearDetails(self):
-        """Reset scan details"""
+        """Reset scan details."""
         self.filename = ""
         self.lineno = None
         self.endline = None
         self.encoding = None
 
     def _numOfScans(self):
-        """Expose the number of stored scans"""
+        """Expose the number of stored scans."""
         return len(self.__myScans)
 
     def _checkBool(self, value):
-        """Check if parameter `value` is True"""
+        """Check if parameter `value` is True."""
         return value is True
 
     def _createPointer(self):
-        """Construct the comma-separated pointer for the specified file"""
+        """Construct the comma-separated pointer for the specified file."""
         _filePointer = "{0},{1}".format(self.filename, self.lineno)
 
         # Append the ending line if one is specified
@@ -148,7 +147,7 @@ class LineScan(object):
         return _filePointer
 
     def _scanner(self):
-        """Perform the actual scan"""
+        """Perform the actual scan."""
         try:
             # Since line numbers start at 0, get the starting line number.
             # No need to do the same for the ending line,
@@ -189,7 +188,7 @@ class LineScan(object):
                 return False
 
 #def rescan(filename=None):
-    #"""Rescan filename to update stored scans with file changes"""
+    #"""Rescan filename to update stored scans with file changes."""
     #filenames = []
     #for pointer in _myScans.keys():
         ## A file was not specified, rescan all stored scans
@@ -209,12 +208,12 @@ class LineScan(object):
         ## Raise an exception if they are enabled
         #if showErrors:
             ## Raise FileNotFoundError exception on Python 3.3+
-            #if sys.version_info >= (3, 3):
+            #if sys.version_info[:2] >= (3, 3):
                 #raise FileNotFoundError("{0} has not been previously scanned"  # noqa
                                         #.format(filename))
 
             ## Raise the old IOError on Python 3.2 and lower
-            #elif sys.version_info <= (3, 2):
+            #elif sys.version_info[:2] <= (3, 2):
                 #raise IOError("{0} has not been previously scanned".format(
                               #filename))
 
