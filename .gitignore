@@ -5,3 +5,4 @@ Testing
 dist
 build
 MANIFEST
+examples/*.py
