@@ -93,6 +93,23 @@ class LineScan(object):
                 self.__myScans[_filePointer] = theScan
             return theScan
 
+    def debug(self, scannum=False, storednum=False, autoclear=True):
+        """Expose available debug values"""
+        # Check if parameters are activated
+        scannum = self._checkBool(scannum)
+        self.__autoClearScans = self._checkBool(autoclear)
+
+        # Check if `storednum` is an integer, signifying the
+        # number of stored scans is to be changed from the default (10)
+        if type(storednum) == int:
+            self.__storedScans = storednum
+        else:
+            self.__storedScans = 10
+
+        # The user wishes to know how many stored scans there are.
+        if scannum:
+            return self._numOfScans()
+
     # ------- Private Methods ------- #
     def _setDetails(self, filename, lineno, endline, encoding):
         """Store scan details"""
@@ -107,7 +124,6 @@ class LineScan(object):
         self.lineno = None
         self.endline = None
         self.encoding = None
-        self.errorvalue = False
 
     def _numOfScans(self):
         """Expose the number of stored scans"""
@@ -171,27 +187,6 @@ class LineScan(object):
             # Otherwise, exceptions are not to be raised.
             else:
                 return False
-
-
-#def debug(scannum=False, storednum=False, autoclear=True):
-    #"""Expose available debug values"""
-    ## Check if parameters are True, meaning they are activated
-    #scannum = _checkBool(scannum)
-    #global _autoClearScans
-    #_autoClearScans = _checkBool(autoclear)
-
-    ## Check if `storednum` is an integer, signifying the
-    ## number of stored scans is to be changed from the default (10)
-    #global _storedScans
-    #if type(storednum) == int:
-        #_storedScans = storednum
-    #else:
-        #_storedScans = 10
-
-    ## The user wishes to know how many stored scans there are.
-    #if scannum:
-        #return _numOfScans()
-
 
 #def rescan(filename=None):
     #"""Rescan filename to update stored scans with file changes"""
