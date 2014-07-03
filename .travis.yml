@@ -11,6 +11,7 @@ install:
 script:
   # Test scripts against Flake8
   - flake8 --max-complexity 10 linescan.py
+  - pep257 linescan.py
 
   # Run the examples
   #- python examples/scanning.py
