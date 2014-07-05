@@ -10,6 +10,8 @@ Licensed under The MIT License
 
 """
 
+from __future__ import unicode_literals
+
 import sys
 import locale
 import re
@@ -18,18 +20,16 @@ import re
 if sys.version_info[:2] < (3, 0):
     from io import open
 
-# Restrict what can be imported using `from linescan import *`
-__all__ = ("LineScan", "cleanscans", "clearscans",
-           "debug", "rescan", "scan", "showerrors")
+__all__ = ("LineScan")
 
 
 class LineScan(object):
 
     def __init__(self):
-
+        """Initialize private and public variables."""
         self.__myScans = {}
-        self.__showErrors = False
         self.__storedScans = 10
+        self.__showErrors = False
         self.__autoClearScans = True
 
         self.filename = ""
@@ -37,16 +37,16 @@ class LineScan(object):
         self.endline = None
         self.encoding = None
         self.errorvalue = False
-        self.cleanscans = False
+        self.stripscans = False
 
     # ------- Public Methods ------- #
     def clearscans(self):
         """Clear any stored scans."""
         self.__myScans = {}
 
-    def cleanscans(self, cleanscan):
+    def cleanscans(self, cleanscan=False):
         """Set value to remove new line characters from both ends of a line."""
-        self.cleanscans = self.__showErrors = self._checkBool(cleanscan)
+        self.stripscans = self.__showErrors = self._checkBool(cleanscan)
 
     def showerrors(self, errorvalue=False):
         """Raise exceptions upon an error occuring.
@@ -54,7 +54,6 @@ class LineScan(object):
         False (default): Do not raise exception.
         True: Raise exception.
         """
-        # Returned value will become the setting value.
         self.__showErrors = self._checkBool(errorvalue)
 
     def scan(self, filename, lineno, endline=None, encoding=None):
@@ -72,6 +71,7 @@ class LineScan(object):
         self._setDetails(filename, lineno, endline, encoding)
 
         # Automatically clear the stored scans unless it is disabled
+        # TODO: Research making this only greater than
         if self.__autoClearScans:
             if self._numOfScans() >= self.__storedScans:
                 self.clearscans()
@@ -142,7 +142,6 @@ class LineScan(object):
                 else:
                     raise IOError("{0} has not been previously scanned"
                                   .format(filename))
-            # Exceptions are not to be raised
             return False
 
         # We have file(s) to rescan
@@ -166,10 +165,12 @@ class LineScan(object):
                 endLine = int(endLine)
 
             # Now that we have the proper data, preform the rescan
-            newScan = self._scanner(fileName, int(startLine), endLine, encode)
+            self._setDetails(fileName, int(startLine), endLine, encode)
+            _newScan = self._scanner()
 
             # Update the stored scan with the new scan
-            self.__myScans[_key] = newScan
+            self.__myScans[_key] = _newScan
+            return _newScan
 
     # ------- Private Methods ------- #
     def _setDetails(self, filename, lineno, endline, encoding):
@@ -232,11 +233,10 @@ class LineScan(object):
                     lines = f.readlines()[_startLine:self.endline]
 
             # Break the multiple lines from the returned list.
-            # TODO: Shouldn't this line be indented one level?
             lines = "".join(lines)
 
             # Remove any trailing new lines and return the text.
-            if self.cleanscans:
+            if self.stripscans:
                 lines = lines.strip()
             return lines
 
