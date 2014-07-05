@@ -24,11 +24,13 @@ __all__ = ("LineScan")
 
 
 class LineScan(object):
-    """Main linescan class
+
+    """Main linescan class.
 
     Instance using linescan.LineScan()
-    Primary entry point is scan() function
+    Primary entry point is scan() function.
     """
+
     def __init__(self):
         """Initialize private and public variables."""
         self.__myScans = {}
@@ -66,7 +68,7 @@ class LineScan(object):
         return value is True
 
     def _raiseException(self, exc, generic=True):
-
+        """Handle errors per exception option"""
         # Raise an exception if they are enabled
         if self.__showErrors:
             # A "generic" exception should be raised
