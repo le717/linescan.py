@@ -24,7 +24,11 @@ __all__ = ("LineScan")
 
 
 class LineScan(object):
+    """Main linescan class
 
+    Instance using linescan.LineScan()
+    Primary entry point is scan() function
+    """
     def __init__(self):
         """Initialize private and public variables."""
         self.__myScans = {}
@@ -60,6 +64,26 @@ class LineScan(object):
     def _checkBool(self, value):
         """Used to check if various options should be enabled."""
         return value is True
+
+    def _raiseException(self, exc, generic=True):
+
+        # Raise an exception if they are enabled
+        if self.__showErrors:
+            # A "generic" exception should be raised
+            if generic:
+                raise exc
+
+            # A rescaning error should be raised instead
+            # Raise FileNotFoundError exception on Python 3.3+
+            if sys.version_info[:2] >= (3, 3):
+                raise FileNotFoundError(exc)  # noqa
+
+            # Raise the old IOError on Python 3.2 and lower
+            else:
+                raise IOError(exc)
+
+        # If exceptions have not been enabled, simply return False
+        return False
 
     def _createPointer(self):
         """Construct the comma-separated pointer for the specified file."""
@@ -107,11 +131,7 @@ class LineScan(object):
             return lines
 
         except Exception as exc:
-            # Raise an exception rather than returning False
-            # if the user enabled that option.
-            if self.__showErrors:
-                raise exc
-            return False
+            return self._raiseException(exc)
 
     # ------- Public Methods ------- #
     def clearscans(self):
@@ -205,19 +225,8 @@ class LineScan(object):
 
         # The file specified has not been scanned before
         if not _filenames:
-            # Raise an exception if they are enabled
-            if self.__showErrors:
-                # Raise FileNotFoundError exception on Python 3.3+
-                if sys.version_info[:2] >= (3, 3):
-                    raise FileNotFoundError(  # noqa
-                        "{0} has not been previously scanned".format(filename))
-
-                # Raise the old IOError on Python 3.2 and lower
-                # elif sys.version_info[:2] <= (3, 2):
-                else:
-                    raise IOError("{0} has not been previously scanned"
-                                  .format(filename))
-            return False
+            return self._raiseException("{0} has not been previously scanned."
+                                        .format(filename), False)
 
         # We have file(s) to rescan
         for _key in _filenames:
