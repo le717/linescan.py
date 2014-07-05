@@ -67,8 +67,22 @@ class LineScan(object):
         """Used to check if various options should be enabled."""
         return value is True
 
+    def _createPointer(self):
+        """Construct the comma-separated pointer for the specified file."""
+        _filePointer = "{0},{1}".format(self.filename, self.lineno)
+
+        # Append the ending line if one is specified
+        if self.endline is not None:
+            _filePointer = "{0},{1}".format(
+                _filePointer, self.endline)
+
+        # An encoding is always specified even if
+        # the user did not provide one
+        _filePointer = "{0},encode={1}".format(_filePointer, self.encoding)
+        return _filePointer
+
     def _raiseException(self, exc, generic=True):
-        """Handle errors per exception option"""
+        """Handle errors per exception option."""
         # Raise an exception if they are enabled
         if self.__showErrors:
             # A "generic" exception should be raised
@@ -86,20 +100,6 @@ class LineScan(object):
 
         # If exceptions have not been enabled, simply return False
         return False
-
-    def _createPointer(self):
-        """Construct the comma-separated pointer for the specified file."""
-        _filePointer = "{0},{1}".format(self.filename, self.lineno)
-
-        # Append the ending line if one is specified
-        if self.endline is not None:
-            _filePointer = "{0},{1}".format(
-                _filePointer, self.endline)
-
-        # An encoding is always specified even if
-        # the user did not provide one
-        _filePointer = "{0},encode={1}".format(_filePointer, self.encoding)
-        return _filePointer
 
     def _scanner(self):
         """Perform the actual scan."""
@@ -185,7 +185,6 @@ class LineScan(object):
         self._setDetails(filename, lineno, endline, encoding)
 
         # Automatically clear the stored scans unless it is disabled
-        # TODO: Research making this only greater than
         if self.__autoClearScans:
             if self._numOfScans() >= self.__storedScans:
                 self.clearscans()
