@@ -10,9 +10,10 @@ install:
   - pip install -r requirements.txt --use-mirrors
 script:
   # Test scripts against Flake8
-  - flake8 --max-complexity 10 .
+  - flake8 --max-complexity 10 linescan.py
+  - pep257 linescan.py --explain
 
   # Run the examples
-  - python examples/scanning.py
-  - python examples/stored.py
-  - python examples/exceptions.py
+  #- python examples/scanning.py
+  #- python examples/stored.py
+  #- python examples/exceptions.py

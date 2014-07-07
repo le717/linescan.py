@@ -1,233 +1,258 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-"""
-    linescan.py
-    Effortlessly read a text file using counting numbers.
+"""Effortlessly read a text file using counting numbers.
 
-    Created 2013-2014 Triangle717
-    <http://Triangle717.WordPress.com/>
+Created 2013-2014 Triangle717
+<http://Triangle717.WordPress.com/>
 
-    Licensed under The MIT License
-    <http://opensource.org/licenses/MIT/>
+Licensed under The MIT License
+<http://opensource.org/licenses/MIT/>
+
 """
+
+from __future__ import unicode_literals
 
 import sys
 import locale
 import re
 
 # Get open() function if this is not Python 3.0 or higher
-if sys.version_info < (3, 0):
+if sys.version_info[:2] < (3, 0):
     from io import open
 
-# Restrict what can be imported using `from linescan import *`
-__all__ = ["clearscans", "debug", "rescan", "scan", "showerrors"]
-
-# Store the user's scans for later retrieval
-_myScans = {}
-
-# Do not raise an exception by default
-showErrors = False
-
-# Default number of scans to store
-_storedScans = 10
-
-# Automatically clear stored scans
-_autoClearScans = True
+__all__ = ("LineScan")
 
 
-def _numOfScans():
-    """Reveal the number of stored scans"""
-    return len(_myScans)
+class LineScan(object):
 
+    """Main linescan class.
 
-def _checkBool(value):
-    """Check if parameter `value` is True"""
-    return value is True
-
-
-def clearscans():
-    """Clear any stored scans"""
-    global _myScans
-    _myScans = {}
-
-
-def showerrors(errorvalue=False):
+    Instance using linescan.LineScan()
+    Primary entry point is scan() function.
     """
-    Set value to raise exception upon error.
-    False (default): Do not raise exception.
-    True: Raise exception.
-    """
-    global showErrors
-    # Check if parameter is True.
-    # Returned value will be the value of `showErrors`.
-    showErrors = _checkBool(errorvalue)
 
+    def __init__(self):
+        """Initialize private and public variables."""
+        self.__myScans = {}
+        self.__storedScans = 10
+        self.__showErrors = False
+        self.__autoClearScans = True
+        self.__stripscans = False
 
-def debug(scannum=False, storednum=False, autoclear=True):
-    """Expose available debug values"""
-    # Check if parameters are True, meaning they are activated
-    scannum = _checkBool(scannum)
-    global _autoClearScans
-    _autoClearScans = _checkBool(autoclear)
+        self.filename = ""
+        self.lineno = None
+        self.endline = None
+        self.encoding = None
 
-    # Check if `storednum` is an integer, signifying the
-    # number of stored scans is to be changed from the default (10)
-    global _storedScans
-    if type(storednum) == int:
-        _storedScans = storednum
-    else:
-        _storedScans = 10
+    # ------- Private Methods ------- #
+    def _setDetails(self, filename, lineno, endline, encoding):
+        """Store scan details."""
+        self.filename = filename
+        self.lineno = lineno
+        self.endline = endline
+        self.encoding = encoding
 
-    # The user wishes to know how many stored scans there are.
-    if scannum:
-        return _numOfScans()
+    def _clearDetails(self):
+        """Reset scan details."""
+        self.filename = ""
+        self.lineno = None
+        self.endline = None
+        self.encoding = None
 
+    def _numOfScans(self):
+        """Expose the number of stored scans."""
+        return len(self.__myScans)
 
-def rescan(filename=None):
-    """Rescan filename to update stored scans with file changes"""
-    filenames = []
-    for pointer in _myScans.keys():
-        # A file was not specified, rescan all stored scans
-        if filename is None:
-            filenames = list(_myScans.keys())
-            break
+    def _checkBool(self, value):
+        """Used to check if various options should be enabled."""
+        return value is True
 
-        # A file was specified and the pointer has been already be stored
-        else:
-            if filename in pointer:
-                filenames = [pointer]
-                break
+    def _createPointer(self):
+        """Construct the comma-separated pointer for the specified file."""
+        _filePointer = "{0},{1}".format(self.filename, self.lineno)
 
-    # The file specified has not been scanned before
-    if not filenames:
+        # Append the ending line if one is specified
+        if self.endline is not None:
+            _filePointer = "{0},{1}".format(
+                _filePointer, self.endline)
 
+        # An encoding is always specified even if
+        # the user did not provide one
+        _filePointer = "{0},encode={1}".format(_filePointer, self.encoding)
+        return _filePointer
+
+    def _raiseException(self, exc, generic=True):
+        """Handle errors per exception option."""
         # Raise an exception if they are enabled
-        if showErrors:
+        if self.__showErrors:
+            # A "generic" exception should be raised
+            if generic:
+                raise exc
+
+            # A rescaning error should be raised instead
             # Raise FileNotFoundError exception on Python 3.3+
-            if sys.version_info >= (3, 3):
-                raise FileNotFoundError("{0} has not been previously scanned"  # noqa
-                                        .format(filename))
+            if sys.version_info[:2] >= (3, 3):
+                raise FileNotFoundError(exc)  # noqa
 
             # Raise the old IOError on Python 3.2 and lower
-            elif sys.version_info <= (3, 2):
-                raise IOError("{0} has not been previously scanned".format(
-                              filename))
-
-        # Exceptions are not to be raised
-        else:
-            return False
-
-    # We have file(s) to rescan
-    for key in filenames:
-        # An ending line number was not specified
-        if len(key.split(",")) == 3:
-            fileName, startLine, encode = key.split(",")
-
-            # Only one line needs to be rescanned
-            endLine = None
-
-        # An ending line number (or "end" string) was specified
-        else:
-            fileName, startLine, endLine, encode = key.split(",")
-
-        # Trim encoding string for use,
-        # convert `endLine` to an integer under proper conditions
-        encode = re.sub(r"encode=", "", encode)
-        if (endLine is not None and endLine != "end"):
-            endLine = int(endLine)
-
-        # Now that we have the proper data, preform the rescan
-        newScan = _scanner(fileName, int(startLine), endLine, encode)
-
-        # Update the stored scan with the new scan
-        _myScans[key] = newScan
-
-
-def _createPointer(filename, encoding, lineno, endline=None):
-    """Construct the comma-separated pointer for the specified file"""
-    filePointer = "{0},{1}".format(filename, lineno)
-
-    # Append the ending line if one is specified
-    if endline is not None:
-        filePointer = "{0},{1}".format(filePointer, endline)
-
-    # An encoding is always specified even if the user did not provide one
-    filePointer = "{0},encode={1}".format(filePointer, encoding)
-    return filePointer
-
-
-def _scanner(fileName, startLine, endLine, encode):
-    """Perform the actual scan"""
-    try:
-        # Since line numbers start at 0,
-        # get the starting line number.
-        startLine -= 1
-
-        # Open the file for scanning using specified encoding
-        with open(fileName, "rt", encoding=encode) as f:
-
-            # The user wants to scan only one line.
-            if endLine is None:
-                lines = f.readlines()[startLine]
-
-            # The user wants to scan until the end of the file.
-            elif endLine == "end":
-                lines = f.readlines()[startLine:]
-
-            # The user wants to scan multiple specified lines.
             else:
-                lines = f.readlines()[startLine:endLine]
+                raise IOError(exc)
 
-        # Break the multiple lines from the returned list.
-        lines = "".join(lines)
+        # If exceptions have not been enabled, simply return False
+        return False
 
-        # Remove any trailing new lines and return the text.
-        lines = lines.strip()
-        return lines
+    def _scanner(self):
+        """Perform the actual scan."""
+        try:
+            # Since line numbers start at 0, get the starting line number.
+            # No need to do the same for the ending line,
+            # as it is not modified
+            _startLine = self.lineno - 1
 
-    except Exception as exc:
-        # Raise an exception rather than returning False
-        # if the user enabled that option.
-        if showErrors:
-            raise exc
+            # Open the file for scanning using specified encoding
+            with open(self.filename, "rt", encoding=self.encoding) as f:
 
-        # Otherwise, exceptions are not to be raised.
+                # The user wants to scan only one line.
+                if self.endline is None:
+                    lines = f.readlines()[_startLine]
+
+                # The user wants to scan until the end of the file.
+                elif self.endline == "end":
+                    lines = f.readlines()[_startLine:]
+
+                # The user wants to scan multiple specified lines.
+                else:
+                    lines = f.readlines()[_startLine:self.endline]
+
+            # Break the multiple lines from the returned list.
+            lines = "".join(lines)
+
+            # Remove any trailing new lines and return the text.
+            if self.__stripscans:
+                lines = lines.strip()
+            return lines
+
+        except Exception as exc:
+            return self._raiseException(exc)
+
+    # ------- Public Methods ------- #
+    def clearscans(self):
+        """Clear any stored scans."""
+        self.__myScans = {}
+        self._clearDetails()
+
+    def cleanscans(self, cleanscan=False):
+        """Set value to remove new line characters from both ends of a line."""
+        self.__stripscans = self.__showErrors = self._checkBool(cleanscan)
+
+    def showerrors(self, errorvalue=False):
+        """Raise exceptions upon an error occuring.
+
+        False (default): Do not raise exception.
+        True: Raise exception.
+        """
+        self.__showErrors = self._checkBool(errorvalue)
+
+    def debug(self, scannum=False, storednum=False, autoclear=True):
+        """Expose available debug values."""
+        # Check if parameters are activated
+        scannum = self._checkBool(scannum)
+        self.__autoClearScans = self._checkBool(autoclear)
+
+        # Check if `storednum` is an integer, signifying the
+        # number of stored scans is to be changed from the default (10)
+        if type(storednum) == int:
+            self.__storedScans = storednum
         else:
-            return False
+            self.__storedScans = 10
 
+        # The user wishes to know how many stored scans there are.
+        if scannum:
+            return self._numOfScans()
 
-def scan(filename, lineno, endline=None, encoding=None):
-    """
-    filename (String): The desired file to scan.
-    lineno (Integer): The line you wish to scan.
-    endline (Optional, Integer, String): The last line to want to scan.
-    Specify when scanning multiple lines. Specifying 'end' will scan
-    the file from lineno to the end of the file.
-    encoding (Optional, String): Specify a file encoding to use.
-    Defaults to default system encoding.
-    """
-    # Automatically clear the stored scans unless it is disabled
-    if _autoClearScans:
-        if _numOfScans() >= _storedScans:
-            clearscans()
+    def scan(self, filename, lineno, endline=None, encoding=None):
+        """Scan both single and multiple lines with option of custom encoding.
 
-    # Use the system default encoding if one is not specified.
-    if encoding is None:
-        encoding = locale.getpreferredencoding(False)
+        filename (String): The desired file to scan.
+        lineno (Integer): The line you wish to scan.
+        endline (Optional, Integer, String): The last line to want to scan.
+        Specify when scanning multiple lines. Specifying 'end' will scan
+        the file from lineno to the end of the file.
+        encoding (Optional, String): Specify a file encoding to use.
+        Defaults to default system encoding.
+        """
+        # Store the scan details for use elsewhere
+        self._setDetails(filename, lineno, endline, encoding)
 
-    # Create a file pointer
-    filePointer = _createPointer(filename, encoding, lineno, endline)
+        # Automatically clear the stored scans unless it is disabled
+        if self.__autoClearScans:
+            if self._numOfScans() >= self.__storedScans:
+                self.clearscans()
 
-    # If the pointer has been used already, return the stored value
-    if filePointer in _myScans:
-        return _myScans[filePointer]
+        # Use the system default encoding if one is not specified.
+        if encoding is None:
+            encoding = locale.getpreferredencoding(False)
 
-    # The pointer could not be found, proceed to scan the file
-    else:
-        # Perform the actual scan
-        theScan = _scanner(filename, lineno, endline, encoding)
+        # Create a file pointer
+        _filePointer = self._createPointer()
 
-        # Store the scan only if it is valid.
-        if theScan:
-            _myScans[filePointer] = theScan
-        return theScan
+        # If the pointer has been used already, return the stored value
+        if _filePointer in self.__myScans:
+            return self.__myScans[_filePointer]
+
+        # The pointer could not be found, proceed to scan the file
+        else:
+            # Perform the actual scan
+            theScan = self._scanner()
+
+            # Store the scan only if it is valid.
+            if theScan:
+                self.__myScans[_filePointer] = theScan
+            return theScan
+
+    def rescan(self, filename=None):
+        """Rescan filename to update stored scans with file changes."""
+        _filenames = []
+        for pointer in self.__myScans.keys():
+            # A file was not specified, rescan all stored scans
+            if filename is None:
+                _filenames = list(self.__myScans.keys())
+                break
+            # A file was specified and the pointer has been already be stored
+            else:
+                if filename in pointer:
+                    _filenames = [pointer]
+                    break
+
+        # The file specified has not been scanned before
+        if not _filenames:
+            return self._raiseException("{0} has not been previously scanned."
+                                        .format(filename), False)
+
+        # We have file(s) to rescan
+        for _key in _filenames:
+            _keySplit = _key.split(",")
+            # An ending line number was not specified
+            if len(_keySplit) == 3:
+                fileName, startLine, encode = _keySplit
+
+                # Only one line needs to be rescanned
+                endLine = None
+
+            # An ending line number (or "end" string) was specified
+            else:
+                fileName, startLine, endLine, encode = _keySplit
+
+            # Trim encoding string for use,
+            # convert `endLine` to an integer under proper conditions
+            encode = re.sub(r"encode=", "", encode)
+            if (endLine is not None and endLine != "end"):
+                endLine = int(endLine)
+
+            # Now that we have the proper data, preform the rescan
+            self._setDetails(fileName, int(startLine), endLine, encode)
+            _newScan = self._scanner()
+
+            # Update the stored scan with the new scan
+            self.__myScans[_key] = _newScan
+            return _newScan
