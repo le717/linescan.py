@@ -5,15 +5,12 @@ python:
   - "3.4"
   - "pypy"
 
-# Install Flake8
 install:
-  - pip install -r requirements.txt --use-mirrors
+  - pip install -r requirements.txt
 script:
-  # Test scripts against Flake8
   - flake8 --max-complexity 10 linescan.py
   - pep257 linescan.py --explain
 
-  # Run the examples
   #- python examples/scanning.py
   #- python examples/stored.py
   #- python examples/exceptions.py
