@@ -30,5 +30,5 @@ exclusively for external text files, linescan.py is a no-fail module designed
 to aid beginner programmers who need to read data from text files but have
 trouble setting up `open()` or translating real numbers to counting numbers.
 
-linescan.py upports Python 2.7 and Python 3.3+.""",
+linescan.py supports Python 2.7, Python 3.3+, and PyPy.""",
 )

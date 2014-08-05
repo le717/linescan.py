@@ -11,7 +11,7 @@ Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache
 * Uses counting numbers to denote line numbers, removing the need to start counting from zero
 * Supports scanning of partial and entire files
 * Stores up to ten previous scans for later retrieval, although the number of stored scans can be change
-* Supports Python 2.7 and 3.3+
+* Supports Python 2.7, Python 3.3+, and PyPy
 
 ## Basic Usage ##
 
