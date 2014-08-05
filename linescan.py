@@ -37,7 +37,6 @@ class LineScan(object):
         self.__storedScans = 10
         self.__showErrors = False
         self.__autoClearScans = True
-        self.__stripscans = False
 
         self.filename = ""
         self.lineno = None
@@ -127,9 +126,6 @@ class LineScan(object):
             # Break the multiple lines from the returned list.
             lines = "".join(lines)
 
-            # Remove any trailing new lines and return the text.
-            if self.__stripscans:
-                lines = lines.strip()
             return lines
 
         except Exception as exc:
@@ -140,10 +136,6 @@ class LineScan(object):
         """Clear any stored scans."""
         self.__myScans = {}
         self._clearDetails()
-
-    def cleanscans(self, cleanscan=False):
-        """Set value to remove new line characters from both ends of a line."""
-        self.__stripscans = self.__showErrors = self._checkBool(cleanscan)
 
     def showerrors(self, errorvalue=False):
         """Raise exceptions upon an error occuring.
