@@ -17,12 +17,13 @@ Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache
 
 ```python
 import linescan
+LineScan = linescan.LineScan()
 
 # Scan a single line using UTF-8 encoding
-linescan.scan("MyFile.txt", 12, encoding="UTF-8")
+LineScan.scan("MyFile.txt", 12, encoding="UTF-8")
 
 # Scan multiple lines using default encoding
-linescan.scan("MyFile.txt", 1, 12)
+LineScan.scan("MyFile.txt", 1, 12)
 ```
 
 More example usage can be found in the [`examples`](/examples) directory.

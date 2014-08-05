@@ -17,22 +17,22 @@ from __init__ import linescan
 
 def main():
 
-    lineScan = linescan.LineScan()
+    LineScan = linescan.LineScan()
     # Attempt to read a nonexistent file,
     # retaining the default error setting.
-    if not lineScan.scan("fake.txt", 55):
+    if not LineScan.scan("fake.txt", 55):
         print("""Example #1: Error reading fake.txt
 Returned error value is `False`.
 """)
 
     # Enable option to raise an exception upon any error.
-    lineScan.showerrors(True)
+    LineScan.showerrors(True)
 
     # Attempt to read the nonexistent file again,
     # but this time catch the Exception
     # using an try...except block.
     try:
-        lineScan.scan("fake.txt", 55)
+        LineScan.scan("fake.txt", 55)
     except (OSError, FileNotFoundError):  # noqa
         print("""Example #2: Error reading fake.txt
 Returned error value is as an `OSError` or `FileNotFoundError`.
@@ -45,7 +45,7 @@ The exception was caught with a try...except block.
 Returned error value is as an `OSError or FileNotFoundError`.
 The exception was not caught with a try...except block.
 """)
-    lineScan.scan("fake.txt", 55)
+    LineScan.scan("fake.txt", 55)
 
     try:
         raw_input("\nPress Enter to close.")
