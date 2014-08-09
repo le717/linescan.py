@@ -1,8 +1,7 @@
 __pycache__
 *.py[co]
-#*.txt
+*.txt
 Testing
 dist
 build
 MANIFEST
-examples/*.py

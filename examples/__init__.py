@@ -9,3 +9,4 @@ import linescan
 
 __all__ = ["linescan", "testFile"]
 testFile = "testfile.txt"
+rescanFile = "rescan.txt"

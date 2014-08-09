@@ -12,11 +12,11 @@ Licensed under The MIT License
 
 from __future__ import unicode_literals
 
+import re
 import sys
 import locale
-import re
 
-# Get open() function if this is not Python 3.0 or higher
+# Grab Python 3.0+ open() function
 if sys.version_info[:2] < (3, 0):
     from io import open
 
@@ -38,25 +38,25 @@ class LineScan(object):
         self.__showErrors = False
         self.__autoClearScans = True
 
-        self.filename = ""
         self.lineno = None
         self.endline = None
         self.encoding = None
+        self.filename = ""
 
     # ------- Private Methods ------- #
     def _setDetails(self, filename, lineno, endline, encoding):
         """Store scan details."""
-        self.filename = filename
         self.lineno = lineno
         self.endline = endline
         self.encoding = encoding
+        self.filename = filename
 
     def _clearDetails(self):
         """Reset scan details."""
-        self.filename = ""
         self.lineno = None
         self.endline = None
         self.encoding = None
+        self.filename = ""
 
     def _numOfScans(self):
         """Expose the number of stored scans."""

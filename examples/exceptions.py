@@ -20,7 +20,7 @@ def main():
     LineScan = linescan.LineScan()
     # Attempt to read a nonexistent file,
     # retaining the default error setting.
-    if not LineScan.scan("fake.txt", 55):
+    if not LineScan.scan("fake.txt", 55, encoding="utf_8"):
         print("""Example #1: Error reading fake.txt
 Returned error value is `False`.
 """)
@@ -32,7 +32,7 @@ Returned error value is `False`.
     # but this time catch the Exception
     # using an try...except block.
     try:
-        LineScan.scan("fake.txt", 55)
+        LineScan.scan("fake.txt", 55, encoding="utf_8")
     except (OSError, FileNotFoundError):  # noqa
         print("""Example #2: Error reading fake.txt
 Returned error value is as an `OSError` or `FileNotFoundError`.
@@ -45,7 +45,7 @@ The exception was caught with a try...except block.
 Returned error value is as an `OSError or FileNotFoundError`.
 The exception was not caught with a try...except block.
 """)
-    LineScan.scan("fake.txt", 55)
+    LineScan.scan("fake.txt", 55, encoding="utf_8")
 
     try:
         raw_input("\nPress Enter to close.")
