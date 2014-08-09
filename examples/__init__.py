@@ -7,6 +7,6 @@ parentdir = ".."
 sys.path.insert(0, parentdir)
 import linescan
 
-__all__ = ["linescan", "testFile"]
+__all__ = ("linescan", "testFile", "rescanFile")
 testFile = "testfile.txt"
 rescanFile = "rescan.txt"
