@@ -20,7 +20,7 @@ import linescan
 LineScan = linescan.LineScan()
 
 # Scan a single line using UTF-8 encoding
-LineScan.scan("MyFile.txt", 12, encoding="UTF-8")
+LineScan.scan("MyFile.txt", 12, encoding="utf_8")
 
 # Scan multiple lines using default encoding
 LineScan.scan("MyFile.txt", 1, 12)
