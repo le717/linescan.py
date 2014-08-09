@@ -12,7 +12,10 @@
 """
 
 from __future__ import print_function
-from __init__ import (linescan, rescanFile)
+from __init__ import (linescan,
+                      autoRun,
+                      rescanFile
+                     )
 
 
 def main():
@@ -35,11 +38,12 @@ def main():
     with open(rescanFile, "wt") as f:
         f.write("Hello, World!\n")
 
-    try:
-        raw_input("\nPress Enter to close.")
-    except NameError:
-        input("\nPress Enter to close.")
-    raise SystemExit(0)
+    if not autoRun:
+        try:
+            raw_input("\nPress Enter to close.")
+        except NameError:
+            input("\nPress Enter to close.")
+        raise SystemExit(0)
 
 if __name__ == "__main__":
     main()

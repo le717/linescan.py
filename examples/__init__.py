@@ -7,6 +7,11 @@ parentdir = ".."
 sys.path.insert(0, parentdir)
 import linescan
 
-__all__ = ("linescan", "testFile", "rescanFile")
+__all__ = ("linescan", "autoRun", "rescanFile", "testFile")
+try:
+    if sys.argv[1] == "travis":
+        autoRun = True
+except IndexError:
+    autoRun = False
 testFile = "testfile.txt"
 rescanFile = "rescan.txt"

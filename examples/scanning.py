@@ -12,7 +12,10 @@
 """
 
 from __future__ import print_function
-from __init__ import (linescan, testFile)
+from __init__ import (linescan,
+                      autoRun,
+                      testFile
+                    )
 
 
 def main():
@@ -26,11 +29,11 @@ def main():
     lines = LineScan.scan(testFile, 8, 12, encoding="cp1252")
     print("\nExample #2:\n{0}".format(lines))
 
-    try:
-        raw_input("\nPress Enter to close.")
-    except NameError:
-        input("\nPress Enter to close.")
-    raise SystemExit(0)
-
+    if not autoRun:
+        try:
+            raw_input("\nPress Enter to close.")
+        except NameError:
+            input("\nPress Enter to close.")
+        raise SystemExit(0)
 if __name__ == "__main__":
     main()

@@ -12,7 +12,10 @@
 """
 
 from __future__ import print_function
-from __init__ import (linescan, testFile)
+from __init__ import (linescan,
+                      autoRun,
+                      testFile
+                     )
 
 
 def main():
@@ -71,11 +74,12 @@ def main():
     # Rather, the previous scan was retrieved. This helps increase speed by
     # not requiring the file to be re-scanned for the exact same information!
 
-    try:
-        raw_input("\nPress Enter to close.")
-    except NameError:
-        input("\nPress Enter to close.")
-    raise SystemExit(0)
+    if not autoRun:
+        try:
+            raw_input("\nPress Enter to close.")
+        except NameError:
+            input("\nPress Enter to close.")
+        raise SystemExit(0)
 
 if __name__ == "__main__":
     main()

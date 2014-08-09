@@ -12,7 +12,7 @@
 """
 
 from __future__ import print_function
-from __init__ import linescan
+from __init__ import linescan, autoRun
 
 
 def main():
@@ -47,11 +47,12 @@ The exception was not caught with a try...except block.
 """)
     LineScan.scan("fake.txt", 55, encoding="utf_8")
 
-    try:
-        raw_input("\nPress Enter to close.")
-    except NameError:
-        input("\nPress Enter to close.")
-    raise SystemExit(0)
+    if not autoRun:
+        try:
+            raw_input("\nPress Enter to close.")
+        except NameError:
+            input("\nPress Enter to close.")
+        raise SystemExit(0)
 
 if __name__ == "__main__":
     main()
