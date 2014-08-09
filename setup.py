@@ -2,11 +2,11 @@ from distutils.core import setup
 
 setup(
     name="linescan.py",
-    version="1.1.0",
+    version="1.2.0",
     author="Triangle717",
     author_email="le717.code@yahoo.com",
     url="https://github.com/le717/linescan.py",
-    download_url="https://github.com/le717/linescan.py/archive/v1.1.0.tar.gz",
+    download_url="https://github.com/le717/linescan.py/archive/v1.2.0.tar.gz",
 
     description="Effortlessly read a text file using counting numbers.",
     license="MIT License",

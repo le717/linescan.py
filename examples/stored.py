@@ -17,7 +17,7 @@ from __init__ import (linescan, testFile)
 
 def main():
 
-    LineScan = linescan.LineScan(
+    LineScan = linescan.LineScan()
     # Scan the first nine lines of the file individually.
     print("\n------- Scanning lines 1-11 of testfile.txt ------- \n")
     for i in range(1, 11):
