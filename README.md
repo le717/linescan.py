@@ -10,7 +10,7 @@ Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache
 
 * Uses counting numbers to denote line numbers, removing the need to start counting from zero
 * Supports scanning of partial and entire files
-* Stores up to ten previous scans for later retrieval, although the number of stored scans can be change
+* Stores up to ten previous scans for later retrieval, number of stored scans can be changed
 * Supports Python 2.7, Python 3.3+, and PyPy
 
 ## Basic Usage ##
@@ -26,7 +26,7 @@ LineScan.scan("MyFile.txt", 12, encoding="UTF-8")
 LineScan.scan("MyFile.txt", 1, 12)
 ```
 
-More example usage can be found in the [`examples`](/examples) directory.
+More usage can be found in the [`examples`](/examples) directory.
 
 ## API Documentation ##
 
