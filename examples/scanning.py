@@ -34,6 +34,6 @@ def main():
             raw_input("\nPress Enter to close.")
         except NameError:
             input("\nPress Enter to close.")
-        raise SystemExit(0)
+    raise SystemExit(0)
 if __name__ == "__main__":
     main()
