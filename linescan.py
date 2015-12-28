@@ -24,7 +24,6 @@ __all__ = ("LineScan")
 
 
 class LineScan(object):
-
     """Main linescan class.
 
     Instance using linescan.LineScan()
