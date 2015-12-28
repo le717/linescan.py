@@ -13,5 +13,7 @@ try:
         autoRun = True
 except IndexError:
     autoRun = False
+
+# Define files to use for examples
 testFile = "testfile.txt"
 rescanFile = "rescan.txt"
