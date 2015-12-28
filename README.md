@@ -32,5 +32,5 @@ Complete API documentation is available on the [Wiki](https://github.com/le717/l
 
 ## License ##
 
-**linescan.py**, created 2013-2014 [Triangle717](http://Triangle717.WordPress.com)
+**linescan.py**, created 2013-2015 [Caleb Ely](http://CodeTriangle.me)
 and released under the [The MIT License](http://opensource.org/licenses/MIT).

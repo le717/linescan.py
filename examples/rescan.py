@@ -4,8 +4,8 @@
     linescan.py
     Effortlessly read a text file using counting numbers.
 
-    Created 2013-2014 Triangle717
-    <http://Triangle717.WordPress.com/>
+    Created 2013-2015 Caleb Ely
+    <http://CodeTriangle.me/>
 
     Licensed under The MIT License
     <http://opensource.org/licenses/MIT/>
