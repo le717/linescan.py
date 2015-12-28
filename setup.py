@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name="linescan.py",
     version="1.2.0",
-    author="Triangle717",
+    author="Caleb Ely",
     author_email="le717.code@yahoo.com",
     url="https://github.com/le717/linescan.py",
     download_url="https://github.com/le717/linescan.py/archive/v1.2.0.tar.gz",
