@@ -24,7 +24,6 @@ __all__ = ("LineScan")
 
 
 class LineScan(object):
-
     """Main linescan class.
 
     Instance using linescan.LineScan()
@@ -173,6 +172,10 @@ class LineScan(object):
         encoding (Optional, String): Specify a file encoding to use.
         Defaults to default system encoding.
         """
+        # Use the system default encoding if one is not specified.
+        if encoding is None:
+            encoding = locale.getpreferredencoding(False)
+
         # Store the scan details for use elsewhere
         self._setDetails(filename, lineno, endline, encoding)
 
@@ -180,10 +183,6 @@ class LineScan(object):
         if self.__autoClearScans:
             if self._numOfScans() >= self.__storedScans:
                 self.clearscans()
-
-        # Use the system default encoding if one is not specified.
-        if encoding is None:
-            encoding = locale.getpreferredencoding(False)
 
         # Create a file pointer
         _filePointer = self._createPointer()
