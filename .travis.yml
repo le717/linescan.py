@@ -5,13 +5,10 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+  - "3.6"
   - "pypy"
 install:
   - pip install -r requirements.txt
 script:
   - flake8 --max-complexity 10 *.py
   - pep257 linescan.py --explain
-
-  #- python examples/scanning.py
-  #- python examples/stored.py
-  #- python examples/exceptions.py
