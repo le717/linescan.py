@@ -42,6 +42,13 @@ class LineScan(object):
         self.filename = ""
 
     # ------- Private Methods ------- #
+    def __len__(self):
+        """Expose the total number of files scanned.
+
+        @returns {Integer}
+        """
+        return len(self.__scans)
+
     def __setDetails(self, filename, lineno, endline, encoding):
         """Store scan details."""
         self.lineno = lineno
