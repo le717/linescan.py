@@ -100,29 +100,22 @@ class LineScan(object):
         """Perform the actual scan."""
         try:
             # Since line numbers start at 0, get the starting line number.
-            # No need to do the same for the ending line,
-            # as it is not modified
-            startLine = self.__start_line - 1
+            # No need to do the same for the ending line, as it is inclusive.
+            start_line = self.__start_line - 1
 
-            # Open the file for scanning using specified encoding
             with open(self.__file_name, "rt", encoding=self.__encoding) as f:
-
                 # The user wants to scan only one line.
-                if self.__end_line is None:
-                    lines = f.readlines()[startLine]
+                if self.__end_line == "single":
+                    lines = f.readlines()[start_line]
 
                 # The user wants to scan until the end of the file.
                 elif self.__end_line == "end":
-                    lines = f.readlines()[startLine:]
+                    lines = f.readlines()[start_line:]
 
                 # The user wants to scan multiple specified lines.
                 else:
-                    lines = f.readlines()[startLine:self.__end_line]
-
-            # Break the multiple lines from the returned list.
-            lines = "".join(lines)
-
-            return lines
+                    lines = f.readlines()[start_line:self.__end_line]
+            return "".join(lines)
 
         except Exception as exc:
             return self.__raise_exception(exc)
@@ -140,7 +133,7 @@ class LineScan(object):
         """
         self.__enable_exceptions = self.__check_bool(error)
 
-    def scan(self, file_name, start_line, end_line=None, encoding=None):
+    def scan(self, file_name, start_line, end_line="single", encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
 
         filename (String): The desired file to scan.
