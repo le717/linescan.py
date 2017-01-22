@@ -41,6 +41,13 @@ class LineScan(object):
         self.__encoding = None
 
     # ------- Private Methods ------- #
+    def __str__(self):
+        """Get information about currently scanned files.
+
+        @returns {String}
+        """
+        return "TODO Write me!"
+
     def __len__(self):
         """Expose the total number of files scanned.
 
