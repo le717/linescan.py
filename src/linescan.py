@@ -173,22 +173,18 @@ class LineScan(object):
         if encoding is None:
             encoding = locale.getpreferredencoding(False)
 
-        # Store the scan details for use in other methods
+        # Set the scan details for use in other methods.
         self.__set_details(file_name, start_line, end_line, encoding)
 
-        # Create a unique pointer for this scan
+        # If our pointer has been used already, return the cached scan.
         pointer = self.__create_pointer()
-
-        # If the pointer has been used already, return the cached scan
         if pointer in self.__scans:
             return self.__scans[pointer]
 
-        # The pointer could not be found, proceed to scan the file
+        # The pointer could not be found, proceed to scan the file.
         else:
-            # Perform the actual scan
+            # Perform the scan and store it only if it is valid.
             the_scan = self.__scanner()
-
-            # Store the scan only if it is valid.
             if the_scan:
                 self.__scans[pointer] = the_scan
             return the_scan
@@ -197,24 +193,24 @@ class LineScan(object):
         """Rescan filename to update stored scans with file changes."""
         _filenames = []
         for pointer in self.__scans.keys():
-            # A file was not specified, rescan all stored scans
+            # A file was not specified, rescan all stored scans.
             if file_name is None:
                 _filenames = list(self.__scans.keys())
                 break
-            # A file was specified and the pointer has been already be stored
+            # A file was specified and the pointer has been already be stored.
             else:
                 if file_name in pointer:
                     _filenames = [pointer]
                     break
 
-        # The file specified has not been scanned before
+        # The file specified has not been scanned before.
         if not _filenames:
             return self.__raise_exception(
                 "{0} has not been previously scanned.".format(file_name),
                 False
             )
 
-        # We have file(s) to rescan
+        # We have file(s) to rescan.
         for _key in _filenames:
             _key_split = _key.split(",")
             file_name, start_line, end_line, encode = _key_split
@@ -223,10 +219,10 @@ class LineScan(object):
             if isinstance(str, end_line):
                 end_line = int(end_line)
 
-            # Now that we have the proper data, preform the rescan
+            # Now that we have the proper data, preform the rescan.
             self.__set_details(file_name, int(start_line), end_line, encode)
             new_scan = self.__scanner()
 
-            # Update the stored scan with the new scan
+            # Update the stored scan with the new scan.
             self.__scans[_key] = new_scan
             return new_scan
