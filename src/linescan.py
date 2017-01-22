@@ -121,10 +121,20 @@ class LineScan(object):
             return self.__raise_exception(exc)
 
     # ------- Public Methods ------- #
-    def clearscans(self):
+    def clear(self, file_name=None):
         """Clear any stored scans."""
-        self.__scans = {}
-        self.__clear_details()
+        # We want to clear the whole cache.
+        if file_name is None:
+            self.__scans = {}
+            return True
+
+        # We only want to clear one file.
+        for k in self.__scans:
+            if file_name in k:
+                # We found the file, delete it.
+                del self.__scans[k]
+                self.__clear_details()
+        return True
 
     def show_errors(self, error=False):
         """Enable exception raising instead of returning False on error.
