@@ -5,3 +5,5 @@ Testing
 dist
 build
 MANIFEST
+
+.vscode/

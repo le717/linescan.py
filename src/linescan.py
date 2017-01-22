@@ -34,7 +34,7 @@ class LineScan(object):
     def __init__(self):
         """Initialize private and public variables."""
         self.__scans = {}
-        self.__showErrors = False
+        self.__enable_exceptions = False
 
         self.lineno = None
         self.endline = None
@@ -84,7 +84,7 @@ class LineScan(object):
     def __raiseException(self, exc, generic=True):
         """Handle errors per exception option."""
         # Raise an exception if they are enabled
-        if self.__showErrors:
+        if self.__enable_exceptions:
             # A "generic" exception should be raised
             if generic:
                 raise exc
@@ -138,13 +138,12 @@ class LineScan(object):
         self.__scans = {}
         self.__clearDetails()
 
-    def showerrors(self, errorvalue=False):
-        """Raise exceptions upon an error occuring.
+    def show_errors(self, error=False):
+        """Enable exception raising instead of returning False on error.
 
-        False (default): Do not raise exception.
-        True: Raise exception.
+        @param [error=False] Passing a value of True enables exception raising.
         """
-        self.__showErrors = self.__checkBool(errorvalue)
+        self.__enable_exceptions = self.__checkBool(error)
 
     def scan(self, filename, lineno, endline=None, encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
