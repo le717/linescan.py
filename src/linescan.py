@@ -143,13 +143,13 @@ class LineScan(object):
                 self.__clear_details()
         return True
 
-    def show_errors(self, error=False):
+    def show_errors(self, enable=False):
         """Enable exception raising instead of returning False on error.
 
-        @param [error=False] file_name - Passing a value of True
-                                         enables exception raising.
+        @param [enable=False] - Passing a value of True
+                                enables exception raising.
         """
-        self.__enable_exceptions = self.__check_bool(error)
+        self.__enable_exceptions = self.__check_bool(enable)
 
     def scan(self, file_name, start_line, end_line="single", encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
