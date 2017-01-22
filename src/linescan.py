@@ -191,26 +191,15 @@ class LineScan(object):
 
         # We have file(s) to rescan
         for _key in _filenames:
-            _keySplit = _key.split(",")
-            # An ending line number was not specified
-            if len(_keySplit) == 3:
-                fileName, startLine, encode = _keySplit
+            _key_split = _key.split(",")
+            file_name, start_line, end_line, encode = _key_split
 
-                # Only one line needs to be rescanned
-                endLine = None
-
-            # An ending line number (or "end" string) was specified
-            else:
-                fileName, startLine, endLine, encode = _keySplit
-
-            # Trim encoding string for use,
-            # convert `endLine` to an integer under proper conditions
-            encode = re.sub(r"encode=", "", encode)
-            if endLine is not None and endLine != "end":
-                endLine = int(endLine)
+            # Convert the ending line to an integer if needed.
+            if isinstance(str, end_line):
+                end_line = int(end_line)
 
             # Now that we have the proper data, preform the rescan
-            self.__set_details(fileName, int(startLine), endLine, encode)
+            self.__set_details(file_name, int(start_line), end_line, encode)
             _newScan = self.__scanner()
 
             # Update the stored scan with the new scan
