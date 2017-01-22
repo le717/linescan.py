@@ -36,10 +36,10 @@ class LineScan(object):
         self.__scans = {}
         self.__enable_exceptions = False
 
-        self.start_line = None
-        self.end_line = None
-        self.encoding = None
-        self.file_name = ""
+        self.__file_name = ""
+        self.__start_line = None
+        self.__end_line = None
+        self.__encoding = None
 
     # ------- Private Methods ------- #
     def __len__(self):
@@ -49,19 +49,19 @@ class LineScan(object):
         """
         return len(self.__scans)
 
-    def __set_details(self, filename, lineno, endline, encoding):
+    def __set_details(self, file_name, start_line, end_line, encoding):
         """Store scan details."""
-        self.start_line = lineno
-        self.end_line = endline
-        self.encoding = encoding
-        self.file_name = filename
+        self.__file_name = file_name
+        self.__start_line = start_line
+        self.__end_line = end_line
+        self.__encoding = encoding
 
     def __clear_details(self):
         """Reset scan details."""
-        self.start_line = None
-        self.end_line = None
-        self.encoding = None
-        self.file_name = ""
+        self.__file_name = ""
+        self.__start_line = None
+        self.__end_line = None
+        self.__encoding = None
 
     def __check_bool(self, value):
         """Used to check if various options should be enabled."""
@@ -69,16 +69,16 @@ class LineScan(object):
 
     def __create_pointer(self):
         """Construct the comma-separated pointer for the specified file."""
-        filePointer = "{0},{1}".format(self.file_name, self.start_line)
+        filePointer = "{0},{1}".format(self.__file_name, self.__start_line)
 
         # Append the ending line if one is specified
-        if self.end_line is not None:
+        if self.__end_line is not None:
             filePointer = "{0},{1}".format(
-                filePointer, self.end_line)
+                filePointer, self.__end_line)
 
         # An encoding is always specified even if
         # the user did not provide one
-        filePointer = "{0},encode={1}".format(filePointer, self.encoding)
+        filePointer = "{0},encode={1}".format(filePointer, self.__encoding)
         return filePointer
 
     def __raise_exception(self, exc, generic=True):
@@ -107,22 +107,22 @@ class LineScan(object):
             # Since line numbers start at 0, get the starting line number.
             # No need to do the same for the ending line,
             # as it is not modified
-            startLine = self.start_line - 1
+            startLine = self.__start_line - 1
 
             # Open the file for scanning using specified encoding
-            with open(self.file_name, "rt", encoding=self.encoding) as f:
+            with open(self.__file_name, "rt", encoding=self.__encoding) as f:
 
                 # The user wants to scan only one line.
-                if self.end_line is None:
+                if self.__end_line is None:
                     lines = f.readlines()[startLine]
 
                 # The user wants to scan until the end of the file.
-                elif self.end_line == "end":
+                elif self.__end_line == "end":
                     lines = f.readlines()[startLine:]
 
                 # The user wants to scan multiple specified lines.
                 else:
-                    lines = f.readlines()[startLine:self.end_line]
+                    lines = f.readlines()[startLine:self.__end_line]
 
             # Break the multiple lines from the returned list.
             lines = "".join(lines)
