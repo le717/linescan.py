@@ -5,14 +5,11 @@ Effortlessly read a text file using counting numbers.
 Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache.html) module but designed exclusively for external text files, `linescan.py` is a no-fail module designed to aid beginner programmers who need to read data from text files but have trouble setting up [`open()`](http://docs.python.org/3/library/functions.html#open) or translating real numbers to counting numbers.
 
 ### Feature highlight ###
-
 * Uses counting numbers to denote line numbers, removing the need to start counting from zero
 * Supports scanning of partial and entire files
-* Stores up to ten previous scans for later retrieval, number of stored scans can be changed
 * Supports Python 2.7, Python 3.3+, and PyPy
 
 ## Basic Usage ##
-
 ```python
 import linescan
 LineScan = linescan.LineScan()
@@ -27,10 +24,9 @@ LineScan.scan("MyFile.txt", 1, 12)
 More usage can be found in the [`examples`](/examples) directory.
 
 ## API Documentation ##
-
 Complete API documentation is available on the [Wiki](https://github.com/le717/linescan.py/wiki/).
 
 ## License ##
+2013-2017 [Caleb Ely](https://CodeTri.net)
 
-**linescan.py**, created 2013-2015 [Caleb Ely](http://CodeTriangle.me)
-and released under the [The MIT License](http://opensource.org/licenses/MIT).
+[MIT](LICENSE)
