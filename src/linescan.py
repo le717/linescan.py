@@ -34,9 +34,7 @@ class LineScan(object):
     def __init__(self):
         """Initialize private and public variables."""
         self.__scans = {}
-        self.__storedScans = 10
         self.__showErrors = False
-        self.__autoClearScans = True
 
         self.lineno = None
         self.endline = None
@@ -57,10 +55,6 @@ class LineScan(object):
         self.endline = None
         self.encoding = None
         self.filename = ""
-
-    def __numOfScans(self):
-        """Expose the number of stored scans."""
-        return len(self.__scans)
 
     def __checkBool(self, value):
         """Used to check if various options should be enabled."""
@@ -162,11 +156,6 @@ class LineScan(object):
 
         # Store the scan details for use elsewhere
         self.__setDetails(filename, lineno, endline, encoding)
-
-        # Automatically clear the stored scans unless it is disabled
-        if self.__autoClearScans:
-            if self.__numOfScans() >= self.__storedScans:
-                self.clearscans()
 
         # Create a file pointer
         filePointer = self.__createPointer()
