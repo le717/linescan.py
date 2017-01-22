@@ -69,17 +69,12 @@ class LineScan(object):
 
     def __create_pointer(self):
         """Construct the comma-separated pointer for the specified file."""
-        filePointer = "{0},{1}".format(self.__file_name, self.__start_line)
-
-        # Append the ending line if one is specified
-        if self.__end_line is not None:
-            filePointer = "{0},{1}".format(
-                filePointer, self.__end_line)
-
-        # An encoding is always specified even if
-        # the user did not provide one
-        filePointer = "{0},encode={1}".format(filePointer, self.__encoding)
-        return filePointer
+        return "{0},{1},{2},{3}".format(
+            self.__file_name,
+            self.__start_line,
+            self.__end_line,
+            self.__encoding
+        )
 
     def __raise_exception(self, exc, generic=True):
         """Handle errors per exception option."""
@@ -160,15 +155,15 @@ class LineScan(object):
         if encoding is None:
             encoding = locale.getpreferredencoding(False)
 
-        # Store the scan details for use elsewhere
+        # Store the scan details for use in other methods
         self.__set_details(file_name, start_line, end_line, encoding)
 
-        # Create a file pointer
-        filePointer = self.__create_pointer()
+        # Create a unique pointer for this scan
+        pointer = self.__create_pointer()
 
-        # If the pointer has been used already, return the stored value
-        if filePointer in self.__scans:
-            return self.__scans[filePointer]
+        # If the pointer has been used already, return the cached scan
+        if pointer in self.__scans:
+            return self.__scans[pointer]
 
         # The pointer could not be found, proceed to scan the file
         else:
@@ -177,7 +172,7 @@ class LineScan(object):
 
             # Store the scan only if it is valid.
             if theScan:
-                self.__scans[filePointer] = theScan
+                self.__scans[pointer] = theScan
             return theScan
 
     def rescan(self, file_name=None):
