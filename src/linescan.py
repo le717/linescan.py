@@ -122,7 +122,14 @@ class LineScan(object):
 
     # ------- Public Methods ------- #
     def clear(self, file_name=None):
-        """Clear any stored scans."""
+        """Clear any stored scans.
+
+        @param {NoneType|String} file_name - Pass `None` to clear all scans.
+                                             Giving a file name will attempt
+                                             to clear all cached lines from
+                                             that file.
+        @returns {Boolean} Always returns True.
+        """
         # We want to clear the whole cache.
         if file_name is None:
             self.__scans = {}
@@ -131,7 +138,7 @@ class LineScan(object):
         # We only want to clear one file.
         for k in self.__scans:
             if file_name in k:
-                # We found the file, delete it.
+                # We found the file, clear it from the cache.
                 del self.__scans[k]
                 self.__clear_details()
         return True
@@ -139,7 +146,8 @@ class LineScan(object):
     def show_errors(self, error=False):
         """Enable exception raising instead of returning False on error.
 
-        @param [error=False] Passing a value of True enables exception raising.
+        @param [error=False] file_name - Passing a value of True
+                                         enables exception raising.
         """
         self.__enable_exceptions = self.__check_bool(error)
 
