@@ -161,12 +161,12 @@ class LineScan(object):
         # The pointer could not be found, proceed to scan the file
         else:
             # Perform the actual scan
-            theScan = self.__scanner()
+            the_scan = self.__scanner()
 
             # Store the scan only if it is valid.
-            if theScan:
-                self.__scans[pointer] = theScan
-            return theScan
+            if the_scan:
+                self.__scans[pointer] = the_scan
+            return the_scan
 
     def rescan(self, file_name=None):
         """Rescan filename to update stored scans with file changes."""
@@ -200,8 +200,8 @@ class LineScan(object):
 
             # Now that we have the proper data, preform the rescan
             self.__set_details(file_name, int(start_line), end_line, encode)
-            _newScan = self.__scanner()
+            new_scan = self.__scanner()
 
             # Update the stored scan with the new scan
-            self.__scans[_key] = _newScan
-            return _newScan
+            self.__scans[_key] = new_scan
+            return new_scan
