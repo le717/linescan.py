@@ -145,7 +145,7 @@ class LineScan(object):
         """
         self.__enable_exceptions = self.__check_bool(error)
 
-    def scan(self, filename, lineno, endline=None, encoding=None):
+    def scan(self, file_name, start_line, end_line=None, encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
 
         filename (String): The desired file to scan.
@@ -161,7 +161,7 @@ class LineScan(object):
             encoding = locale.getpreferredencoding(False)
 
         # Store the scan details for use elsewhere
-        self.__set_details(filename, lineno, endline, encoding)
+        self.__set_details(file_name, start_line, end_line, encoding)
 
         # Create a file pointer
         filePointer = self.__create_pointer()
@@ -180,24 +180,24 @@ class LineScan(object):
                 self.__scans[filePointer] = theScan
             return theScan
 
-    def rescan(self, filename=None):
+    def rescan(self, file_name=None):
         """Rescan filename to update stored scans with file changes."""
         _filenames = []
         for pointer in self.__scans.keys():
             # A file was not specified, rescan all stored scans
-            if filename is None:
+            if file_name is None:
                 _filenames = list(self.__scans.keys())
                 break
             # A file was specified and the pointer has been already be stored
             else:
-                if filename in pointer:
+                if file_name in pointer:
                     _filenames = [pointer]
                     break
 
         # The file specified has not been scanned before
         if not _filenames:
             return self.__raise_exception(
-                "{0} has not been previously scanned.".format(filename),
+                "{0} has not been previously scanned.".format(file_name),
                 False
             )
 
