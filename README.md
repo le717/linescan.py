@@ -1,6 +1,6 @@
 # linescan.py [![Build Status](https://travis-ci.org/le717/linescan.py.svg?branch=master)](https://travis-ci.org/le717/linescan.py) #
 
-Effortlessly read a text file using counting numbers.
+> Effortlessly read a text file using counting numbers.
 
 Similar to the built-in [`linecache`](http://docs.python.org/3/library/linecache.html) module but designed exclusively for external text files, `linescan.py` is a no-fail module designed to aid beginner programmers who need to read data from text files but have trouble setting up [`open()`](http://docs.python.org/3/library/functions.html#open) or translating real numbers to counting numbers.
 
