@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """Effortlessly read a text file using counting numbers.
 
-Created 2013-2015 Caleb Ely
-<http://CodeTriangle.me/>
+Created 2013-2017 Caleb Ely
+<https://CodeTri.net>
 
 Licensed under The MIT License
 <http://opensource.org/licenses/MIT/>
@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 import re
 import sys
 import locale
+
 
 # Grab Python 3.0+ open() function
 if sys.version_info[:2] < (3, 0):
@@ -143,20 +144,6 @@ class LineScan(object):
         True: Raise exception.
         """
         self.__showErrors = self.__checkBool(errorvalue)
-
-    def debug(self, scannum=False, storednum=False, autoclear=True):
-        """Expose available debug values."""
-        # Check if parameters are activated
-        scannum = self.__checkBool(scannum)
-        self.__autoClearScans = self.__checkBool(autoclear)
-
-        # Check if `storednum` is an integer, signifying the
-        # number of stored scans is to be changed from the default (10)
-        self.__storedScans = (storednum if type(storednum) == int else 10)
-
-        # The user wishes to know how many stored scans there are.
-        if scannum:
-            return self.__numOfScans()
 
     def scan(self, filename, lineno, endline=None, encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
