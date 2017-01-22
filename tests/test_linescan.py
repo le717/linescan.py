@@ -15,12 +15,25 @@ class TestLineScan(unittest.TestCase):
         global ls
         ls = linescan.LineScan()
 
+    def test_scan_single_line_utf8(self):
+        line = ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
+        self.assertEqual(line, "revolutionary ROI.\n")
+
+    def test_scan_multiple_lines_cp1252(self):
+        lines = ls.scan(testhelpers.TEST_FILES_TESTFILE,
+                        8, 12, encoding="cp1252")
+        self.assertEqual(lines, """Taken from http://tvipsum.com/
+The weather started getting rough - the tiny ship was tossed. If not for the
+courage of the fearless crew the Minnow would be lost. the Minnow would
+be lost. So get a witch's shawl on a broomstick you can crawl on. Were
+gonna pay a call on the Addams Family. The Love Boat soon\n""")
+
     def test_clear_all(self):
         ls.clear()
         self.assertEqual(len(ls), 0)
 
     def test_clear_single_file(self):
-        ls.scan(os.path.join(testhelpers.TEST_FILES_ROOT_PATH, "testfile.txt"), 1)
+        ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
         ls.clear()
         self.assertEqual(len(ls), 0)
 
