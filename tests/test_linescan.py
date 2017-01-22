@@ -37,6 +37,16 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
         ls.clear()
         self.assertEqual(len(ls), 0)
 
+    def test_return_false_on_error(self):
+        ls.show_errors(False)
+        result = ls.scan("does-not-exist.txt", 1)
+        self.assertFalse(result)
+
+    def test_raise_exception_on_error(self):
+        ls.show_errors(True)
+        with self.assertRaises((IOError, FileNotFoundError)):
+            ls.scan("does-not-exist.txt", 1)
+
 
 if __name__ == "__main__":
     unittest.main()
