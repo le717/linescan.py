@@ -21,7 +21,7 @@ LineScan.scan("MyFile.txt", 12, encoding="utf_8")
 LineScan.scan("MyFile.txt", 1, 12)
 ```
 
-More usage can be found in the [`examples`](/examples) directory.
+More usage can be found in the [`tests`](/tests) directory.
 
 ## API Documentation ##
 Complete API documentation is available on the [Wiki](https://github.com/le717/linescan.py/wiki/).
