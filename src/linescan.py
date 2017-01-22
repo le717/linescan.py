@@ -12,7 +12,6 @@ Licensed under The MIT License
 
 from __future__ import unicode_literals
 
-import re
 import sys
 import locale
 
@@ -63,7 +62,8 @@ class LineScan(object):
         self.__end_line = None
         self.__encoding = None
 
-    def __check_bool(self, value):
+    @staticmethod
+    def __check_bool(value):
         """Used to check if various options should be enabled."""
         return value is True
 
