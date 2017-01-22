@@ -2,4 +2,4 @@
 import os
 
 
-TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "examples")
+TEST_FILES_ROOT_PATH = os.path.join("..", "examples")
