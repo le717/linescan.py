@@ -33,7 +33,7 @@ class LineScan(object):
 
     def __init__(self):
         """Initialize private and public variables."""
-        self.__myScans = {}
+        self.__scans = {}
         self.__storedScans = 10
         self.__showErrors = False
         self.__autoClearScans = True
@@ -60,7 +60,7 @@ class LineScan(object):
 
     def __numOfScans(self):
         """Expose the number of stored scans."""
-        return len(self.__myScans)
+        return len(self.__scans)
 
     def __checkBool(self, value):
         """Used to check if various options should be enabled."""
@@ -134,7 +134,7 @@ class LineScan(object):
     # ------- Public Methods ------- #
     def clearscans(self):
         """Clear any stored scans."""
-        self.__myScans = {}
+        self.__scans = {}
         self.__clearDetails()
 
     def showerrors(self, errorvalue=False):
@@ -172,8 +172,8 @@ class LineScan(object):
         filePointer = self.__createPointer()
 
         # If the pointer has been used already, return the stored value
-        if filePointer in self.__myScans:
-            return self.__myScans[filePointer]
+        if filePointer in self.__scans:
+            return self.__scans[filePointer]
 
         # The pointer could not be found, proceed to scan the file
         else:
@@ -182,16 +182,16 @@ class LineScan(object):
 
             # Store the scan only if it is valid.
             if theScan:
-                self.__myScans[filePointer] = theScan
+                self.__scans[filePointer] = theScan
             return theScan
 
     def rescan(self, filename=None):
         """Rescan filename to update stored scans with file changes."""
         _filenames = []
-        for pointer in self.__myScans.keys():
+        for pointer in self.__scans.keys():
             # A file was not specified, rescan all stored scans
             if filename is None:
-                _filenames = list(self.__myScans.keys())
+                _filenames = list(self.__scans.keys())
                 break
             # A file was specified and the pointer has been already be stored
             else:
@@ -229,5 +229,5 @@ class LineScan(object):
             _newScan = self.__scanner()
 
             # Update the stored scan with the new scan
-            self.__myScans[_key] = _newScan
+            self.__scans[_key] = _newScan
             return _newScan
