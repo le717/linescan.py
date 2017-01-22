@@ -63,11 +63,11 @@ class LineScan(object):
         self.encoding = None
         self.file_name = ""
 
-    def __checkBool(self, value):
+    def __check_bool(self, value):
         """Used to check if various options should be enabled."""
         return value is True
 
-    def __createPointer(self):
+    def __create_pointer(self):
         """Construct the comma-separated pointer for the specified file."""
         filePointer = "{0},{1}".format(self.file_name, self.start_line)
 
