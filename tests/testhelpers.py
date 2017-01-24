@@ -7,3 +7,7 @@ TEST_FILES_TESTFILE = os.path.join(
     TEST_FILES_ROOT_PATH,
     "testfile.txt"
 )
+TEST_FILES_FILE_TWO = os.path.join(
+    TEST_FILES_ROOT_PATH,
+    "file-2.txt"
+)
