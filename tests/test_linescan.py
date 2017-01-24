@@ -47,8 +47,9 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
         clears only that file from the cache.
         """
         ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
-        ls.clear()
-        self.assertEqual(len(ls), 0)
+        ls.scan(testhelpers.TEST_FILES_FILE_TWO, 1)
+        ls.clear(testhelpers.TEST_FILES_TESTFILE)
+        self.assertEqual(len(ls), 1)
 
     def test_duplicate_scan_cache(self):
         """Test line scan cache does not change when scan is duplicated."""

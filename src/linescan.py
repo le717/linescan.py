@@ -131,7 +131,7 @@ class LineScan(object):
             return True
 
         # We only want to clear one file.
-        for k in self.__scans:
+        for k in list(self.__scans):
             if file_name in k:
                 # We found the file, clear it from the cache.
                 del self.__scans[k]
