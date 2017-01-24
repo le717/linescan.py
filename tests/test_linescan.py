@@ -41,6 +41,14 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
         ls.clear()
         self.assertEqual(len(ls), 0)
 
+    def test_clear_non_existent_file(self):
+        """
+        Test passing a non-existent file name to `clear()`
+        and the cache does not change sizes
+        """
+        ls.clear("404-file-not-found.txt")
+        self.assertEqual(len(ls), 0)
+
     def test_clear_single_file(self):
         """
         Test passing a file name to `clear()`
@@ -60,17 +68,17 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
     def test_return_false_on_error(self):
         """Test returning False when an error occurs."""
         ls.show_errors(False)
-        result = ls.scan("does-not-exist.txt", 1)
+        result = ls.scan("404-file-not-found.txt", 1)
         self.assertFalse(result)
 
     def test_raise_exception_on_error(self):
         """
         Test raising a FileNotFoundError exception
-        when a non-existant file is read.
+        when a non-existent file is read.
         """
         ls.show_errors(True)
         with self.assertRaises(FileNotFoundError):
-            ls.scan("does-not-exist.txt", 1)
+            ls.scan("404-file-not-found.txt", 1)
 
 
 if __name__ == "__main__":
