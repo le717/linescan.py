@@ -11,14 +11,8 @@ Licensed under The MIT License
 """
 
 from __future__ import unicode_literals
-
-import sys
 import locale
 
-
-# Grab Python 3.0+ open() function
-if sys.version_info[:2] < (3, 0):
-    from io import open
 
 __all__ = ("LineScan")
 
@@ -92,13 +86,7 @@ class LineScan(object):
                 raise exc
 
             # A rescaning error should be raised instead
-            # Raise FileNotFoundError exception on Python 3.3+
-            if sys.version_info[:2] >= (3, 3):
-                raise FileNotFoundError(exc)  # noqa
-
-            # Raise the old IOError on Python 3.2 and lower
-            else:
-                raise IOError(exc)
+            raise FileNotFoundError(exc)
 
         # If exceptions have not been enabled, simply return False
         return False

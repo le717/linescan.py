@@ -44,7 +44,7 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
 
     def test_raise_exception_on_error(self):
         ls.show_errors(True)
-        with self.assertRaises((IOError, FileNotFoundError)):
+        with self.assertRaises(FileNotFoundError):
             ls.scan("does-not-exist.txt", 1)
 
 
