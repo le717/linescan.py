@@ -16,10 +16,12 @@ class TestLineScan(unittest.TestCase):
         ls = linescan.LineScan()
 
     def test_scan_single_line_utf8(self):
+        """Test single line scanning using UTF-8."""
         line = ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
         self.assertEqual(line, "revolutionary ROI.\n")
 
     def test_scan_multiple_lines_cp1252(self):
+        """Test multiple line scanning using cp1252."""
         lines = ls.scan(testhelpers.TEST_FILES_TESTFILE,
                         8, 12, encoding="cp1252")
         self.assertEqual(lines, """Taken from http://tvipsum.com/
@@ -29,10 +31,18 @@ be lost. So get a witch's shawl on a broomstick you can crawl on. Were
 gonna pay a call on the Addams Family. The Love Boat soon\n""")
 
     def test_clear_all(self):
+        """
+        Test running `clear()` with no parameter
+        clears the whole cache.
+        """
         ls.clear()
         self.assertEqual(len(ls), 0)
 
     def test_clear_single_file(self):
+        """
+        Test passing a file name to `clear()`
+        clears only that file from the cache.
+        """
         ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
         ls.clear()
         self.assertEqual(len(ls), 0)
