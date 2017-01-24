@@ -23,6 +23,7 @@ class TestLineScan(unittest.TestCase):
         Test running `clear()` with no parameter
         clears the whole cache.
         """
+        ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
         ls.clear()
         self.assertEqual(len(ls), 0)
 
