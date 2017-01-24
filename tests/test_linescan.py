@@ -33,12 +33,6 @@ courage of the fearless crew the Minnow would be lost. the Minnow would
 be lost. So get a witch's shawl on a broomstick you can crawl on. Were
 gonna pay a call on the Addams Family. The Love Boat soon\n""")
 
-    def test_duplicate_scan_cache(self):
-        """Test line scan cache does not change when scan is duplicated."""
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
-        self.assertEqual(len(ls), 1)
-
     def test_clear_all(self):
         """
         Test running `clear()` with no parameter
@@ -55,6 +49,12 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
         ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
         ls.clear()
         self.assertEqual(len(ls), 0)
+
+    def test_duplicate_scan_cache(self):
+        """Test line scan cache does not change when scan is duplicated."""
+        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
+        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
+        self.assertEqual(len(ls), 2)
 
     def test_return_false_on_error(self):
         """Test returning False when an error occurs."""
