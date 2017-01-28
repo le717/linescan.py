@@ -66,12 +66,27 @@ class TestLineScan(unittest.TestCase):
         result = ls.scan("404-file-not-found.txt", 1)
         self.assertFalse(result)
 
+    def test_rescan_file(self):
+        """Test rescanning a file when it has changed"""
+        def _write_file(text):
+            with open(testhelpers.TEST_FILES_FILE_THREE, "wt") as f:
+                f.write(text)
+
+        _write_file("Hello!\n")
+        scan_one = ls.scan(testhelpers.TEST_FILES_FILE_THREE, 1)
+
+        _write_file("Hello, World!\n")
+        scan_two = ls.rescan(testhelpers.TEST_FILES_FILE_THREE)
+        self.assertNotEqual(scan_one, scan_two)
+        self.assertEqual(scan_two, "Hello, World!\n")
+
     def test_scan_multiple_lines_cp1252(self):
         """Test multiple line scanning using cp1252."""
         lines = ls.scan(testhelpers.TEST_FILES_FILE_ONE,
                         8, 9, encoding="cp1252")
         self.assertEqual(lines, """Taken from http://tvipsum.com/
-The weather started getting rough - the tiny ship was tossed. If not for the\n""")
+The weather started getting rough - the tiny ship was tossed. If not for the
+""")
 
     def test_scan_single_line_utf8(self):
         """Test single line scanning using UTF-8."""
