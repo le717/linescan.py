@@ -23,7 +23,7 @@ class TestLineScan(unittest.TestCase):
         Test running `clear()` with no parameter
         clears the whole cache.
         """
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
+        ls.scan(testhelpers.TEST_FILES_FILE_ONE, 1)
         ls.clear()
         self.assertEqual(len(ls), 0)
 
@@ -40,15 +40,15 @@ class TestLineScan(unittest.TestCase):
         Test passing a file name to `clear()`
         clears only that file from the cache.
         """
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 1)
+        ls.scan(testhelpers.TEST_FILES_FILE_ONE, 1)
         ls.scan(testhelpers.TEST_FILES_FILE_TWO, 1)
-        ls.clear(testhelpers.TEST_FILES_TESTFILE)
+        ls.clear(testhelpers.TEST_FILES_FILE_ONE)
         self.assertEqual(len(ls), 1)
 
     def test_duplicate_scan_cache(self):
         """Test line scan cache does not change when scan is duplicated."""
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
-        ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
+        ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, encoding="utf-8")
+        ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, encoding="utf-8")
         self.assertEqual(len(ls), 2)
 
     def test_raise_exception_on_error(self):
@@ -68,7 +68,7 @@ class TestLineScan(unittest.TestCase):
 
     def test_scan_multiple_lines_cp1252(self):
         """Test multiple line scanning using cp1252."""
-        lines = ls.scan(testhelpers.TEST_FILES_TESTFILE,
+        lines = ls.scan(testhelpers.TEST_FILES_FILE_ONE,
                         8, 12, encoding="cp1252")
         self.assertEqual(lines, """Taken from http://tvipsum.com/
 The weather started getting rough - the tiny ship was tossed. If not for the
@@ -78,7 +78,7 @@ gonna pay a call on the Addams Family. The Love Boat soon\n""")
 
     def test_scan_single_line_utf8(self):
         """Test single line scanning using UTF-8."""
-        line = ls.scan(testhelpers.TEST_FILES_TESTFILE, 6, encoding="utf-8")
+        line = ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, encoding="utf-8")
         self.assertEqual(line, "revolutionary ROI.\n")
 
 

@@ -3,7 +3,7 @@ import os
 
 
 TEST_FILES_ROOT_PATH = os.path.join(os.getcwd(), "examples")
-TEST_FILES_TESTFILE = os.path.join(
+TEST_FILES_FILE_ONE = os.path.join(
     TEST_FILES_ROOT_PATH,
     "testfile.txt"
 )
