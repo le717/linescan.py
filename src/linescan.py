@@ -63,11 +63,6 @@ class LineScan(object):
         self.__end_line = None
         self.__encoding = None
 
-    @staticmethod
-    def __check_bool(value):
-        """Used to check if various options should be enabled."""
-        return value is True
-
     def __create_pointer(self):
         """Construct the comma-separated pointer for the specified file."""
         return "{0},{1},{2},{3}".format(
@@ -119,10 +114,11 @@ class LineScan(object):
     def clear(self, file_name=None):
         """Clear any stored scans.
 
-        @param {NoneType|String} file_name - Pass `None` to clear all scans.
-                                             Giving a file name will attempt
-                                             to clear all cached lines from
-                                             that file.
+        @param {NoneType|String} [file_name=None] -
+            Pass `None` to clear all scans.
+            Giving a file name will attempt
+            to clear all cached lines from
+            that file.
         @returns {Boolean} Always returns True.
         """
         # We want to clear the whole cache.
@@ -141,10 +137,10 @@ class LineScan(object):
     def show_errors(self, enable=False):
         """Enable exception raising instead of returning False on error.
 
-        @param [enable=False] - Passing a value of True
-                                enables exception raising.
+        @param {Boolean} [enable=False] - Passing a value of True
+                                          enables exception raising.
         """
-        self.__enable_exceptions = self.__check_bool(enable)
+        self.__enable_exceptions = enable
 
     def scan(self, file_name, start_line, end_line="single", encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
