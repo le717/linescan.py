@@ -12,10 +12,7 @@
 """
 
 from __future__ import print_function
-from __init__ import (linescan,
-                      autoRun,
-                      rescanFile
-                     )
+from __init__ import linescan, autoRun, rescanFile
 
 
 def main():
@@ -44,6 +41,7 @@ def main():
         except NameError:
             input("\nPress Enter to close.")
     raise SystemExit(0)
+
 
 if __name__ == "__main__":
     main()
