@@ -10,7 +10,6 @@ Licensed under The MIT License
 
 """
 
-from __future__ import unicode_literals
 import locale
 
 
