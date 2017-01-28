@@ -69,12 +69,9 @@ class TestLineScan(unittest.TestCase):
     def test_scan_multiple_lines_cp1252(self):
         """Test multiple line scanning using cp1252."""
         lines = ls.scan(testhelpers.TEST_FILES_FILE_ONE,
-                        8, 12, encoding="cp1252")
+                        8, 9, encoding="cp1252")
         self.assertEqual(lines, """Taken from http://tvipsum.com/
-The weather started getting rough - the tiny ship was tossed. If not for the
-courage of the fearless crew the Minnow would be lost. the Minnow would
-be lost. So get a witch's shawl on a broomstick you can crawl on. Were
-gonna pay a call on the Addams Family. The Love Boat soon\n""")
+The weather started getting rough - the tiny ship was tossed. If not for the\n""")
 
     def test_scan_single_line_utf8(self):
         """Test single line scanning using UTF-8."""
