@@ -203,8 +203,8 @@ class LineScan(object):
             _key_split = _key.split(",")
             file_name, start_line, end_line, encode = _key_split
 
-            # Convert the ending line to an integer if needed.
-            if isinstance(str, end_line):
+            # Convert the ending line to an integer if needed
+            if end_line.isnumeric():
                 end_line = int(end_line)
 
             # Now that we have the proper data, preform the rescan.
