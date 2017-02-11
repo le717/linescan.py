@@ -154,7 +154,7 @@ class LineScan(object):
         @param {Boolean} [enable=False] - Passing a value of True
                                           enables exception raising.
         """
-        self.__enable_exceptions = enable
+        self.__enable_exceptions = bool(enable)
 
     def scan(self, file_name, start_line, end_line="single", encoding=None):
         """Scan both single and multiple lines with option of custom encoding.
