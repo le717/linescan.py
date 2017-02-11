@@ -46,24 +46,30 @@ class LineScan(object):
 
         @returns {Integer}
         """
-        return len(self.__scans)
+        return len(self.scans)
 
     def __set_details(self, file_name, start_line, end_line, encoding):
-        """Store scan details."""
+        """@private
+        Store scan details.
+        """
         self.__file_name = file_name
         self.__start_line = start_line
         self.__end_line = end_line
         self.__encoding = encoding
 
     def __clear_details(self):
-        """Reset scan details."""
+        """@private
+        Reset scan details.
+        """
         self.__file_name = ""
         self.__start_line = None
         self.__end_line = None
         self.__encoding = None
 
     def __create_pointer(self):
-        """Construct the comma-separated pointer for the specified file."""
+        """@private
+        Construct the comma-separated pointer for the specified file.
+        """
         return "{0},{1},{2},{3}".format(
             self.__file_name,
             self.__start_line,
@@ -72,7 +78,9 @@ class LineScan(object):
         )
 
     def __raise_exception(self, exc, generic=True):
-        """Handle errors per exception option."""
+        """@private
+        Handle errors per exception option.
+        """
         # Raise an exception if they are enabled
         if self.__enable_exceptions:
             # A "generic" exception should be raised
@@ -86,7 +94,9 @@ class LineScan(object):
         return False
 
     def __scanner(self):
-        """Perform the actual scan."""
+        """@private
+        Perform the actual scan.
+        """
         try:
             # Since line numbers start at 0, get the starting line number.
             # No need to do the same for the ending line, as it is inclusive.
