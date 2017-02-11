@@ -46,7 +46,7 @@ class LineScan(object):
 
         @returns {Integer}
         """
-        return len(self.scans)
+        return len(self.__scans)
 
     def __set_details(self, file_name, start_line, end_line, encoding):
         """Store scan details.
