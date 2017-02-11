@@ -108,15 +108,11 @@ class LineScan(object):
             start_line = self.__start_line - 1
 
             with open(self.__file_name, "rt", encoding=self.__encoding) as f:
-                # The user wants to scan only one line.
-                if self.__end_line == "single":
-                    lines = f.readlines()[start_line]
-
-                # The user wants to scan until the end of the file.
-                elif self.__end_line == "end":
+                # The user wants to scan until the end of the file
+                if self.__end_line == "end":
                     lines = f.readlines()[start_line:]
 
-                # The user wants to scan multiple specified lines.
+                # The user wants to scan one or more lines
                 else:
                     lines = f.readlines()[start_line:self.__end_line]
             return "".join(lines)
@@ -156,20 +152,26 @@ class LineScan(object):
         """
         self.__enable_exceptions = bool(enable)
 
-    def scan(self, file_name, start_line, end_line="single", encoding=None):
-        """Scan both single and multiple lines with option of custom encoding.
+    def scan(self, file_name, start_line, end_line=None, encoding=None):
+        """Scan lines with the option of using a different file encoding.
 
         filename (String): The desired file to scan.
         lineno (Integer): The line you wish to scan.
         endline (Optional, Integer, String): The last line to want to scan.
-        Specify when scanning multiple lines. Specifying 'end' will scan
+        Specify when scanning multiple lines. Specifying "end" will scan
         the file from lineno to the end of the file.
         encoding (Optional, String): Specify a file encoding to use.
         Defaults to default system encoding.
+        @returns {String} The line(s) scanned.
         """
         # Use the system default encoding if one is not specified.
         if encoding is None:
             encoding = locale.getpreferredencoding(False)
+
+        # If no ending line is given, default to a single line
+        # TODO Write a test for this
+        if end_line is None:
+            end_line = start_line
 
         # Set the scan details for use in other methods.
         self.__set_details(file_name, start_line, end_line, encoding)
