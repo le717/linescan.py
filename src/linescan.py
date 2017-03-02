@@ -33,16 +33,6 @@ class LineScan(object):
         self.__encoding = None
 
     # ------- Private Methods ------- #
-    def __set_details(self, file_name, start_line, end_line, encoding):
-        """Store scan details.
-
-        @private
-        """
-        self.__file_name = file_name
-        self.__start_line = start_line
-        self.__end_line = end_line
-        self.__encoding = encoding
-
     def __raise_exception(self, exc, generic=True):
         """Handle errors per exception option.
 
@@ -60,7 +50,7 @@ class LineScan(object):
         # If exceptions have not been enabled, simply return False
         return False
 
-    def __scanner(self):
+    def __scanner(self, file_name, start_line, end_line, _encoding):
         """Perform the actual scan.
 
         @private
@@ -68,16 +58,16 @@ class LineScan(object):
         try:
             # Since line numbers start at 0, get the starting line number.
             # No need to do the same for the ending line, as it is inclusive.
-            start_line = self.__start_line - 1
+            start_line -= 1
 
-            with open(self.__file_name, "rt", encoding=self.__encoding) as f:
+            with open(file_name, "rt", encoding=_encoding) as f:
                 # The user wants to scan until the end of the file
-                if self.__end_line == "end":
+                if end_line == "end":
                     lines = f.readlines()[start_line:]
 
                 # The user wants to scan one or more lines
                 else:
-                    lines = f.readlines()[start_line:self.__end_line]
+                    lines = f.readlines()[start_line:end_line]
             return "".join(lines)
 
         except Exception as exc:
@@ -113,9 +103,6 @@ class LineScan(object):
         if end_line is None:
             end_line = start_line
 
-        # Set the scan details for use in other methods.
-        self.__set_details(file_name, start_line, end_line, encoding)
-
         # Perform the scan and store it only if it is valid.
-        the_scan = self.__scanner()
+        the_scan = self.__scanner(file_name, start_line, end_line, encoding)
         return the_scan
