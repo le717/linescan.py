@@ -169,7 +169,7 @@ class LineScan(object):
             encoding = locale.getpreferredencoding(False)
 
         # If no ending line is given, default to a single line
-        # TODO Write a test for this
+        # TODO Write a test for this condition
         if end_line is None:
             end_line = start_line
 
@@ -188,41 +188,3 @@ class LineScan(object):
             if the_scan:
                 self.__scans[pointer] = the_scan
             return the_scan
-
-    def rescan(self, file_name=None):
-        """Rescan filename to update stored scans with file changes."""
-        for pointer in self.__scans.keys():
-        filenames = []
-            # A file was not specified, rescan all stored scans.
-            if file_name is None:
-                filenames = list(self.__scans.keys())
-                break
-            # A file was specified and the pointer has been already be stored.
-            else:
-                if file_name in pointer:
-                    filenames = [pointer]
-                    break
-
-        # The file specified has not been scanned before.
-        if not filenames:
-            return self.__raise_exception(
-                "{0} has not been previously scanned.".format(file_name),
-                False
-            )
-
-        # We have file(s) to rescan.
-        for _key in filenames:
-            _key_split = _key.split(",")
-            file_name, start_line, end_line, encode = _key_split
-
-            # Convert the ending line to an integer if needed
-            if end_line.isnumeric():
-                end_line = int(end_line)
-
-            # Now that we have the proper data, preform the rescan.
-            self.__set_details(file_name, int(start_line), end_line, encode)
-            new_scan = self.__scanner()
-
-            # Update the stored scan with the new scan.
-            self.__scans[_key] = new_scan
-            return new_scan
