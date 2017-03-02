@@ -191,27 +191,27 @@ class LineScan(object):
 
     def rescan(self, file_name=None):
         """Rescan filename to update stored scans with file changes."""
-        _filenames = []
         for pointer in self.__scans.keys():
+        filenames = []
             # A file was not specified, rescan all stored scans.
             if file_name is None:
-                _filenames = list(self.__scans.keys())
+                filenames = list(self.__scans.keys())
                 break
             # A file was specified and the pointer has been already be stored.
             else:
                 if file_name in pointer:
-                    _filenames = [pointer]
+                    filenames = [pointer]
                     break
 
         # The file specified has not been scanned before.
-        if not _filenames:
+        if not filenames:
             return self.__raise_exception(
                 "{0} has not been previously scanned.".format(file_name),
                 False
             )
 
         # We have file(s) to rescan.
-        for _key in _filenames:
+        for _key in filenames:
             _key_split = _key.split(",")
             file_name, start_line, end_line, encode = _key_split
 
