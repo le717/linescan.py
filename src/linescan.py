@@ -33,19 +33,17 @@ class LineScan(object):
         self.__encoding = None
 
     # ------- Private Methods ------- #
-    def __raise_exception(self, exc, generic=True):
+    def __raise_exception(self, exc):
         """Handle errors per exception option.
 
         @private
+        @param {Exception} exc - The exception to raise.
+        @returns {Boolean} - Returns if `self.__enable_exceptions == True`,
+                             return value is `False`.
         """
         # Raise an exception if they are enabled
         if self.__enable_exceptions:
-            # A "generic" exception should be raised
-            if generic:
-                raise exc
-
-            # A rescaning error should be raised instead
-            raise FileNotFoundError(exc)
+            raise exc
 
         # If exceptions have not been enabled, simply return False
         return False
@@ -70,7 +68,7 @@ class LineScan(object):
                     lines = f.readlines()[start_line:end_line]
             return "".join(lines)
 
-        except Exception as exc:
+        except FileNotFoundError as exc:
             return self.__raise_exception(exc)
 
     # ------- Public Methods ------- #
