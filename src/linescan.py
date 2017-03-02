@@ -47,6 +47,11 @@ class LineScan(object):
         """Perform the actual scan.
 
         @private
+        @param {String} file_name - TODO.
+        @param {Integer} start_line - TODO.
+        @param {Integer|String} end_line - TODO.
+        @param {String} _encoding - TODO.
+        @returns {String|Boolean} - TODO.
         """
         try:
             # Since line numbers start at 0, get the starting line number.
@@ -97,5 +102,4 @@ class LineScan(object):
             end_line = start_line
 
         # Perform the scan and store it only if it is valid.
-        the_scan = self.__scanner(file_name, start_line, end_line, encoding)
-        return the_scan
+        return self.__scanner(file_name, start_line, end_line, encoding)
