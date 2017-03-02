@@ -25,7 +25,6 @@ class LineScan(object):
 
     def __init__(self):
         """Initialize private and public variables."""
-        self.__scans = {}
         self.__enable_exceptions = False
 
         self.__file_name = ""
@@ -34,20 +33,6 @@ class LineScan(object):
         self.__encoding = None
 
     # ------- Private Methods ------- #
-    def __str__(self):
-        """Get information about currently scanned files.
-
-        @returns {String}
-        """
-        return "TODO Write me!"
-
-    def __len__(self):
-        """Expose the total number of files scanned.
-
-        @returns {Integer}
-        """
-        return len(self.__scans)
-
     def __set_details(self, file_name, start_line, end_line, encoding):
         """Store scan details.
 
@@ -57,28 +42,6 @@ class LineScan(object):
         self.__start_line = start_line
         self.__end_line = end_line
         self.__encoding = encoding
-
-    def __clear_details(self):
-        """Reset scan details.
-
-        @private
-        """
-        self.__file_name = ""
-        self.__start_line = None
-        self.__end_line = None
-        self.__encoding = None
-
-    def __create_pointer(self):
-        """Construct the comma-separated pointer for the specified file.
-
-        @private
-        """
-        return "{0},{1},{2},{3}".format(
-            self.__file_name,
-            self.__start_line,
-            self.__end_line,
-            self.__encoding
-        )
 
     def __raise_exception(self, exc, generic=True):
         """Handle errors per exception option.
@@ -121,29 +84,6 @@ class LineScan(object):
             return self.__raise_exception(exc)
 
     # ------- Public Methods ------- #
-    def clear(self, file_name=None):
-        """Clear any stored scans.
-
-        @param {NoneType|String} [file_name=None] -
-            Pass `None` to clear all scans.
-            Giving a file name will attempt
-            to clear all cached lines from
-            that file.
-        @returns {Boolean} Always returns True.
-        """
-        # We want to clear the whole cache.
-        if file_name is None:
-            self.__scans = {}
-            return True
-
-        # We only want to clear one file.
-        for k in list(self.__scans):
-            if file_name in k:
-                # We found the file, clear it from the cache.
-                del self.__scans[k]
-                self.__clear_details()
-        return True
-
     def show_errors(self, enable=False):
         """Enable exception raising instead of returning False on error.
 
@@ -176,15 +116,6 @@ class LineScan(object):
         # Set the scan details for use in other methods.
         self.__set_details(file_name, start_line, end_line, encoding)
 
-        # If our pointer has been used already, return the cached scan.
-        pointer = self.__create_pointer()
-        if pointer in self.__scans:
-            return self.__scans[pointer]
-
-        # The pointer could not be found, proceed to scan the file.
-        else:
-            # Perform the scan and store it only if it is valid.
-            the_scan = self.__scanner()
-            if the_scan:
-                self.__scans[pointer] = the_scan
-            return the_scan
+        # Perform the scan and store it only if it is valid.
+        the_scan = self.__scanner()
+        return the_scan
