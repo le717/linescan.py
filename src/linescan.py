@@ -27,11 +27,6 @@ class LineScan(object):
         """Initialize private and public variables."""
         self.__enable_exceptions = False
 
-        self.__file_name = ""
-        self.__start_line = None
-        self.__end_line = None
-        self.__encoding = None
-
     # ------- Private Methods ------- #
     def __raise_exception(self, exc):
         """Handle errors per exception option.
