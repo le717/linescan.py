@@ -48,19 +48,14 @@ class LineScan(object):
 
         @private
         @param {String} file_name - The file to be scanned.
+        @param {Integer} start_line - The line number where to begin scanning.
         @param {Integer|String} end_line - TODO.
-        @param {Integer} start_line - The line number at which to begin scanning.
         @param {String} [encoding=None] - Specify a file encoding to use.
                                           Defaults to default system encoding
                                           if set to `None`.
-        @returns {String|Boolean} - The lines scanned or False if an error
+        @returns {String|Boolean} - The lines scanned or `False` if an error
                                     was raised and exceptions are not enabled.
         """
-        # If no ending line is given, default to a single line
-        # TODO Write a test for this condition
-        if end_line is None:
-            end_line = start_line
-
         # Since line numbers start at 0, get the starting line number
         # No need to do the same for the ending line, as it is inclusive
         start_line -= 1
@@ -85,9 +80,9 @@ class LineScan(object):
 
     # ------- Public Methods ------- #
     def show_errors(self, enable=False):
-        """Enable exception raising instead of returning False on error.
+        """Enable exception raising instead of returning `False` on error.
 
-        @param {Boolean} [enable=False] - Passing a value of True
+        @param {Boolean} [enable=False] - Passing a value of `True`
                                           enables exception raising.
         """
         self.__enable_exceptions = bool(enable)
@@ -96,11 +91,11 @@ class LineScan(object):
         """Scan lines with the option of using a different file encoding.
 
         @param {String} file_name - The file to be scanned.
-        @param {Integer} start_line - The line number at which to begin scanning.
+        @param {Integer} start_line - The line number where to begin scanning.
         @param {String} [encoding=None] - Specify a file encoding to use.
                                           Defaults to default system encoding
                                           if set to `None`.
-        @returns {String|Boolean} - The lines scanned or False if an error
+        @returns {String|Boolean} - The lines scanned or `False` if an error
                                     was raised and exceptions are not enabled.
 
         endline (Optional, Integer, String): The last line to want to scan.
