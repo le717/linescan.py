@@ -49,7 +49,10 @@ class LineScan(object):
         @private
         @param {String} file_name - The file to be scanned.
         @param {Integer} start_line - The line number where to begin scanning.
-        @param {Integer|String} end_line - TODO.
+        @param {Integer|String} end_line - The line number where to end
+                                           scanning. Passing the string "end"
+                                           will scan from `start_line`
+                                           to the end of the file.
         @param {String} [encoding=None] - Specify a file encoding to use.
                                           Defaults to default system encoding
                                           if set to `None`.
@@ -87,11 +90,15 @@ class LineScan(object):
         """
         self.__enable_exceptions = bool(enable)
 
-    def scan(self, file_name, start_line, end_line=None, encoding=None):
+    def scan(self, file_name, start_line, end_line, encoding=None):
         """Scan lines with the option of using a different file encoding.
 
         @param {String} file_name - The file to be scanned.
         @param {Integer} start_line - The line number where to begin scanning.
+        @param {Integer|String} end_line - The line number where to end
+                                           scanning. Passing the string "end"
+                                           will scan from `start_line`
+                                           to the end of the file.
         @param {String} [encoding=None] - Specify a file encoding to use.
                                           Defaults to default system encoding
                                           if set to `None`.
