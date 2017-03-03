@@ -47,14 +47,14 @@ class LineScan(object):
         """Perform the actual scan.
 
         @private
-        @param {String} file_name - TODO.
+        @param {String} file_name - The file to be scanned.
         @param {Integer} start_line - TODO.
         @param {Integer|String} end_line - TODO.
         @param {String} _encoding - TODO.
         @returns {String|Boolean} - TODO.
         """
-        # Since line numbers start at 0, get the starting line number.
-        # No need to do the same for the ending line, as it is inclusive.
+        # Since line numbers start at 0, get the starting line number
+        # No need to do the same for the ending line, as it is inclusive
         start_line -= 1
 
         # If no ending line is given, default to a single line
@@ -62,7 +62,7 @@ class LineScan(object):
         if end_line is None:
             end_line = start_line
 
-        # Use the system default encoding if one is not specified.
+        # Use the system default encoding if one is not specified
         if _encoding is None:
             _encoding = locale.getpreferredencoding(False)
 
@@ -92,7 +92,7 @@ class LineScan(object):
     def scan(self, file_name, start_line, end_line=None, encoding=None):
         """Scan lines with the option of using a different file encoding.
 
-        filename (String): The desired file to scan.
+        @param {String} file_name - The file to be scanned.
         lineno (Integer): The line you wish to scan.
         endline (Optional, Integer, String): The last line to want to scan.
         Specify when scanning multiple lines. Specifying "end" will scan
@@ -101,5 +101,5 @@ class LineScan(object):
         Defaults to default system encoding.
         @returns {String} The line(s) scanned.
         """
-        # Perform the scan and store it only if it is valid.
+        # Perform the scan and store it only if it is valid
         return self.__scanner(file_name, start_line, end_line, encoding)
