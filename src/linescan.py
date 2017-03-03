@@ -29,7 +29,7 @@ class LineScan(object):
 
     # ------- Private Methods ------- #
     def __raise_exception(self, exc):
-        """Handle errors per exception option.
+        """Handle errors according to exception raising option.
 
         @private
         @param {Exception} exc - The exception to raise.
@@ -53,14 +53,14 @@ class LineScan(object):
         @param {String} _encoding - TODO.
         @returns {String|Boolean} - TODO.
         """
-        # Since line numbers start at 0, get the starting line number
-        # No need to do the same for the ending line, as it is inclusive
-        start_line -= 1
-
         # If no ending line is given, default to a single line
         # TODO Write a test for this condition
         if end_line is None:
             end_line = start_line
+
+        # Since line numbers start at 0, get the starting line number
+        # No need to do the same for the ending line, as it is inclusive
+        start_line -= 1
 
         # Use the system default encoding if one is not specified
         if _encoding is None:
@@ -93,13 +93,15 @@ class LineScan(object):
         """Scan lines with the option of using a different file encoding.
 
         @param {String} file_name - The file to be scanned.
+        @returns {String|Boolean} - The lines scanned or False if an error
+                                    was raised and exceptions are not enabled.
+
         lineno (Integer): The line you wish to scan.
         endline (Optional, Integer, String): The last line to want to scan.
         Specify when scanning multiple lines. Specifying "end" will scan
         the file from lineno to the end of the file.
         encoding (Optional, String): Specify a file encoding to use.
         Defaults to default system encoding.
-        @returns {String} The line(s) scanned.
         """
         # Perform the scan and store it only if it is valid
         return self.__scanner(file_name, start_line, end_line, encoding)
