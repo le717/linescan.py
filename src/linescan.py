@@ -53,11 +53,20 @@ class LineScan(object):
         @param {String} _encoding - TODO.
         @returns {String|Boolean} - TODO.
         """
-        try:
-            # Since line numbers start at 0, get the starting line number.
-            # No need to do the same for the ending line, as it is inclusive.
-            start_line -= 1
+        # Since line numbers start at 0, get the starting line number.
+        # No need to do the same for the ending line, as it is inclusive.
+        start_line -= 1
 
+        # If no ending line is given, default to a single line
+        # TODO Write a test for this condition
+        if end_line is None:
+            end_line = start_line
+
+        # Use the system default encoding if one is not specified.
+        if _encoding is None:
+            _encoding = locale.getpreferredencoding(False)
+
+        try:
             with open(file_name, "rt", encoding=_encoding) as f:
                 # The user wants to scan until the end of the file
                 if end_line == "end":
@@ -92,14 +101,5 @@ class LineScan(object):
         Defaults to default system encoding.
         @returns {String} The line(s) scanned.
         """
-        # Use the system default encoding if one is not specified.
-        if encoding is None:
-            encoding = locale.getpreferredencoding(False)
-
-        # If no ending line is given, default to a single line
-        # TODO Write a test for this condition
-        if end_line is None:
-            end_line = start_line
-
         # Perform the scan and store it only if it is valid.
         return self.__scanner(file_name, start_line, end_line, encoding)
