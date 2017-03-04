@@ -28,7 +28,7 @@ def __raise_exception(exc):
     @private
     @param {Exception} exc - The exception to raise.
     @returns {Boolean} - Returns if `self.__enable_exceptions == True`,
-                            return value is `False`.
+                         return value is `False`.
     """
     # Raise an exception if they are enabled
     if LINESCAN_OPTIONS["enable_exceptions"] is True:
@@ -82,7 +82,7 @@ def show_errors(enable=False):
     """Enable exception raising instead of returning `False` on error.
 
     @param {Boolean} [enable=False] - Passing a value of `True`
-                                        enables exception raising.
+                                      enables exception raising.
     """
     LINESCAN_OPTIONS["enable_exceptions"] = bool(enable)
 
