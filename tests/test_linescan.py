@@ -5,8 +5,8 @@ import unittest
 
 sys.path.insert(0, os.path.abspath("."))
 
-import testhelpers
-from src import linescan as ls
+import testhelpers  # noqa
+from src import linescan as ls  # noqa
 
 
 class TestLineScan(unittest.TestCase):
