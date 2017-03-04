@@ -43,7 +43,7 @@ The weather started getting rough - the tiny ship was tossed. If not for the
 
     def test_scan_single_line_utf8(self):
         """Test single line scanning using UTF-8."""
-        line = ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, encoding="utf-8")
+        line = ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, 6, encoding="utf-8")
         self.assertEqual(line, "revolutionary ROI.\n")
 
 
