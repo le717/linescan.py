@@ -9,7 +9,7 @@
 * Simple API
 * Supports `>=` Python 3.3
 
-## Basic Usage ##
+## Usage ##
 ```python
 import linescan
 
