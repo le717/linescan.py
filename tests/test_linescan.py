@@ -25,12 +25,12 @@ class TestLineScan(unittest.TestCase):
         """
         ls.show_errors(True)
         with self.assertRaises(FileNotFoundError):
-            ls.scan("404-file-not-found.txt", 1)
+            ls.scan("404-file-not-found.txt", 1, 1)
 
     def test_return_false_on_error(self):
         """Test returning False when an error occurs."""
         ls.show_errors(False)
-        result = ls.scan("404-file-not-found.txt", 1)
+        result = ls.scan("404-file-not-found.txt", 1, 1)
         self.assertFalse(result)
 
     def test_scan_multiple_lines_cp1252(self):
