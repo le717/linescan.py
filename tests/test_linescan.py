@@ -6,18 +6,13 @@ import unittest
 sys.path.insert(0, os.path.abspath("."))
 
 import testhelpers
-from src import linescan
+from src import linescan as ls
 
 
 class TestLineScan(unittest.TestCase):
     """
     Unit tests confirming all linescan scan behavior is correct.
     """
-    @classmethod
-    def setUpClass(cls):
-        global ls
-        ls = linescan.LineScan()
-
     def test_raise_exception_on_error(self):
         """
         Test raising a FileNotFoundError exception
