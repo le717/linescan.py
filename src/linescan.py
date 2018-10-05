@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Effortlessly read a text file using counting numbers.
 
-Created 2013-2017 Caleb Ely
+Created 2013-2018 Caleb Ely
 <https://CodeTri.net>
 
 Licensed under The MIT License
@@ -22,7 +22,7 @@ LINESCAN_OPTIONS = {
 
 
 # ------- Private Methods ------- #
-def __raise_exception(exc):
+def __raise_exception(exc: Exception) -> False:
     """Handle errors according to exception raising option.
 
     @private
@@ -31,14 +31,19 @@ def __raise_exception(exc):
                          return value is `False`.
     """
     # Raise an exception if they are enabled
-    if LINESCAN_OPTIONS["enable_exceptions"] is True:
+    if LINESCAN_OPTIONS["enable_exceptions"]:
         raise exc
 
     # If exceptions have not been enabled, simply return False
     return False
 
 
-def __scanner(file_name, start_line, end_line, _encoding):
+def __scanner(
+    file_name: str,
+    start_line: int,
+    end_line: int,
+    _encoding: str
+) -> str or False:
     """Perform the actual scan.
 
     @private
@@ -48,7 +53,7 @@ def __scanner(file_name, start_line, end_line, _encoding):
                                         scanning. Passing the string "end"
                                         will scan from `start_line`
                                         to the end of the file.
-    @param {String} [encoding=None] - Specify a file encoding to use.
+    @param {String} [_encoding=None] - Specify a file encoding to use.
                                         Defaults to default system encoding
                                         if set to `None`.
     @returns {String|Boolean} - The lines scanned or `False` if an error
@@ -60,7 +65,7 @@ def __scanner(file_name, start_line, end_line, _encoding):
 
     # Use the system default encoding if one is not specified
     if _encoding is None:
-        _encoding = locale.getpreferredencoding(False)
+        _encoding = locale.getpreferredencoding(do_setlocale=False)
 
     try:
         with open(file_name, "rt", encoding=_encoding) as f:
@@ -78,7 +83,7 @@ def __scanner(file_name, start_line, end_line, _encoding):
 
 
 # ------- Public Methods ------- #
-def show_errors(enable=False):
+def show_errors(enable: bool=False):
     """Enable exception raising instead of returning `False` on error.
 
     @param {Boolean} [enable=False] - Passing a value of `True`
@@ -87,12 +92,17 @@ def show_errors(enable=False):
     LINESCAN_OPTIONS["enable_exceptions"] = bool(enable)
 
 
-def scan(file_name, start_line, end_line, encoding=None):
+def scan(
+    file_name: str,
+    start_line: int,
+    end_line: int="end",
+    encoding: str=None
+) -> str or False:
     """Scan lines with the option of using a different file encoding.
 
     @param {String} file_name - The file to be scanned.
     @param {Integer} start_line - The line number where to begin scanning.
-    @param {Integer|String} end_line - The line number where to end
+    @param {Integer|String} [end_line="end"] - The line number where to end
                                         scanning. Passing the string "end"
                                         will scan from `start_line`
                                         to the end of the file.
@@ -101,10 +111,6 @@ def scan(file_name, start_line, end_line, encoding=None):
                                         if set to `None`.
     @returns {String|Boolean} - The lines scanned or `False` if an error
                                 was raised and exceptions are not enabled.
-
-    endline (Optional, Integer, String): The last line to want to scan.
-    Specify when scanning multiple lines. Specifying "end" will scan
-    the file from lineno to the end of the file.
     """
-    # Perform the scan and store it only if it is valid
+    # Perform the scan
     return __scanner(file_name, start_line, end_line, encoding)

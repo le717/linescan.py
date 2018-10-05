@@ -41,6 +41,10 @@ The weather started getting rough - the tiny ship was tossed. If not for the
         line = ls.scan(testhelpers.TEST_FILES_FILE_ONE, 6, 6, encoding="utf-8")
         self.assertEqual(line, "revolutionary ROI.\n")
 
+    def test_scan_whole_file_wo_setting_end_line_param(self):
+        line = ls.scan(testhelpers.TEST_FILES_FILE_TWO, 1, encoding="utf-8")
+        self.assertEqual(line, "This is a file.\n")
+
 
 if __name__ == "__main__":
     unittest.main()
