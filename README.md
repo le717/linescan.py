@@ -1,4 +1,4 @@
-# linescan.py [![Build Status](https://travis-ci.org/le717/linescan.py.svg?branch=master)](https://travis-ci.org/le717/linescan.py) #
+# linescan.py
 
 > Easily read a text file using counting numbers.
 
